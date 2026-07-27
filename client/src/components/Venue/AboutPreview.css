@@ -1,0 +1,36 @@
+.about-preview {
+  background-color: #f8f9fa;
+}
+
+.about-preview h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.about-preview p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.about-preview ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.about-preview ul li {
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+}
+
+.about-preview img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.about-preview .btn {
+  padding: 10px 25px;
+  font-size: 1rem;
+}
