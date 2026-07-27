@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "../components/Common/Navbar";
+import Footer from "../components/Common/Footer";
 
 function MainLayout() {
   return (
     <>
       <Navbar />
-      <main className="container py-4">
+
+      <main>
         <Outlet />
       </main>
+
       <Footer />
     </>
   );

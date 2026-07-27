@@ -1,5 +1,7 @@
 import "./Hero.css";
 import heroImage from "../../assets/images/hero/hero-main.jpg";
+import logo from "../../assets/images/logo/grand-pearl-logo.png";
+import { Link } from "react-router-dom";
 
 function Hero() {
   return (
@@ -7,23 +9,34 @@ function Hero() {
       className="hero"
       style={{ backgroundImage: `url(${heroImage})` }}
     >
-      <div className="overlay">
-        <div className="hero-content">
-          <h1>Welcome to Grand Pearl Marquee</h1>
+      <div className="hero-overlay"></div>
 
-          <p>
-            Creating unforgettable weddings, engagements, birthdays,
-            corporate events, and family celebrations.
-          </p>
+      <div className="container hero-content">
 
-          <div className="hero-buttons">
-            <button className="btn btn-primary">Book Now</button>
+        <img
+          src={logo}
+          alt="Grand Pearl Marquee"
+          className="hero-logo"
+        />
 
-            <button className="btn btn-outline-light">
-              Explore Gallery
-            </button>
-          </div>
+        <h1>Grand Pearl Marquee</h1>
+
+        <p>
+          Where Elegant Celebrations Become Beautiful Memories
+        </p>
+
+        <div className="hero-buttons">
+
+          <Link to="/booking" className="btn btn-gold">
+            Book Your Event
+          </Link>
+
+          <Link to="/gallery" className="btn btn-outline-light">
+            Explore Gallery
+          </Link>
+
         </div>
+
       </div>
     </section>
   );

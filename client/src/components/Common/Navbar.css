@@ -1,0 +1,34 @@
+.custom-navbar {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+  background: transparent;
+}
+
+.logo {
+  height: 70px;
+}
+
+.nav-link {
+  color: white;
+  font-weight: 500;
+  margin-left: 20px;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #c8a14a;
+}
+
+.book-btn {
+  background: #c8a14a;
+  color: white;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.book-btn:hover {
+  background: #b08b38;
+  color: white;
+}
