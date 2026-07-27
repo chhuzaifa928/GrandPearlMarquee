@@ -1,6 +1,5 @@
 import "./Hero.css";
 import heroImage from "../../assets/images/hero/hero-main.jpg";
-import logo from "../../assets/images/logo/grand-pearl-logo.png";
 import { Link } from "react-router-dom";
 
 function Hero() {
@@ -13,16 +12,18 @@ function Hero() {
 
       <div className="container hero-content">
 
-        <img
-          src={logo}
-          alt="Grand Pearl Marquee"
-          className="hero-logo"
-        />
+        <span className="hero-tag">
+          Premium Event Venue
+        </span>
 
-        <h1>Grand Pearl Marquee</h1>
+        <h1>
+          Celebrate Life's <span>Finest Moments</span>
+        </h1>
 
         <p>
-          Where Elegant Celebrations Become Beautiful Memories
+          Grand Pearl Marquee offers an elegant venue for
+          Barat, Walima, Mehndi, Birthday, Bridal Shower,
+          Corporate Events and unforgettable celebrations.
         </p>
 
         <div className="hero-buttons">
