@@ -1,0 +1,48 @@
+.events-section{
+    padding:90px 0;
+    background:#fff;
+}
+
+.event-card{
+    overflow:hidden;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.35s;
+    background:#fff;
+}
+
+.event-card:hover{
+    transform:translateY(-8px);
+}
+
+.event-card img{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+}
+
+.event-content{
+    padding:25px;
+}
+
+.event-content h4{
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.event-content p{
+    color:#666;
+    min-height:70px;
+}
+
+.btn-gold{
+    background:#c8a14a;
+    color:white;
+    border-radius:30px;
+    padding:10px 25px;
+}
+
+.btn-gold:hover{
+    background:#b38d36;
+    color:white;
+}
