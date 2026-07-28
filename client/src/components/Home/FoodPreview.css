@@ -1,0 +1,49 @@
+.food-preview {
+  padding: 100px 0;
+  background: #f8f8f8;
+}
+
+.food-card {
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+  transition: .35s;
+  height: 100%;
+}
+
+.food-card:hover {
+  transform: translateY(-8px);
+}
+
+.food-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.food-content {
+  padding: 20px;
+}
+
+.food-content h4 {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.food-content p {
+  color: #666;
+  line-height: 1.7;
+}
+
+.food-preview .btn-gold {
+  background: #c8a14a;
+  color: white;
+  border-radius: 30px;
+  padding: 12px 30px;
+}
+
+.food-preview .btn-gold:hover {
+  background: #b38d36;
+  color: white;
+}
