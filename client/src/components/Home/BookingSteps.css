@@ -1,0 +1,60 @@
+.booking-steps{
+    background:#111;
+    padding:100px 0;
+}
+
+.booking-steps .section-title h2,
+.booking-steps .section-title p{
+    color:white;
+}
+
+.step-card{
+    background:#1d1d1d;
+    border-radius:18px;
+    padding:35px 25px;
+    text-align:center;
+    color:white;
+    position:relative;
+    transition:.35s;
+    height:100%;
+}
+
+.step-card:hover{
+    transform:translateY(-8px);
+}
+
+.step-number{
+    position:absolute;
+    top:20px;
+    right:20px;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:#c8a14a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.step-icon{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#c8a14a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:auto;
+    font-size:30px;
+    margin-bottom:20px;
+}
+
+.step-card h4{
+    margin-bottom:15px;
+    font-weight:700;
+}
+
+.step-card p{
+    color:#ddd;
+}

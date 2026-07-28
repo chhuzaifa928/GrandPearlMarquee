@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 
 function AboutPreview() {
   return (
-    <section className="about-preview py-5">
+    <section className="about-preview py-5"
+     data-aos="fade-up">
       <div className="container">
         <div className="row align-items-center">
 
@@ -22,10 +23,11 @@ function AboutPreview() {
             <h2>About Grand Pearl Marquee</h2>
 
             <p>
-              Grand Pearl Marquee is a premium venue designed to make every
-              celebration memorable. From elegant weddings to corporate events,
-              we provide exceptional service, beautiful décor, and a welcoming
-              atmosphere.
+              Grand Pearl Marquee is where unforgettable celebrations come to life.
+              Whether you're planning a Barat, Walima, Mehndi, Birthday, or Corporate
+              Event, our elegant venue, customized décor, premium catering, and
+              dedicated team work together to create memorable experiences for you and
+              your guests.
             </p>
 
             <ul>
@@ -35,7 +37,7 @@ function AboutPreview() {
               <li>✔ Perfect for Every Celebration</li>
             </ul>
 
-            <Link to="/about" className="btn btn-primary mt-3">
+            <Link to="/about" className="btn btn-gold mt-4">
               Learn More
             </Link>
           </div>

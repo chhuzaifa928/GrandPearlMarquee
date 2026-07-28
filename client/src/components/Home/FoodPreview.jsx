@@ -31,7 +31,8 @@ function FoodPreview() {
   ];
 
   return (
-    <section className="food-preview">
+    <section className="food-preview"
+    data-aos="fade-up">
       <div className="container">
 
         <div className="section-title">

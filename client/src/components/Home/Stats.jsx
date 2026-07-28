@@ -21,7 +21,8 @@ function Stats() {
   ];
 
   return (
-    <section className="stats-section">
+    <section className="stats-section"
+     data-aos="fade-up">
       <div className="container">
         <div className="row">
 

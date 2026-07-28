@@ -43,7 +43,8 @@ function EventCategories() {
   ];
 
   return (
-    <section className="events-section">
+    <section className="events-section"
+    data-aos="fade-up">
       <div className="container">
 
         <div className="section-title">

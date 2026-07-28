@@ -9,16 +9,18 @@
 }
 
 .section-title h2 {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
   color: #222;
+  margin-bottom: 15px;
 }
 
 .section-title p {
   color: #666;
   max-width: 700px;
-  margin: 15px auto 0;
+  margin: 0 auto;
   line-height: 1.8;
+  font-size: 1.05rem;
 }
 
 .feature-card {
@@ -52,9 +54,11 @@
 .feature-card h4 {
   margin-bottom: 15px;
   font-weight: 700;
+  font-size: 1.35rem;
 }
 
 .feature-card p {
   color: #666;
-  line-height: 1.7;
+  line-height: 1.8;
+  font-size: 1rem;
 }

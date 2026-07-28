@@ -43,7 +43,8 @@ function WhyChooseUs() {
   ];
 
   return (
-    <section className="why-section">
+    <section className="why-section"
+      data-aos="fade-up">
       <div className="container">
 
         <div className="section-title">

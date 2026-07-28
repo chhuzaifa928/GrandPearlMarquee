@@ -19,7 +19,8 @@ function DecorPreview() {
   ];
 
   return (
-    <section className="decor-preview">
+    <section className="decor-preview"
+     data-aos="fade-up">
       <div className="container">
 
         <div className="section-title">

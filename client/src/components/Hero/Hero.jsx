@@ -7,6 +7,7 @@ function Hero() {
     <section
       className="hero"
       style={{ backgroundImage: `url(${heroImage})` }}
+      data-aos="zoom-in"
     >
       <div className="hero-overlay"></div>
 
