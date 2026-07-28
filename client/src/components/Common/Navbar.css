@@ -68,3 +68,19 @@
 .navbar-toggler-icon {
   filter: invert(1);
 }
+.nav-link.active {
+  color: #d4af37 !important;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
+/* Active Navigation */
+
+.nav-link.active {
+  color: #d4af37 !important;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}

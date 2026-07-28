@@ -1,0 +1,47 @@
+.decor-categories {
+  padding: 100px 0 60px;
+  background: #fff;
+}
+
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 40px;
+}
+
+.category-btn {
+  padding: 12px 28px;
+  border-radius: 35px;
+  border: 2px solid #d4af37;
+  background: white;
+  color: #222;
+  font-weight: 600;
+  transition: all .3s ease;
+  cursor: pointer;
+}
+
+.category-btn:hover {
+  background: #d4af37;
+  color: white;
+}
+
+.category-btn.active {
+  background: linear-gradient(135deg,#d4af37,#b8860b);
+  color: white;
+  border-color: transparent;
+}
+
+@media(max-width:768px){
+
+.category-buttons{
+gap:12px;
+}
+
+.category-btn{
+padding:10px 20px;
+font-size:.9rem;
+}
+
+}

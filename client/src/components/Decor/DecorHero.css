@@ -1,0 +1,77 @@
+.decor-hero {
+  position: relative;
+  min-height: 70vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+
+.decor-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.decor-content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  max-width: 850px;
+}
+
+.decor-tag {
+  display: inline-block;
+  padding: 8px 22px;
+  border-radius: 30px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 25px;
+}
+
+.decor-hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 25px;
+}
+
+.decor-hero p {
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #eee;
+  max-width: 750px;
+}
+
+@media (max-width: 992px) {
+  .decor-hero {
+    min-height: 60vh;
+  }
+
+  .decor-hero h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .decor-hero {
+    min-height: 55vh;
+    text-align: center;
+  }
+
+  .decor-content {
+    padding: 0 20px;
+  }
+
+  .decor-hero h1 {
+    font-size: 2.3rem;
+  }
+
+  .decor-hero p {
+    font-size: 1rem;
+  }
+}

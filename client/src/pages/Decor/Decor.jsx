@@ -1,5 +1,13 @@
+import DecorHero from "../../components/Decor/DecorHero";
+import DecorCategories from "../../components/Decor/DecorCategories";
+
 function Decor() {
-  return <h1>Decor Page</h1>;
+  return (
+    <>
+      <DecorHero />
+      <DecorCategories />
+    </>
+  );
 }
 
 export default Decor;
