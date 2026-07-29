@@ -1,0 +1,70 @@
+.food-benefits{
+padding:110px 0;
+background:white;
+}
+
+.benefit-card{
+
+background:#fff;
+
+padding:35px 25px;
+
+border-radius:18px;
+
+text-align:center;
+
+height:100%;
+
+transition:.35s;
+
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+}
+
+.benefit-card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 25px 45px rgba(0,0,0,.15);
+
+}
+
+.benefit-icon{
+
+width:80px;
+
+height:80px;
+
+margin:auto;
+
+margin-bottom:25px;
+
+background:#d4af37;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:2rem;
+
+}
+
+.benefit-card h4{
+
+font-weight:700;
+
+margin-bottom:15px;
+
+}
+
+.benefit-card p{
+
+color:#666;
+
+line-height:1.8;
+
+}
