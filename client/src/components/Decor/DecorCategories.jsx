@@ -1,6 +1,8 @@
-import "./DecorCategories.css";
+import "./DecorGallery.css";
+import { Link } from "react-router-dom";
+import decorData from "../../data/decorData";
 
-function DecorCategories() {
+function DecorCategories({ selectedCategory, setSelectedCategory }) {
   const categories = [
     "All",
     "Barat",
@@ -15,7 +17,6 @@ function DecorCategories() {
 
   return (
     <section className="decor-categories">
-
       <div className="container">
 
         <div
@@ -36,10 +37,15 @@ function DecorCategories() {
           data-aos="fade-up"
           data-aos-delay="150"
         >
-          {categories.map((category, index) => (
+          {categories.map((category) => (
             <button
-              key={index}
-              className={index === 0 ? "category-btn active" : "category-btn"}
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={
+                selectedCategory === category
+                  ? "category-btn active"
+                  : "category-btn"
+              }
             >
               {category}
             </button>
@@ -47,7 +53,6 @@ function DecorCategories() {
         </div>
 
       </div>
-
     </section>
   );
 }

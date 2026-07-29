@@ -1,0 +1,48 @@
+.decor-benefits {
+  padding: 110px 0;
+  background: white;
+}
+
+.benefit-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 35px 25px;
+  text-align: center;
+  transition: .35s;
+  height: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+}
+
+.benefit-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 45px rgba(0,0,0,.15);
+}
+
+.benefit-icon {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  margin-bottom: 20px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg,#d4af37,#b8860b);
+
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2rem;
+}
+
+.benefit-card h4 {
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.benefit-card p {
+  color: #666;
+  line-height: 1.8;
+}
