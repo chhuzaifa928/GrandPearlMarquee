@@ -1,0 +1,113 @@
+.gallery-grid-section{
+padding:110px 0;
+background:#f8f8f8;
+}
+
+.gallery-card{
+
+position:relative;
+
+overflow:hidden;
+
+border-radius:20px;
+
+cursor:pointer;
+
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+transition:.35s;
+
+}
+
+.gallery-card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 25px 50px rgba(0,0,0,.18);
+
+}
+
+.gallery-card img{
+
+width:100%;
+
+height:320px;
+
+object-fit:cover;
+
+transition:.5s;
+
+}
+
+.gallery-card:hover img{
+
+transform:scale(1.08);
+
+}
+
+.gallery-card-overlay{
+
+position:absolute;
+
+inset:0;
+
+background:linear-gradient(
+transparent,
+rgba(0,0,0,.85)
+);
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:flex-end;
+
+padding:25px;
+
+color:white;
+
+opacity:0;
+
+transition:.35s;
+
+}
+
+.gallery-card:hover .gallery-card-overlay{
+
+opacity:1;
+
+}
+
+.gallery-card-overlay span{
+
+display:inline-block;
+
+width:max-content;
+
+background:#d4af37;
+
+padding:6px 14px;
+
+border-radius:30px;
+
+margin-bottom:12px;
+
+font-size:.85rem;
+
+}
+
+.gallery-card-overlay h4{
+
+font-weight:700;
+
+margin-bottom:8px;
+
+}
+
+.gallery-card-overlay p{
+
+margin:0;
+
+color:#ddd;
+
+}

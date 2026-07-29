@@ -1,0 +1,72 @@
+.modal-content {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  background: #ffffff;
+  border-bottom: 1px solid #eee;
+  padding: 20px 25px;
+}
+
+.modal-header h4 {
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.modal-body {
+  background: #f8f8f8;
+  padding: 25px;
+}
+
+.modal-body img {
+  width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: 15px;
+  transition: transform 0.4s ease;
+}
+
+.modal-body img:hover {
+  transform: scale(1.02);
+}
+
+.btn-close {
+  box-shadow: none;
+}
+
+.modal-backdrop.show {
+  opacity: 0.8;
+}
+.gallery-badge{
+
+display:inline-block;
+
+background:#d4af37;
+
+color:white;
+
+padding:8px 18px;
+
+border-radius:30px;
+
+font-size:.9rem;
+
+font-weight:600;
+
+}
+
+.gallery-description{
+
+margin-top:20px;
+
+font-size:1.05rem;
+
+line-height:1.9;
+
+color:#555;
+
+}
