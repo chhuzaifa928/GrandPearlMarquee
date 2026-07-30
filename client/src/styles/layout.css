@@ -1,0 +1,134 @@
+/* ===================================
+   GRAND PEARL LAYOUT SYSTEM
+=================================== */
+
+/* Sections */
+
+.section {
+  padding: 100px 0;
+}
+
+.section-sm {
+  padding: 70px 0;
+}
+
+.section-lg {
+  padding: 140px 0;
+}
+
+/* Backgrounds */
+
+.bg-light {
+  background: var(--color-background);
+}
+
+.bg-white {
+  background: var(--color-white);
+}
+
+.bg-dark {
+  background: var(--color-secondary);
+  color: var(--color-white);
+}
+
+/* Section Heading */
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-heading h2 {
+  margin-bottom: 15px;
+}
+
+.section-heading p {
+  max-width: 700px;
+  margin: auto;
+  color: #777;
+}
+
+/* Containers */
+
+.container-sm {
+  max-width: 900px;
+  margin: auto;
+}
+
+.container-md {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.container-lg {
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* Hero */
+
+.hero-section {
+  min-height: 90vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+/* Grid */
+
+.grid-2 {
+
+  display: grid;
+
+  grid-template-columns: repeat(2,1fr);
+
+  gap: 40px;
+
+}
+
+.grid-3 {
+
+  display: grid;
+
+  grid-template-columns: repeat(3,1fr);
+
+  gap: 30px;
+
+}
+
+.grid-4 {
+
+  display: grid;
+
+  grid-template-columns: repeat(4,1fr);
+
+  gap: 25px;
+
+}
+
+/* Responsive */
+
+@media(max-width:992px){
+
+.grid-2,
+.grid-3,
+.grid-4{
+
+grid-template-columns:1fr;
+
+}
+
+.section{
+
+padding:80px 0;
+
+}
+
+}

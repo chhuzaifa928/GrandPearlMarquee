@@ -1,0 +1,109 @@
+.review-section{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:24px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+
+}
+
+.review-section h3{
+
+    margin-bottom:20px;
+
+    color:var(--color-primary);
+
+    font-weight:700;
+
+}
+
+.review-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.review-item:last-child{
+
+    border-bottom:none;
+
+}
+
+.review-item span{
+
+    color:#666;
+
+}
+
+.review-item strong{
+
+    color:#222;
+
+}
+
+.selected-package{
+
+    display:flex;
+
+    gap:18px;
+
+    align-items:center;
+
+}
+
+.selected-package img{
+
+    width:120px;
+
+    height:90px;
+
+    border-radius:12px;
+
+    object-fit:cover;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+
+}
+
+@media(max-width:768px){
+
+.review-item{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:5px;
+
+}
+
+.selected-package{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.selected-package img{
+
+width:100%;
+
+height:180px;
+
+}
+
+}

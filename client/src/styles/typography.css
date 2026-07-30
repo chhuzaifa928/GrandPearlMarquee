@@ -1,0 +1,145 @@
+/* ===================================
+   TYPOGRAPHY
+=================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-normal);
+  color: var(--color-text);
+  line-height: 1.7;
+  background: var(--color-background);
+}
+
+/* =======================
+   HEADINGS
+======================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--color-heading);
+  font-weight: var(--fw-bold);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: var(--fs-4xl);
+}
+
+h2 {
+  font-size: var(--fs-3xl);
+}
+
+h3 {
+  font-size: var(--fs-2xl);
+}
+
+h4 {
+  font-size: var(--fs-xl);
+}
+
+h5 {
+  font-size: var(--fs-lg);
+}
+
+h6 {
+  font-size: var(--fs-md);
+}
+
+/* =======================
+   PARAGRAPHS
+======================= */
+
+p {
+  margin-bottom: 1rem;
+}
+
+/* =======================
+   LINKS
+======================= */
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* =======================
+   LISTS
+======================= */
+
+ul,
+ol {
+  padding-left: 1.2rem;
+}
+
+li {
+  margin-bottom: .4rem;
+}
+
+/* =======================
+   STRONG TEXT
+======================= */
+
+strong {
+  font-weight: var(--fw-semibold);
+}
+
+/* =======================
+   TEXT UTILITIES
+======================= */
+
+.text-gold {
+  color: var(--color-primary);
+}
+
+.text-dark {
+  color: var(--color-heading);
+}
+
+.text-muted {
+  color: #777;
+}
+
+/* =======================
+   SELECTION
+======================= */
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+
+@media (max-width:768px){
+
+    h1{
+        font-size:2.7rem;
+    }
+
+    h2{
+        font-size:2.2rem;
+    }
+
+    h3{
+        font-size:1.8rem;
+    }
+
+}

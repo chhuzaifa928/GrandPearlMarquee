@@ -1,125 +1,199 @@
-import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../../assets/images/logo/grand-pearl-logo.png";
 
 function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+useEffect(() => {
+  setMenuOpen(false);
+}, [location]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () =>
+      window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
+  const links = [
+    {
+      title: "Home",
+      path: "/",
+    },
+    {
+      title: "About",
+      path: "/about",
+    },
+    {
+      title: "Decor",
+      path: "/decor",
+    },
+    {
+      title: "Food",
+      path: "/food",
+    },
+    {
+      title: "Gallery",
+      path: "/gallery",
+    },
+    {
+      title: "Booking",
+      path: "/booking",
+    },
+    {
+      title: "Contact",
+      path: "/contact",
+    },
+  ];
+
   return (
-    <nav className="navbar navbar-expand-lg custom-navbar">
-      <div className="container">
+    <>
+      <nav
+        className={`custom-navbar ${
+          scrolled ? "navbar-scrolled" : ""
+        }`}
+      >
+        <div className="container navbar-container">
 
-        {/* Logo */}
-        <NavLink className="navbar-brand d-flex align-items-center" to="/">
-          <img src={logo} alt="Grand Pearl Marquee" className="logo" />
-        </NavLink>
+          {/* Logo */}
 
-        {/* Mobile Toggle */}
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+          <NavLink
+            to="/"
+            className="navbar-brand"
+            onClick={() => {
+  setMenuOpen(false);
+}}
+          >
+            <img
+              src={logo}
+              alt="Grand Pearl Marquee"
+              className="logo"
+            />
+          </NavLink>
 
-        {/* Menu */}
-        <div className="collapse navbar-collapse" id="navbarNav">
+          {/* Desktop Menu */}
 
-          <ul className="navbar-nav ms-auto align-items-lg-center">
+          <ul className="desktop-menu">
 
-            <li className="nav-item">
-              <NavLink
-                to="/"
-                end
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Home
-              </NavLink>
-            </li>
+            {links.map((link) => (
 
-            <li className="nav-item">
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                About
-              </NavLink>
-            </li>
+              <li key={link.path}>
 
-            <li className="nav-item">
-              <NavLink
-                to="/decor"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Decor
-              </NavLink>
-            </li>
+                <NavLink
+                  end={link.path === "/"}
+                  to={link.path}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "nav-link active"
+                      : "nav-link"
+                  }
+                >
+                  {link.title}
+                </NavLink>
 
-            <li className="nav-item">
-              <NavLink
-                to="/food"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Food
-              </NavLink>
-            </li>
+              </li>
 
-            <li className="nav-item">
-              <NavLink
-                to="/gallery"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Gallery
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/booking"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Booking
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
-                }
-              >
-                Contact
-              </NavLink>
-            </li>
-
-            <li className="nav-item ms-lg-3">
-              <NavLink className="btn book-btn" to="/booking">
-                Book Event
-              </NavLink>
-            </li>
+            ))}
 
           </ul>
 
+          {/* Desktop Button */}
+
+          <NavLink
+            to="/booking"
+            className="book-btn desktop-btn"
+          >
+            Book Event
+          </NavLink>
+
+          {/* Hamburger */}
+
+          <button
+  type="button"
+  className={`hamburger ${menuOpen ? "active" : ""}`}
+  onClick={() => setMenuOpen(prev => !prev)}
+  aria-label="Toggle Menu"
+>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+        </div>
+      </nav>
+
+      {/* Overlay */}
+
+      <div
+        className={`menu-overlay ${
+          menuOpen ? "show" : ""
+        }`}
+        onClick={closeMenu}
+      ></div>
+
+      {/* Mobile Sidebar */}
+
+      <aside
+        className={`mobile-sidebar ${
+          menuOpen ? "show" : ""
+        }`}
+      >
+        <div className="mobile-logo">
+
+          <img
+            src={logo}
+            alt="Grand Pearl Marquee"
+          />
+
         </div>
 
-      </div>
-    </nav>
+        <ul>
+
+          {links.map((link) => (
+
+            <li key={link.path}>
+
+              <NavLink
+                end={link.path === "/"}
+                to={link.path}
+                onClick={closeMenu}
+                className={({ isActive }) =>
+                  isActive
+                    ? "nav-link active"
+                    : "nav-link"
+                }
+              >
+                {link.title}
+              </NavLink>
+
+            </li>
+
+          ))}
+
+        </ul>
+
+        <NavLink
+          to="/booking"
+          onClick={closeMenu}
+          className="book-btn mobile-btn"
+        >
+          Book Event
+        </NavLink>
+
+      </aside>
+    </>
   );
 }
 

@@ -7,7 +7,7 @@ function Stats() {
       title: "Guest Capacity",
     },
     {
-      number: "500+",
+      number: "2000+",
       title: "Successful Events",
     },
     {

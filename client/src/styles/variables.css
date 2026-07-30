@@ -1,0 +1,115 @@
+/* ===========================
+   GRAND PEARL DESIGN TOKENS
+=========================== */
+
+:root {
+
+  /* Luxury Brand Colors */
+
+  --color-primary: #D4AF37;
+  --color-primary-dark: #B8911F;
+  --color-primary-light: #E6C866;
+
+  --color-secondary: #1F1F1F;
+
+  --color-background: #F8F8F8;
+
+  --color-white: #FFFFFF;
+
+  --color-black: #000000;
+
+  --color-text: #555555;
+
+  --color-heading: #222222;
+
+  --color-border: #E8E8E8;
+
+  --color-success: #28A745;
+
+  --color-danger: #DC3545;
+
+  --color-warning: #FFC107;
+
+  /* Typography */
+
+  --font-heading: "Playfair Display", serif;
+
+  --font-body: "Poppins", sans-serif;
+
+  /* Font Sizes */
+
+  --fs-xs: 0.75rem;
+
+  --fs-sm: 0.875rem;
+
+  --fs-md: 1rem;
+
+  --fs-lg: 1.125rem;
+
+  --fs-xl: 1.5rem;
+
+  --fs-2xl: 2rem;
+
+  --fs-3xl: 2.75rem;
+
+  --fs-4xl: 3.5rem;
+
+  /* Font Weights */
+
+  --fw-light: 300;
+
+  --fw-normal: 400;
+
+  --fw-medium: 500;
+
+  --fw-semibold: 600;
+
+  --fw-bold: 700;
+
+  --fw-extra-bold: 800;
+
+  /* Border Radius */
+
+  --radius-sm: 8px;
+
+  --radius-md: 12px;
+
+  --radius-lg: 18px;
+
+  --radius-xl: 28px;
+
+  --radius-round: 50px;
+
+  /* Shadows */
+
+  --shadow-sm: 0 5px 15px rgba(0,0,0,.08);
+
+  --shadow-md: 0 12px 30px rgba(0,0,0,.12);
+
+  --shadow-lg: 0 20px 45px rgba(0,0,0,.15);
+
+  /* Spacing */
+
+  --space-xs: .5rem;
+
+  --space-sm: .75rem;
+
+  --space-md: 1rem;
+
+  --space-lg: 1.5rem;
+
+  --space-xl: 2rem;
+
+  --space-2xl: 3rem;
+
+  --space-3xl: 5rem;
+
+  /* Animation */
+
+  --transition-fast: .25s ease;
+
+  --transition-normal: .35s ease;
+
+  --transition-slow: .5s ease;
+
+}

@@ -1,0 +1,188 @@
+/* ===================================
+   BUTTONS
+=================================== */
+
+/* Base Button */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+
+  padding: 12px 28px;
+
+  border: none;
+
+  border-radius: var(--radius-round);
+
+  cursor: pointer;
+
+  font-family: var(--font-body);
+
+  font-size: var(--fs-md);
+
+  font-weight: var(--fw-semibold);
+
+  transition: var(--transition-normal);
+
+  text-decoration: none;
+
+  user-select: none;
+}
+
+/* ===========================
+   GOLD BUTTON
+=========================== */
+
+.btn-gold {
+
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-dark)
+  );
+
+  color: var(--color-white);
+
+  box-shadow: var(--shadow-sm);
+
+}
+
+.btn-gold:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow: var(--shadow-md);
+
+}
+
+.btn-gold:active {
+
+  transform: scale(.97);
+
+}
+
+/* ===========================
+   DARK BUTTON
+=========================== */
+
+.btn-dark {
+
+  background: var(--color-secondary);
+
+  color: var(--color-white);
+
+}
+
+.btn-dark:hover {
+
+  background: #111;
+
+  transform: translateY(-3px);
+
+}
+
+/* ===========================
+   OUTLINE BUTTON
+=========================== */
+
+.btn-outline {
+
+  background: transparent;
+
+  border: 2px solid var(--color-primary);
+
+  color: var(--color-primary);
+
+}
+
+.btn-outline:hover {
+
+  background: var(--color-primary);
+
+  color: var(--color-white);
+
+}
+
+/* ===========================
+   LIGHT BUTTON
+=========================== */
+
+.btn-light {
+
+  background: var(--color-white);
+
+  color: var(--color-heading);
+
+  border: 1px solid var(--color-border);
+
+}
+
+.btn-light:hover {
+
+  box-shadow: var(--shadow-sm);
+
+}
+
+/* ===========================
+   SIZES
+=========================== */
+
+.btn-sm {
+
+  padding: 8px 18px;
+
+  font-size: .9rem;
+
+}
+
+.btn-lg {
+
+  padding: 15px 36px;
+
+  font-size: 1.05rem;
+
+}
+
+/* ===========================
+   FULL WIDTH
+=========================== */
+
+.btn-block {
+
+  width: 100%;
+
+}
+
+/* ===========================
+   DISABLED
+=========================== */
+
+.btn:disabled {
+
+  opacity: .55;
+
+  cursor: not-allowed;
+
+  transform: none;
+
+  box-shadow: none;
+
+}
+
+/* ===========================
+   ICON BUTTONS
+=========================== */
+
+.btn-icon {
+
+  width: 48px;
+
+  height: 48px;
+
+  padding: 0;
+
+  border-radius: 50%;
+
+}

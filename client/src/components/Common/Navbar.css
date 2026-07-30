@@ -1,86 +1,367 @@
-.custom-navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background: rgba(18, 18, 18, 0.25);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-  padding: 12px 0;
+/* ==========================================
+   PREMIUM NAVBAR
+========================================== */
+
+.custom-navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:1000;
+    padding:18px 0;
+    transition:.35s ease;
+    background:transparent;
 }
+
+.navbar-scrolled{
+    background:rgba(12,18,28,.90);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+    padding:12px 0;
+}
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.navbar-container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/* ==========================================
+   LOGO
+========================================== */
 
 .logo{
-    width:80px;
-    height:80px;
-     }
-
-.navbar-nav .nav-link {
-  color: #fff;
-  font-weight: 600;
-  margin: 0 14px;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-}
-.navbar-nav .nav-link {
-  position: relative;
+width:95px;
+height:auto;
 }
 
-.navbar-nav .nav-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: #c8a14a;
-  transition: width 0.3s ease;
+.navbar-scrolled .logo{
+    width:70px;
 }
 
-.navbar-nav .nav-link:hover::after {
-  width: 100%;
+/* ==========================================
+   DESKTOP MENU
+========================================== */
+
+.desktop-menu{
+display:flex !important;
+align-items:center;
+gap:14px;
+list-style:none;
+margin:0;
+padding:0;
 }
 
-.navbar-nav .nav-link:hover {
-  color: #c8a14a;
+.desktop-menu li{
+    list-style:none;
 }
 
-.book-btn {
-  background: linear-gradient(135deg, #d4af37, #b8860b);
-  color: white;
-  padding: 12px 28px;
-  border-radius: 30px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: none;
+.nav-link{
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    position:relative;
+    transition:.35s;
+    padding:8px 2px;
+    letter-spacing:.5px;
 }
 
-.book-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.35);
-  color: white;
+.nav-link:hover{
+    color:#d4af37;
 }
 
-.navbar-toggler {
-  border-color: white;
+.nav-link.active{
+    color:#d4af37;
 }
 
-.navbar-toggler-icon {
-  filter: invert(1);
-}
-.nav-link.active {
-  color: #d4af37 !important;
+.nav-link::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:-4px;
+
+    transform:translateX(-50%);
+
+    width:0;
+
+    height:2px;
+
+    background:#d4af37;
+
+    border-radius:20px;
+
+    transition:.35s;
+
 }
 
-.nav-link.active::after {
-  width: 100%;
-}
-/* Active Navigation */
+.nav-link:hover::after,
+.nav-link.active::after{
 
-.nav-link.active {
-  color: #d4af37 !important;
+    width:100%;
+
 }
 
-.nav-link.active::after {
-  width: 100%;
+/* ==========================================
+   BUTTON
+========================================== */
+
+.book-btn{
+
+    text-decoration:none;
+
+    background:linear-gradient(
+    135deg,
+    #e6ca65,
+    #c89b2f
+    );
+
+    color:#111;
+
+    padding:13px 30px;
+
+    border-radius:40px;
+
+    font-weight:700;
+
+    transition:.35s;
+
+}
+
+.book-btn:hover{
+
+    color:#111;
+
+    transform:translateY(-3px);
+
+    box-shadow:0 14px 28px rgba(212,175,55,.35);
+
+}
+
+/* ==========================================
+   HAMBURGER
+========================================== */
+
+.hamburger{
+
+    width:42px;
+
+    height:34px;
+
+    display:none;
+
+    flex-direction:column;
+
+    justify-content:space-between;
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    padding:0;
+
+    z-index:1301;
+
+
+}
+
+.hamburger span{
+
+    height:3px;
+
+    width:100%;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    transition:.35s;
+
+}
+
+.hamburger.active span:nth-child(1){
+
+    transform:
+    rotate(45deg)
+    translateY(10px);
+
+}
+
+.hamburger.active span:nth-child(2){
+
+    opacity:0;
+
+}
+
+.hamburger.active span:nth-child(3){
+
+    transform:
+    rotate(-45deg)
+    translateY(-10px);
+
+}
+
+/* ==========================================
+   OVERLAY
+========================================== */
+
+.menu-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.35s;
+
+    z-index:1050;
+
+}
+
+.menu-overlay.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+.mobile-sidebar{
+    position:fixed;
+    top:0;
+    right:-100%;
+    width:300px;
+    height:100vh;
+    background:#111827;
+    display:flex;
+    flex-direction:column;
+    padding:120px 30px 40px;
+    transition:right .35s ease;
+     z-index:1300;
+    overflow-y:auto;
+    box-shadow:-10px 0 30px rgba(0,0,0,.35);
+}
+
+.mobile-sidebar.show{
+    right:0;
+}
+
+
+
+.mobile-logo{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+.mobile-logo img{
+
+    width:90px;
+
+}
+
+.mobile-sidebar ul{
+
+    list-style:none;
+
+    margin:0;
+
+    padding:0;
+
+}
+
+.mobile-sidebar li{
+
+    margin-bottom:22px;
+
+}
+
+.mobile-sidebar .nav-link{
+
+    font-size:1.15rem;
+
+    display:block;
+
+}
+
+.mobile-btn{
+
+    margin-top:auto;
+
+    text-align:center;
+
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 991px){
+
+.desktop-menu{
+display:none !important;
+}
+
+.desktop-btn{
+display:none !important;
+}
+
+.hamburger{
+display:flex !important;
+}
+
+}
+
+@media(min-width:992px){
+
+.mobile-sidebar{
+
+display:none;
+
+}
+
+.menu-overlay{
+
+display:none;
+
+}
+
+}
+
+@media(max-width:576px){
+
+.mobile-sidebar{
+
+width:100%;
+
+}
+
+
+.logo{
+
+width:75px;
+
+}
+
 }

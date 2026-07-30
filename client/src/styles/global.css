@@ -1,0 +1,45 @@
+@import "./variables.css";
+@import "./typography.css";
+@import "./buttons.css";
+@import "./cards.css";
+@import "./forms.css";
+@import "./animations.css";
+@import "./layout.css";
+@import "./utilities.css";
+
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+button,
+input,
+textarea,
+select{
+    font-family:inherit;
+}
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--color-primary);
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+    background:#eee;
+}

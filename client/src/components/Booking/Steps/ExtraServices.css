@@ -1,0 +1,46 @@
+.booking-service-card {
+  border: 2px solid #e9ecef;
+  border-radius: 18px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 100%;
+  padding: 25px;
+  text-align: center;
+}
+
+.booking-service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.booking-service-card.selected {
+  border: 3px solid #d4af37;
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.25);
+}
+
+.service-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.service-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.service-description {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.additional-notes {
+  margin-top: 40px;
+}
+
+.additional-notes textarea {
+  min-height: 140px;
+  resize: vertical;
+}

@@ -1,0 +1,221 @@
+/* ==========================================
+   Guest Information
+========================================== */
+
+.booking-summary-card{
+
+    margin-top:40px;
+
+    padding:30px;
+
+    background:#ffffff;
+
+    border-radius:18px;
+
+    border:1px solid #ececec;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
+    transition:.3s;
+
+}
+
+.booking-summary-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 16px 40px rgba(0,0,0,.08);
+
+}
+
+.booking-summary-card h4{
+
+    color:var(--color-primary);
+
+    margin-bottom:25px;
+
+    font-weight:700;
+
+}
+
+/* ==========================================
+   Summary Rows
+========================================== */
+
+.summary-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #f2f2f2;
+
+}
+
+.summary-row:last-child{
+
+    border-bottom:none;
+
+}
+
+.summary-row span{
+
+    color:#666;
+
+    font-weight:500;
+
+}
+
+.summary-row strong{
+
+    color:#222;
+
+    font-size:1.05rem;
+
+    font-weight:700;
+
+}
+
+/* ==========================================
+   Status Messages
+========================================== */
+
+.booking-summary-card .text-success{
+
+    background:#eaf8ef;
+
+    color:#198754;
+
+    padding:12px 16px;
+
+    border-radius:10px;
+
+    margin-top:18px;
+
+    font-weight:600;
+
+}
+
+.booking-summary-card .text-warning{
+
+    background:#fff7e6;
+
+    color:#d48806;
+
+    padding:12px 16px;
+
+    border-radius:10px;
+
+    margin-top:18px;
+
+    font-weight:600;
+
+}
+
+.booking-summary-card .text-danger{
+
+    background:#fff2f0;
+
+    color:#cf1322;
+
+    padding:12px 16px;
+
+    border-radius:10px;
+
+    margin-top:18px;
+
+    font-weight:600;
+
+}
+
+/* ==========================================
+   Small Text
+========================================== */
+
+.booking-summary-card small{
+
+    display:block;
+
+    margin-top:10px;
+
+    color:#888;
+
+}
+
+/* ==========================================
+   Divider
+========================================== */
+
+.booking-summary-card hr{
+
+    margin:25px 0;
+
+    border:none;
+
+    border-top:1px solid #ececec;
+
+}
+
+/* ==========================================
+   Error Styling
+========================================== */
+
+.input-error{
+
+    border:2px solid #dc3545 !important;
+
+    box-shadow:none !important;
+
+}
+
+.error-text{
+
+    color:#dc3545;
+
+    font-size:.88rem;
+
+    margin-top:8px;
+
+    font-weight:500;
+
+}
+
+.required{
+
+    color:#dc3545;
+
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width:768px){
+
+.booking-summary-card{
+
+padding:20px;
+
+}
+
+.summary-row{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:5px;
+
+}
+
+.summary-row strong{
+
+font-size:1rem;
+
+}
+
+}

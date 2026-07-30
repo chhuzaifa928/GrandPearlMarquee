@@ -1,0 +1,7 @@
+.booking-card input[type="date"] {
+  cursor: pointer;
+}
+
+.booking-card select {
+  cursor: pointer;
+}

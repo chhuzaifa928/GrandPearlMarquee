@@ -1,0 +1,231 @@
+/* ===================================
+   CARD SYSTEM
+=================================== */
+
+.card {
+
+  background: var(--color-white);
+
+  border-radius: var(--radius-lg);
+
+  border: 1px solid var(--color-border);
+
+  overflow: hidden;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: var(--transition-normal);
+
+}
+
+.card:hover {
+
+  transform: translateY(-8px);
+
+  box-shadow: var(--shadow-lg);
+
+}
+
+/* ==========================
+   IMAGE
+========================== */
+
+.card img {
+
+  width: 100%;
+
+  height: 250px;
+
+  object-fit: cover;
+
+  transition: var(--transition-normal);
+
+}
+
+.card:hover img {
+
+  transform: scale(1.05);
+
+}
+
+/* ==========================
+   BODY
+========================== */
+
+.card-body {
+
+  padding: 24px;
+
+}
+
+/* ==========================
+   TITLE
+========================== */
+
+.card-title {
+
+  margin-bottom: 10px;
+
+  color: var(--color-heading);
+
+  font-size: var(--fs-xl);
+
+  font-weight: var(--fw-bold);
+
+}
+
+/* ==========================
+   TEXT
+========================== */
+
+.card-text {
+
+  color: var(--color-text);
+
+  margin-bottom: 20px;
+
+  line-height: 1.7;
+
+}
+
+/* ==========================
+   BADGES
+========================== */
+
+.card-badge {
+
+  display: inline-block;
+
+  padding: 6px 14px;
+
+  border-radius: 50px;
+
+  background: var(--color-primary);
+
+  color: var(--color-white);
+
+  font-size: var(--fs-sm);
+
+  font-weight: var(--fw-medium);
+
+  margin-bottom: 16px;
+
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+.card-footer {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 20px 24px;
+
+  border-top: 1px solid var(--color-border);
+
+}
+
+/* ==========================
+   BOOKING CARD
+========================== */
+
+.booking-card {
+
+  background: var(--color-white);
+
+  border-radius: var(--radius-lg);
+
+  padding: 40px;
+
+  box-shadow: var(--shadow-md);
+
+  border: 1px solid var(--color-border);
+
+}
+
+/* ==========================
+   PACKAGE CARD
+========================== */
+
+.booking-package-card {
+
+  background: var(--color-white);
+
+  border-radius: var(--radius-lg);
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  border: 2px solid transparent;
+
+  transition: var(--transition-normal);
+
+}
+
+.booking-package-card:hover {
+
+  transform: translateY(-8px);
+
+  box-shadow: var(--shadow-lg);
+
+}
+
+.booking-package-card.selected {
+
+  border-color: var(--color-primary);
+
+}
+
+.booking-package-card img {
+
+  width: 100%;
+
+  height: 220px;
+
+  object-fit: cover;
+
+}
+
+.package-body {
+
+  padding: 22px;
+
+}
+
+.package-category {
+
+  display: inline-block;
+
+  padding: 5px 14px;
+
+  border-radius: 30px;
+
+  background: var(--color-primary);
+
+  color: var(--color-white);
+
+  font-size: var(--fs-sm);
+
+  margin-bottom: 12px;
+
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:768px){
+
+    .booking-card{
+
+        padding:25px;
+
+    }
+
+}

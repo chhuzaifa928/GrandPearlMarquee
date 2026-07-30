@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import "./styles/packageCards.css";
 
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,7 +13,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 import App from "./App";
-import "./index.css";
+import "./styles/global.css";
 
 AOS.init({
   duration: 900,
