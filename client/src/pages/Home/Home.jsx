@@ -11,7 +11,7 @@ import CallToAction from "../../components/Home/CallToAction";
 
 function Home() {
   return (
-   <>
+   <div className="home-page">
   <Hero />
   <AboutPreview />
   <Stats />
@@ -22,7 +22,7 @@ function Home() {
   <BookingSteps />
   <GalleryPreview />
   <CallToAction />
-  </>
+  </div>
   );
 }
 

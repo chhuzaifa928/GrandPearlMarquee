@@ -16,7 +16,7 @@ function FoodCTA() {
           <span>MAKE EVERY EVENT DELICIOUS</span>
 
           <h2>
-            Delight Your Guests With Exceptional Catering
+           <span> Delight Your Guests With Exceptional Catering</span>
           </h2>
 
           <p>

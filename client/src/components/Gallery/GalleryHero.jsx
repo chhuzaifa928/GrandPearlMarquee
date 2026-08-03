@@ -18,8 +18,8 @@ function GalleryHero() {
           </span>
 
           <h1>
-            Celebrate Every
-            <span> Beautiful Moment</span>
+            <span> Celebrate Every
+             Beautiful Moment</span>
           </h1>
 
           <p>

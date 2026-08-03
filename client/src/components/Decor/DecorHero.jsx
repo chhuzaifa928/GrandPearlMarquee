@@ -1,5 +1,5 @@
 import "./DecorHero.css";
-import heroImage from "../../assets/images/decor/decor-hero.jpg";
+import heroImage from "../../assets/images/decor/decor-hero.jpg"; // Adjust image path as needed
 
 function DecorHero() {
   return (
@@ -9,12 +9,9 @@ function DecorHero() {
     >
       <div className="decor-overlay"></div>
 
-      <div
-        className="container decor-content"
-        data-aos="fade-up"
-      >
+      <div className="container decor-hero-content" data-aos="fade-up">
         <span className="decor-tag">
-          PREMIUM DECOR COLLECTION
+          ✨ PREMIUM DECORATION SERVICES
         </span>
 
         <h1>
@@ -22,10 +19,9 @@ function DecorHero() {
         </h1>
 
         <p>
-          Discover our luxurious décor collections designed for Barat,
-          Walima, Mehndi, Nikkah, Birthdays, Corporate Events, and every
-          special occasion. Every setup is crafted with elegance,
-          creativity, and attention to detail.
+          Discover our luxurious décor collections designed for Barat, Walima, Mehndi,
+          Nikkah, Birthdays, Corporate Events, and every special occasion. Every setup is
+          crafted with elegance, creativity, and attention to detail.
         </p>
       </div>
     </section>

@@ -68,16 +68,51 @@
 @media(max-width:768px){
 
 .our-story{
-padding:80px 0;
+padding:55px 0;
 text-align:center;
+}
+
+.our-story .row{
+gap:24px;
+}
+
+.story-image{
+max-height:260px;
+object-fit:cover;
+border-radius:16px;
 }
 
 .story-list li{
 justify-content:center;
+font-size:.95rem;
+margin-bottom:12px;
+gap:10px;
+}
+
+.story-list svg{
+font-size:1.05rem;
+}
+
+.story-list{
+margin-top:22px;
 }
 
 .our-story h2{
-font-size:2.1rem;
+font-size:1.7rem;
+line-height:1.25;
+margin-bottom:16px;
+}
+
+.our-story p{
+font-size:.95rem;
+line-height:1.65;
+margin-bottom:14px;
+}
+
+.section-tag{
+padding:7px 16px;
+font-size:.85rem;
+margin-bottom:18px;
 }
 
 }

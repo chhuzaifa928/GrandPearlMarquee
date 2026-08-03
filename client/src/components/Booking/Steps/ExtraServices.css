@@ -44,3 +44,85 @@
   min-height: 140px;
   resize: vertical;
 }
+
+/* ==========================================
+   Mobile (max-width: 768px)
+   Extra Services step only (scoped via :has)
+========================================== */
+
+@media(max-width:768px){
+
+/* 2-column service cards grid */
+
+.booking-card:has(.booking-service-card) .row{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.booking-card:has(.booking-service-card) .row > [class*="col-"]{
+  flex:none;
+  width:auto;
+  max-width:100%;
+  min-width:0;
+  padding:0;
+  margin-bottom:0 !important;
+}
+
+/* Compact card content */
+
+.booking-card .booking-service-card{
+  padding:12px 8px;
+  border-radius:12px;
+}
+
+.booking-card .booking-service-card .service-icon{
+  font-size:1.4rem;
+  margin-bottom:8px;
+}
+
+.booking-card .booking-service-card .service-title{
+  font-size:.78rem;
+  margin-bottom:6px;
+}
+
+.booking-card .booking-service-card .service-description{
+  font-size:.68rem;
+  line-height:1.4;
+}
+
+/* Compact textarea */
+
+.booking-card .additional-notes{
+  margin-top:0;
+  min-width:0;
+}
+
+.booking-card .additional-notes textarea{
+  min-height:70px;
+  font-size:.9rem;
+  padding:10px 12px;
+}
+
+/* Side-by-side navigation buttons */
+
+.booking-card .d-flex.justify-content-between:has(.additional-notes){
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.booking-card .d-flex.justify-content-between .additional-notes{
+  grid-column:1 / -1;
+}
+
+.booking-card .d-flex.justify-content-between:has(.additional-notes) .btn{
+  width:100%;
+  padding:10px 16px;
+  font-size:.9rem;
+  font-weight:600;
+  border-radius:50px;
+  margin:0;
+}
+
+}

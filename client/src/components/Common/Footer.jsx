@@ -40,11 +40,11 @@ function Footer() {
           <div className="col-lg-3 col-md-6 mb-4">
             <h5>Contact</h5>
 
-            <p><FaPhoneAlt /> +92 XXX XXXXXXX</p>
+            <p><FaPhoneAlt /> +92 3165867635</p>
 
             <p><FaEnvelope /> info@grandpearl.com</p>
 
-            <p><FaMapMarkerAlt /> Grand Pearl Marquee, Pakistan</p>
+            <p><FaMapMarkerAlt /> Grand Pearl Marquee, Adayala Road, Rawalpindi</p>
           </div>
 
           {/* Social */}

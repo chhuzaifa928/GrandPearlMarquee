@@ -14,7 +14,8 @@ function DecorCTA() {
           <span>READY TO PLAN YOUR EVENT?</span>
 
           <h2>
-            Bring Your Dream Celebration To Life
+
+           <span> Bring Your Dream Celebration To Life</span>
           </h2>
 
           <p>

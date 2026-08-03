@@ -7,14 +7,14 @@ import CallToAction from "../../components/Home/CallToAction";
 
 function About() {
   return (
-    <>
+    <div className="about-page">
       <AboutHero />
       <OurStory />
       <Facilities />
       <MissionVision />
       <TrustSection />
       <CallToAction />
-    </>
+    </div>
   );
 }
 

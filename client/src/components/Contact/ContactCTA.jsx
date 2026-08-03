@@ -17,7 +17,7 @@ function ContactCTA() {
           <span>READY TO CELEBRATE?</span>
 
           <h2>
-            Let's Make Your Dream Event a Reality
+           <span> Let's Make Your Dream Event a Reality</span>
           </h2>
 
           <p>

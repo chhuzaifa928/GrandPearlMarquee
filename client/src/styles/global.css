@@ -19,6 +19,48 @@ body{
     overflow-x:hidden;
 }
 
+/* Home page top-level container safety */
+.home-page{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* About page top-level container safety */
+.about-page{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* Decor page top-level container safety */
+.decor-page{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* Food page top-level container safety */
+.food-page{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* Gallery page top-level container safety */
+.gallery-page{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* Contact page top-level container safety */
+.contact-page{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+/* Booking page top-level container safety */
+.booking-page{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
 img{
     max-width:100%;
     display:block;
@@ -42,4 +84,20 @@ select{
 
 ::-webkit-scrollbar-track{
     background:#eee;
+}
+
+/* Mobile container width safety (never bleed past 100vw) */
+@media (max-width: 768px){
+    .home-page .container,
+    .about-page .container,
+    .decor-page .container,
+    .food-page .container,
+    .gallery-page .container,
+    .contact-page .container,
+    .booking-page .container{
+        width:100%;
+        max-width:100%;
+        padding-left:16px;
+        padding-right:16px;
+    }
 }

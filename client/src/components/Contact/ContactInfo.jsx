@@ -5,12 +5,12 @@ function ContactInfo() {
     {
       icon: "📍",
       title: "Our Location",
-      info: "Grand Pearl Marquee, Your City, Pakistan"
+      info: "Grand Pearl Marquee, Adayala Road, Rawalpindi"
     },
     {
       icon: "📞",
       title: "Phone Number",
-      info: "+92 300 1234567"
+      info: "+92 3165867635"
     },
     {
       icon: "📧",
@@ -20,7 +20,7 @@ function ContactInfo() {
     {
       icon: "💬",
       title: "WhatsApp",
-      info: "+92 300 1234567"
+      info: "+92 3165867635"
     }
   ];
 

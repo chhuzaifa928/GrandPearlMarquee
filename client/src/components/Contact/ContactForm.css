@@ -84,3 +84,51 @@ border-color:#d4af37;
 box-shadow:0 0 0 .2rem rgba(212,175,55,.2);
 
 }
+
+@media(max-width:768px){
+
+.contact-form-section{
+padding:55px 0;
+}
+
+.contact-form-section h2{
+font-size:1.9rem;
+margin-bottom:15px;
+}
+
+.contact-form-section p{
+font-size:.95rem;
+line-height:1.7;
+margin-bottom:20px;
+}
+
+.contact-features li{
+font-size:.9rem;
+margin-bottom:8px;
+}
+
+.contact-form{
+padding:22px 16px;
+border-radius:14px;
+}
+
+.contact-form .row{
+min-width:0;
+}
+
+.contact-form .row > [class*="col-"]{
+min-width:0;
+}
+
+.contact-form .mb-4{
+margin-bottom:12px;
+}
+
+.contact-form .form-control,
+.contact-form .form-select{
+padding:10px 12px;
+font-size:.95rem;
+width:100%;
+}
+
+}

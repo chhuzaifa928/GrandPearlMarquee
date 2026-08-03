@@ -18,8 +18,8 @@ function FoodHero() {
           </span>
 
           <h1>
-            Delicious Food For Every
-            <span> Celebration</span>
+            <span> Delicious Food For Every
+             Celebration</span>
           </h1>
 
           <p>

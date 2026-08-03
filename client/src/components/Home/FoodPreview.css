@@ -32,7 +32,7 @@
 }
 
 .food-content p {
-  color: #666;
+  color: #7880030d;
   line-height: 1.7;
 }
 
@@ -46,4 +46,40 @@
 .food-preview .btn-gold:hover {
   background: #b38d36;
   color: white;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .food-preview {
+    padding: 50px 0;
+  }
+
+  .food-preview .row {
+    row-gap: 20px;
+  }
+
+  .food-card img {
+    height: 190px;
+    max-height: 220px;
+  }
+
+  .food-content {
+    padding: 16px;
+  }
+
+  .food-content h4 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+
+  .food-content p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .food-preview .btn-gold {
+    width: 100%;
+    max-width: 260px;
+  }
 }

@@ -54,3 +54,39 @@
 .decor-preview .section-title p {
   color: white;
 }
+
+/* Mobile */
+@media (max-width: 768px) {
+
+  .decor-preview {
+    padding: 50px 0;
+  }
+
+  .decor-preview .row {
+    row-gap: 20px;
+  }
+
+  .decor-card img {
+    height: 240px;
+    max-height: 300px;
+  }
+
+  .decor-overlay {
+    opacity: 1;
+    padding-bottom: 22px;
+  }
+
+  .decor-overlay h3 {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+
+  .decor-preview .btn-light {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+
+  .decor-preview .text-center.mt-4 {
+    margin-top: 28px;
+  }
+}

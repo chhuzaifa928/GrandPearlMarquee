@@ -14,7 +14,7 @@ function Gallery() {
     useState(null);
 
   return (
-    <>
+    <div className="gallery-page">
       <GalleryHero />
 
       <GalleryCategories
@@ -31,7 +31,7 @@ function Gallery() {
         selectedImage={selectedImage}
       />
       <GalleryCTA />
-    </>
+    </div>
   );
 }
 

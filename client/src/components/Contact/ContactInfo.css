@@ -70,3 +70,50 @@ color:#666;
 line-height:1.7;
 
 }
+
+@media(max-width:768px){
+
+.contact-info{
+padding:55px 0;
+}
+
+.contact-info .row{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.contact-info .row .col-lg-3,
+.contact-info .row .col-md-6{
+flex:none;
+width:auto;
+max-width:100%;
+min-width:0;
+padding:0;
+margin-bottom:0 !important;
+}
+
+.contact-card{
+padding:12px 8px;
+border-radius:12px;
+}
+
+.contact-icon{
+width:44px;
+height:44px;
+margin-bottom:10px;
+font-size:1.15rem;
+}
+
+.contact-card h4{
+font-size:.82rem;
+margin-bottom:8px;
+}
+
+.contact-card p{
+font-size:.68rem;
+line-height:1.45;
+overflow-wrap:anywhere;
+}
+
+}

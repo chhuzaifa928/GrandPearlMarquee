@@ -18,8 +18,8 @@ function ContactHero() {
           </span>
 
           <h1>
-            Let's Plan Your
-            <span> Perfect Event</span>
+           <span> Let's Plan Your
+             Perfect Event</span>
           </h1>
 
           <p>

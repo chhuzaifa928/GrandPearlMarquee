@@ -24,7 +24,7 @@ function Stats() {
     <section className="stats-section"
      data-aos="fade-up">
       <div className="container">
-        <div className="row">
+        <div className="row g-4">
 
           {stats.map((item, index) => (
             <div className="col-lg-3 col-md-6 mb-4" key={index}>

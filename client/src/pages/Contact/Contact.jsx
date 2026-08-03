@@ -7,14 +7,14 @@ import ContactCTA from "../../components/Contact/ContactCTA";
 
 function Contact() {
   return (
-    <>
+    <div className="contact-page">
       <ContactHero />
       <ContactInfo />
       <ContactForm />
       <ContactMap />
       <FAQ />
       <ContactCTA />
-    </>
+    </div>
   );
 }
 

@@ -16,8 +16,8 @@ function CallToAction() {
         <div className="cta-content">
 
           <h2>
-            Celebrate Your Special Moments
-            <span> at Grand Pearl Marquee</span>
+           <span> Celebrate Your Special Moments
+             at Grand Pearl Marquee</span>
           </h2>
 
           <p>

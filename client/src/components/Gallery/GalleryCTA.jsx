@@ -16,7 +16,7 @@ function GalleryCTA() {
           <span>CREATE YOUR OWN MEMORIES</span>
 
           <h2>
-            Your Dream Celebration Starts Here
+           <span> Your Dream Celebration Starts Here</span>
           </h2>
 
           <p>

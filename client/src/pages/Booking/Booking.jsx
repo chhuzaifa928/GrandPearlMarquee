@@ -9,7 +9,7 @@ function Booking() {
   const [step, setStep] = useState(1);
 
   return (
-    <>
+    <div className="booking-page">
       <BookingHero />
 
       <BookingStepper step={step} />
@@ -18,7 +18,7 @@ function Booking() {
         step={step}
         setStep={setStep}
       />
-    </>
+    </div>
   );
 }
 

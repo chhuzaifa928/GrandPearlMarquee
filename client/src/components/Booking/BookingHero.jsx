@@ -18,8 +18,8 @@ function BookingHero() {
           </span>
 
           <h1>
-            Reserve Your
-            <span> Special Day</span>
+           <span>Reserve Your
+             Special Day</span>
           </h1>
 
           <p>

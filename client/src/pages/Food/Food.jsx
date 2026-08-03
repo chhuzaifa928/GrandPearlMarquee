@@ -11,7 +11,7 @@ function Food() {
     useState("All");
 
   return (
-    <>
+    <div className="food-page">
 
       <FoodHero />
 
@@ -25,7 +25,7 @@ function Food() {
       />
       <FoodBenefits />
       <FoodCTA />
-    </>
+    </div>
   );
 }
 

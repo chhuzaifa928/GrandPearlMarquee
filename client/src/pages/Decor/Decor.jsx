@@ -11,7 +11,7 @@ function Decor() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   return (
-    <>
+    <div className="decor-page">
   <DecorHero />
 
   <DecorCategories
@@ -25,7 +25,7 @@ function Decor() {
 
   <DecorBenefits />
   <DecorCTA />
-</>
+</div>
   );
 }
 
