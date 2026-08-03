@@ -7,10 +7,18 @@ const {
   loginAdmin,
 } = require("../controllers/adminController");
 
-// Register Admin
-router.post("/register", registerAdmin);
+const verifyToken = require("../middleware/authMiddleware");
 
-// Login Admin
+router.post("/register", registerAdmin);
 router.post("/login", loginAdmin);
+
+// Protected Test Route
+router.get("/profile", verifyToken, (req, res) => {
+  res.json({
+    success: true,
+    message: "Welcome Admin",
+    admin: req.admin,
+  });
+});
 
 module.exports = router;

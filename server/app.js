@@ -1,3 +1,4 @@
+const bookingRoutes = require("./routes/bookingRoutes");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -19,5 +20,6 @@ app.get("/", (req, res) => {
 
 // Admin Routes
 app.use("/api/admin", adminRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 module.exports = app;
