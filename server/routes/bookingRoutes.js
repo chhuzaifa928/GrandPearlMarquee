@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+// Controllers
 const {
   addBooking,
   fetchBookings,
@@ -9,23 +10,29 @@ const {
   removeBooking,
 } = require("../controllers/bookingController");
 
+// Middleware
 const verifyToken = require("../middleware/authMiddleware");
 
-// ===============================
+// Validators
+const bookingValidator = require("../validators/bookingValidator");
+
+// ======================================
 // Public Route
-// ===============================
+// ======================================
 
-// Customer creates booking
-router.post("/", addBooking);
+// Customer submits a booking
+console.log("bookingValidator:", typeof bookingValidator);
+console.log("addBooking:", typeof addBooking);
+router.post("/", bookingValidator, addBooking);
 
-// ===============================
+// ======================================
 // Protected Admin Routes
-// ===============================
+// ======================================
 
 // Get all bookings
 router.get("/", verifyToken, fetchBookings);
 
-// Get single booking
+// Get single booking by ID
 router.get("/:id", verifyToken, fetchBookingById);
 
 // Update booking status

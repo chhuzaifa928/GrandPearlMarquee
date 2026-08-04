@@ -1,3 +1,5 @@
+const { validationResult } = require("express-validator");
+
 const {
   createBooking,
   getAllBookings,
@@ -10,6 +12,24 @@ const {
 // Create Booking
 // ===========================
 const addBooking = (req, res) => {
+  // Check validation errors
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      errors: errors.array(),
+    });
+  }
+
+  // Custom Validation
+  if (req.body.vip_guests > req.body.guests) {
+    return res.status(400).json({
+      success: false,
+      message: "VIP guests cannot be greater than total guests.",
+    });
+  }
+
   createBooking(req.body, (err, result) => {
     if (err) {
       return res.status(500).json({
@@ -40,7 +60,7 @@ const fetchBookings = (req, res) => {
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
       total: results.length,
       bookings: results,
@@ -58,7 +78,7 @@ const fetchBookingById = (req, res) => {
     if (err) {
       return res.status(500).json({
         success: false,
-        message: "Error fetching booking.",
+        message: "Failed to fetch booking.",
         error: err.message,
       });
     }
@@ -70,7 +90,7 @@ const fetchBookingById = (req, res) => {
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
       booking: results[0],
     });
@@ -93,7 +113,7 @@ const changeBookingStatus = (req, res) => {
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Booking status updated successfully.",
     });
@@ -115,7 +135,7 @@ const removeBooking = (req, res) => {
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Booking deleted successfully.",
     });

@@ -1,0 +1,46 @@
+const { body } = require("express-validator");
+
+const bookingValidator = [
+  body("customer_name")
+    .trim()
+    .notEmpty()
+    .withMessage("Customer name is required."),
+
+  body("email")
+    .isEmail()
+    .withMessage("Please enter a valid email address."),
+
+  body("phone")
+    .isLength({ min: 11, max: 15 })
+    .withMessage("Please enter a valid phone number."),
+
+  body("event_type")
+    .notEmpty()
+    .withMessage("Event type is required."),
+
+  body("event_date")
+    .notEmpty()
+    .withMessage("Event date is required."),
+
+  body("event_time")
+    .notEmpty()
+    .withMessage("Event time is required."),
+
+  body("guests")
+    .isInt({ min: 1 })
+    .withMessage("Guests must be at least 1."),
+
+  body("vip_guests")
+    .isInt({ min: 0 })
+    .withMessage("VIP guests cannot be negative."),
+
+  body("food_category")
+    .notEmpty()
+    .withMessage("Food category is required."),
+
+  body("decor_theme")
+    .notEmpty()
+    .withMessage("Decor theme is required."),
+];
+
+module.exports = bookingValidator;

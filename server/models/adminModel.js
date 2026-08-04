@@ -27,7 +27,33 @@ const createAdmin = (adminData, callback) => {
   );
 };
 
+// =========================
+// Dashboard Statistics
+// =========================
+
+const getDashboardStats = (callback) => {
+
+  const sql = `
+    SELECT
+
+      COUNT(*) AS totalBookings,
+
+      SUM(CASE WHEN booking_status = 'Pending' THEN 1 ELSE 0 END) AS pending,
+
+      SUM(CASE WHEN booking_status = 'Approved' THEN 1 ELSE 0 END) AS approved,
+
+      SUM(CASE WHEN booking_status = 'Rejected' THEN 1 ELSE 0 END) AS rejected,
+
+      SUM(CASE WHEN DATE(event_date)=CURDATE() THEN 1 ELSE 0 END) AS todayEvents
+
+    FROM bookings
+  `;
+
+  db.query(sql, callback);
+
+};
 module.exports = {
   findAdminByEmail,
   createAdmin,
+  getDashboardStats,
 };

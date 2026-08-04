@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const {
   findAdminByEmail,
   createAdmin,
+  getDashboardStats,
 } = require("../models/adminModel");
 
 // =========================
@@ -113,8 +114,39 @@ const loginAdmin = (req, res) => {
     });
   });
 };
+// =========================
+// Dashboard Statistics
+// =========================
+
+const dashboardStats = (req, res) => {
+
+  getDashboardStats((err, result) => {
+
+    if (err) {
+
+      return res.status(500).json({
+
+        success: false,
+        message: "Failed to load dashboard.",
+
+      });
+
+    }
+
+    res.json({
+
+      success: true,
+
+      stats: result[0],
+
+    });
+
+  });
+
+};
 
 module.exports = {
   registerAdmin,
   loginAdmin,
+  dashboardStats,
 };

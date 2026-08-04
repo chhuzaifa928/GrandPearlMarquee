@@ -7,12 +7,15 @@ import extraServices from "../../../data/extraServices";
 
 import BookingSuccessModal from "../BookingSuccessModal";
 
+// NEW
+import { createBooking } from "../../../services/bookingService";
 function ReviewBooking({
   formData,
   prevStep,
 }) {
 
   const [showSuccess, setShowSuccess] = useState(false);
+const [loading, setLoading] = useState(false);
 
   const selectedDecor = decorPackages.find(
     (item) => item.id === formData.decorId
@@ -26,14 +29,76 @@ function ReviewBooking({
     (item) => formData.extras.includes(item.id)
   );
 
-  const submitBooking = () => {
+  const submitBooking = async () => {
 
-    console.log("Booking Data:", formData);
+  try {
 
-    // Later this will call the backend API
-    setShowSuccess(true);
+    setLoading(true);
 
-  };
+    const bookingData = {
+
+      customer_name: formData.fullName,
+
+      email: formData.email,
+
+      phone: formData.phone,
+
+      event_type: formData.eventType,
+
+      event_date: formData.eventDate,
+
+      event_time: formData.eventTime,
+
+      guests: Number(formData.totalGuests),
+
+      vip_guests:
+        Number(formData.maleVIP) +
+        Number(formData.femaleVIP),
+
+      partition_required:
+        formData.partition === "Yes",
+
+      food_category:
+        selectedFood?.title || "",
+
+      custom_food: "",
+
+      decor_theme:
+        selectedDecor?.title || "",
+
+      additional_requirements:
+        formData.notes,
+
+      sound_system:
+        formData.extras.includes("sound"),
+
+      ac_required:
+        formData.extras.includes("ac"),
+
+      heater_required:
+        formData.extras.includes("heater")
+
+    };
+
+    const response = await createBooking(bookingData);
+
+    if (response.success) {
+
+      setShowSuccess(true);
+
+    }
+
+  } catch (error) {
+
+    alert(error.message || "Booking failed.");
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
 
   return (
     <>
@@ -162,12 +227,13 @@ function ReviewBooking({
           </button>
 
           <button
-            type="button"
-            className="btn btn-gold"
-            onClick={submitBooking}
-          >
-            Submit Booking Request →
-          </button>
+  type="button"
+  className="btn btn-gold"
+  onClick={submitBooking}
+  disabled={loading}
+>
+  {loading ? "Submitting..." : "Submit Booking Request →"}
+</button>
 
         </div>
 

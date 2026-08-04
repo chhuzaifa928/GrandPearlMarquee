@@ -5,13 +5,14 @@ const router = express.Router();
 const {
   registerAdmin,
   loginAdmin,
+  dashboardStats,
 } = require("../controllers/adminController");
 
 const verifyToken = require("../middleware/authMiddleware");
 
 router.post("/register", registerAdmin);
 router.post("/login", loginAdmin);
-
+router.get("/dashboard", verifyToken, dashboardStats);
 // Protected Test Route
 router.get("/profile", verifyToken, (req, res) => {
   res.json({
