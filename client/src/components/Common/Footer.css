@@ -87,3 +87,178 @@
     color:#aaa;
     font-size:.95rem;
 }
+
+/* ==========================================
+   Mobile (max-width: 768px)
+   Footer only
+========================================== */
+
+@media(max-width:768px){
+
+.footer{
+    padding:40px 0 64px;
+}
+
+.footer .row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px 16px;
+    align-items:start;
+    margin-left:0;
+    margin-right:0;
+}
+
+.footer .row > [class*="col-"]{
+    flex:none;
+    width:auto;
+    max-width:100%;
+    padding-left:0;
+    padding-right:0;
+    margin-bottom:0 !important;
+}
+
+/* Top: brand + quick links (2 columns) */
+
+.footer-brand{
+    grid-column:1;
+    grid-row:1;
+    text-align:left;
+}
+
+.footer .row .footer-links{
+    grid-column:2;
+    grid-row:1;
+    text-align:right;
+    padding-right:16px;
+    margin-top:16px;
+}
+
+/* Contact: full-width row below the grid */
+
+.footer-contact{
+    grid-column:1 / -1;
+    grid-row:2;
+}
+
+/* Social icons + CTA: full-width action row */
+
+.footer-social{
+    grid-column:1 / -1;
+    grid-row:3;
+}
+
+.footer-social h5{
+    display:none;
+}
+
+.footer-actions{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:16px;
+}
+
+.footer-actions .social-icons{
+    margin:0;
+}
+
+/* Compact typography & spacing */
+
+.footer-logo{
+    width:80px;
+    margin-bottom:16px;
+}
+
+.footer h5{
+    font-size:1rem;
+    margin-bottom:14px;
+}
+
+.footer p{
+    font-size:.85rem;
+    line-height:1.65;
+}
+
+.footer ul li{
+    margin-bottom:6px;
+}
+
+.footer ul li a{
+    font-size:.9rem;
+}
+
+.social-icons a{
+    width:36px;
+    height:36px;
+    font-size:.9rem;
+}
+
+.footer-btn{
+    padding:10px 20px;
+    font-size:.85rem;
+}
+
+.footer hr{
+    margin:24px 0 16px;
+}
+
+.copyright{
+    font-size:.8rem;
+}
+
+}
+
+/* ==========================================
+   Desktop (min-width: 768px)
+   Footer only
+========================================== */
+
+@media(min-width:768px){
+
+.footer .row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:2rem;
+    align-items:start;
+    margin-left:0;
+    margin-right:0;
+}
+
+.footer .row > [class*="col-"]{
+    flex:none;
+    width:auto;
+    max-width:100%;
+    padding-left:0;
+    padding-right:0;
+    margin-top:0;
+}
+
+.footer-brand,
+.footer-links,
+.footer-contact,
+.footer-social{
+    text-align:left;
+}
+
+.footer-links{
+    margin-left:24px;
+}
+
+.footer-contact{
+    margin-left:-16px;
+}
+
+.footer-social .footer-actions{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+}
+
+.footer-social .social-icons{
+    margin:0;
+}
+
+}

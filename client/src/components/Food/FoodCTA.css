@@ -98,6 +98,10 @@ padding:60px 0;
 background-attachment:scroll;
 }
 
+.food-cta-content{
+text-align:left;
+}
+
 .food-cta-content h2{
 
 font-size:1.8rem;
@@ -120,7 +124,7 @@ margin-bottom:24px;
 
 flex-direction:column;
 
-align-items:center;
+align-items:flex-start;
 
 gap:12px;
 

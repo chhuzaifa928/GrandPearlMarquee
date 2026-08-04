@@ -58,6 +58,10 @@
     background-attachment: scroll;
   }
 
+  .decor-cta-content {
+    text-align: left;
+  }
+
   .decor-cta-content h2 {
     font-size: 1.8rem;
     margin-bottom: 16px;
@@ -70,8 +74,9 @@
   }
 
   .cta-buttons {
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
-    align-items: center;
     gap: 12px;
   }
 

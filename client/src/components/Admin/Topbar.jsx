@@ -1,16 +1,23 @@
-import { FaUserCircle } from "react-icons/fa";
+import { FaBars, FaUserCircle } from "react-icons/fa";
 
-function Topbar() {
+function Topbar({ setSidebarOpen }) {
   return (
-    <div
-      className="bg-white shadow-sm d-flex justify-content-between align-items-center px-4"
-      style={{
-        height: "70px",
-      }}
-    >
-      <h4 className="mb-0">
-        Admin Dashboard
-      </h4>
+    <header className="admin-topbar px-4 d-flex justify-content-between align-items-center">
+
+      <div className="d-flex align-items-center">
+
+        <button
+          className="btn btn-outline-dark d-lg-none me-3"
+          onClick={() => setSidebarOpen(true)}
+        >
+          <FaBars />
+        </button>
+
+        <h4 className="mb-0 fw-bold">
+          Grand Pearl Admin
+        </h4>
+
+      </div>
 
       <div className="d-flex align-items-center">
 
@@ -33,7 +40,7 @@ function Topbar() {
 
       </div>
 
-    </div>
+    </header>
   );
 }
 

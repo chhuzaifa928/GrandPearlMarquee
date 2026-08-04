@@ -8,89 +8,104 @@ import {
   FaEnvelope,
   FaCog,
   FaSignOutAlt,
+  FaGem,
 } from "react-icons/fa";
 
-function Sidebar() {
+function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const menuItems = [
     {
       title: "Dashboard",
-      icon: <FaTachometerAlt />,
       path: "/admin",
+      icon: <FaTachometerAlt />,
     },
     {
       title: "Bookings",
-      icon: <FaCalendarAlt />,
       path: "/admin/bookings",
+      icon: <FaCalendarAlt />,
     },
     {
       title: "Decor",
-      icon: <FaPalette />,
       path: "/admin/decor",
+      icon: <FaPalette />,
     },
     {
       title: "Food",
-      icon: <FaUtensils />,
       path: "/admin/food",
+      icon: <FaUtensils />,
     },
     {
       title: "Gallery",
-      icon: <FaImages />,
       path: "/admin/gallery",
+      icon: <FaImages />,
     },
     {
       title: "Contact",
-      icon: <FaEnvelope />,
       path: "/admin/contact",
+      icon: <FaEnvelope />,
     },
     {
       title: "Settings",
-      icon: <FaCog />,
       path: "/admin/settings",
+      icon: <FaCog />,
     },
   ];
 
   return (
-    <aside
-      className="bg-dark text-white d-flex flex-column"
-      style={{
-        width: "260px",
-        height: "100vh",
-        position: "fixed",
-        left: 0,
-        top: 0,
-      }}
-    >
-      <div className="p-4 border-bottom border-secondary">
-        <h4 className="mb-1 text-warning">Grand Pearl</h4>
-        <small>Admin Panel</small>
+    <aside className={`admin-sidebar ${sidebarOpen ? "show" : ""}`}>
+
+      <div className="sidebar-header">
+
+        <FaGem className="logo-icon" />
+
+        <div>
+
+          <h3>Grand Pearl</h3>
+
+          <span>Admin Panel</span>
+
+        </div>
+
       </div>
 
-      <nav className="flex-grow-1 mt-3">
+      <nav className="sidebar-menu">
+
         {menuItems.map((item) => (
+
           <NavLink
             key={item.path}
             to={item.path}
             end={item.path === "/admin"}
+            onClick={() => setSidebarOpen(false)}
             className={({ isActive }) =>
-              `d-flex align-items-center text-decoration-none px-4 py-3 ${
-                isActive
-                  ? "bg-warning text-dark fw-bold"
-                  : "text-white"
-              }`
+              `sidebar-link ${isActive ? "active-link" : ""}`
             }
           >
-            <span className="me-3">{item.icon}</span>
+            <span className="sidebar-icon">
+
+              {item.icon}
+
+            </span>
+
             {item.title}
+
           </NavLink>
+
         ))}
+
       </nav>
 
-      <div className="p-3 border-top border-secondary">
-        <button className="btn btn-danger w-100">
-          <FaSignOutAlt className="me-2" />
+      <div className="sidebar-footer">
+
+        <button className="logout-btn">
+
+          <FaSignOutAlt />
+
           Logout
+
         </button>
+
       </div>
+
     </aside>
   );
 }

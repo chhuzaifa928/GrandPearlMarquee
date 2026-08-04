@@ -204,7 +204,7 @@
 
   .hero-content{
 
-    text-align:center;
+    text-align:left;
 
     max-width:100%;
 
@@ -238,7 +238,9 @@
 
  .hero-buttons{
 
-justify-content:center;
+justify-content:flex-start;
+
+align-items:flex-start;
 
 flex-direction:column;
 

@@ -154,7 +154,7 @@
 
 .step-item.completed .step-circle{
 
-    background:#28A745;
+    background:#000000;
 
     color:white;
 
@@ -184,7 +184,7 @@
 
 .step-item.completed span{
 
-    color:#28A745;
+    color:#000000;
 
 }
 

@@ -12,7 +12,7 @@ function Footer() {
         <div className="row">
 
           {/* Logo & About */}
-          <div className="col-lg-4 mb-4">
+          <div className="col-lg-4 mb-4 footer-brand">
             <img src={logo} alt="Grand Pearl Marquee" className="footer-logo" />
 
             <p className="footer-text">
@@ -23,7 +23,7 @@ function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="col-lg-2 col-md-6 mb-4">
+          <div className="col-lg-2 col-md-6 mb-4 footer-links">
             <h5>Quick Links</h5>
 
             <ul>
@@ -37,7 +37,7 @@ function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="col-lg-3 col-md-6 mb-4">
+          <div className="col-lg-3 col-md-6 mb-4 footer-contact">
             <h5>Contact</h5>
 
             <p><FaPhoneAlt /> +92 3165867635</p>
@@ -48,24 +48,28 @@ function Footer() {
           </div>
 
           {/* Social */}
-          <div className="col-lg-3 mb-4">
+          <div className="col-lg-3 mb-4 footer-social">
             <h5>Follow Us</h5>
 
-            <div className="social-icons">
+            <div className="footer-actions">
 
-              <a href="#">
-                <FaFacebookF />
-              </a>
+              <div className="social-icons">
 
-              <a href="#">
-                <FaInstagram />
-              </a>
+                <a href="#">
+                  <FaFacebookF />
+                </a>
+
+                <a href="#">
+                  <FaInstagram />
+                </a>
+
+              </div>
+
+              <Link to="/booking" className="footer-btn">
+                Book Your Event
+              </Link>
 
             </div>
-
-            <Link to="/booking" className="footer-btn">
-              Book Your Event
-            </Link>
 
           </div>
 

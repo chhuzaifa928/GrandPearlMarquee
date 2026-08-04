@@ -1,17 +1,55 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/bookings";
+const API = "http://localhost:5000/api/bookings";
 
-// Create Booking
+const getToken = () => localStorage.getItem("token");
+
+// =========================
+// Customer
+// =========================
+
 export const createBooking = async (bookingData) => {
-  try {
-    const response = await axios.post(API_URL, bookingData);
+  const response = await axios.post(API, bookingData);
 
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || {
-      success: false,
-      message: "Something went wrong.",
-    };
-  }
+  return response.data;
+};
+
+// =========================
+// Admin
+// =========================
+
+export const getBookings = async () => {
+  const response = await axios.get(API, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  return response.data;
+};
+
+export const updateBookingStatus = async (id, status) => {
+  const response = await axios.put(
+    `${API}/${id}`,
+    {
+      booking_status: status,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
+export const deleteBooking = async (id) => {
+  const response = await axios.delete(`${API}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  return response.data;
 };

@@ -82,8 +82,8 @@ function ExtraServices({
 
       </div>
 
-      <div className="d-flex justify-content-between">
-<div className="additional-notes">
+      <div className="d-flex flex-wrap justify-content-between">
+<div className="additional-notes w-100">
 
   <label className="form-label fw-bold">
     Additional Requirements
@@ -91,7 +91,7 @@ function ExtraServices({
 
   <textarea
     className="form-control"
-    rows="5"
+    rows="3"
     placeholder="Enter any additional requirements for your event..."
     value={formData.notes}
     onChange={(e) =>
@@ -105,7 +105,7 @@ function ExtraServices({
 </div>
         <button
           type="button"
-          className="btn btn-secondary"
+          className="btn btn-secondary mt-md-4"
           onClick={prevStep}
         >
           ← Previous
@@ -113,7 +113,7 @@ function ExtraServices({
 
         <button
           type="button"
-          className="btn btn-gold"
+          className="btn btn-gold mt-md-4"
           onClick={nextStep}
         >
           Next →
