@@ -1,224 +1,172 @@
 import { useEffect, useState } from "react";
 
-import BookingTable from "../../components/Admin/BookingTable";
+import BookingTable from "../../components/Admin/Bookings/BookingTable";
+import BookingCard from "../../components/Admin/Bookings/BookingCard";
+import BookingFilters from "../../components/Admin/Bookings/BookingFilters";
+import BookingDetailsModal from "../../components/Admin/Bookings/BookingDetailsModal";
 
 import {
-  getBookings,
-  updateBookingStatus,
+  getAllBookings,
+  getBookingById,
+  approveBooking,
+  rejectBooking,
   deleteBooking,
 } from "../../services/bookingService";
 
 function Bookings() {
-
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
 
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-
   const [loading, setLoading] = useState(true);
 
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("All");
+
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
-
-    loadBookings();
-
+    fetchBookings();
   }, []);
 
   useEffect(() => {
-
-    filterBookings();
-
-  }, [search, statusFilter, bookings]);
-
-  const loadBookings = async () => {
-
-    try {
-
-      const data = await getBookings();
-
-      if (data.success) {
-
-        setBookings(data.bookings);
-
-      }
-
-    } catch (error) {
-
-      console.error(error);
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  };
-
-  const filterBookings = () => {
-
     let result = [...bookings];
 
-    if (statusFilter !== "All") {
-
+    if (status !== "All") {
       result = result.filter(
-
-        booking => booking.booking_status === statusFilter
-
+        (booking) => booking.booking_status === status
       );
-
     }
 
-    if (search !== "") {
-
-      result = result.filter(
-
-        booking =>
-
-          booking.customer_name
-            .toLowerCase()
-            .includes(search.toLowerCase())
-
+    if (search.trim() !== "") {
+      result = result.filter((booking) =>
+        booking.customer_name
+          .toLowerCase()
+          .includes(search.toLowerCase())
       );
-
     }
 
     setFilteredBookings(result);
+  }, [search, status, bookings]);
 
-  };
-
-  const approveBooking = async (id) => {
-
+  const fetchBookings = async () => {
     try {
+      setLoading(true);
 
-      await updateBookingStatus(id, "Approved");
+      const data = await getAllBookings();
 
-      loadBookings();
+      console.log("Bookings:", data);
 
+      setBookings(data);
+      setFilteredBookings(data);
     } catch (error) {
-
-      console.error(error);
-
+      console.error("Fetch Error:", error);
+    } finally {
+      setLoading(false);
     }
-
   };
 
-  const rejectBooking = async (id) => {
-
+  const handleView = async (id) => {
     try {
+      const booking = await getBookingById(id);
 
-      await updateBookingStatus(id, "Rejected");
-
-      loadBookings();
-
+      setSelectedBooking(booking);
+      setShowModal(true);
     } catch (error) {
-
       console.error(error);
-
     }
-
   };
 
-  const removeBooking = async (id) => {
+  const handleApprove = async (id) => {
+    try {
+      await approveBooking(id);
+      fetchBookings();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    const confirmDelete = window.confirm(
+  const handleReject = async (id) => {
+    try {
+      await rejectBooking(id);
+      fetchBookings();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      "Delete this booking?"
-
-    );
-
-    if (!confirmDelete) return;
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this booking?")) return;
 
     try {
-
       await deleteBooking(id);
-
-      loadBookings();
-
+      fetchBookings();
     } catch (error) {
-
       console.error(error);
-
     }
-
   };
-
-  if (loading) {
-
-    return (
-
-      <div className="text-center mt-5">
-
-        <div className="spinner-border text-primary"></div>
-
-      </div>
-
-    );
-
-  }
 
   return (
-
     <div className="container-fluid">
 
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <h2 className="mb-4 fw-bold">
+        Bookings Management
+      </h2>
 
-        <h2>
-
-          Bookings Management
-
-        </h2>
-
-      </div>
-
-      <div className="row mb-3">
-
-        <div className="col-md-6">
-
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search Customer..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-        </div>
-
-        <div className="col-md-3">
-
-          <select
-            className="form-select"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-
-            <option>All</option>
-            <option>Pending</option>
-            <option>Approved</option>
-            <option>Rejected</option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-      <BookingTable
-
-        bookings={filteredBookings}
-
-        onApprove={approveBooking}
-
-        onReject={rejectBooking}
-
-        onDelete={removeBooking}
-
+      <BookingFilters
+        search={search}
+        setSearch={setSearch}
+        status={status}
+        setStatus={setStatus}
       />
 
+      {loading ? (
+        <div className="text-center py-5">
+          <div
+            className="spinner-border text-warning"
+            role="status"
+          >
+            <span className="visually-hidden">
+              Loading...
+            </span>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Desktop */}
+          <div className="d-none d-lg-block">
+            <BookingTable
+              bookings={filteredBookings}
+              onView={handleView}
+              onApprove={handleApprove}
+              onReject={handleReject}
+              onDelete={handleDelete}
+            />
+          </div>
+
+          {/* Mobile */}
+          <div className="d-lg-none">
+            {filteredBookings.map((booking) => (
+              <BookingCard
+                key={booking.id}
+                booking={booking}
+                onView={handleView}
+                onApprove={handleApprove}
+                onReject={handleReject}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      <BookingDetailsModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        booking={selectedBooking}
+      />
     </div>
-
   );
-
 }
 
 export default Bookings;

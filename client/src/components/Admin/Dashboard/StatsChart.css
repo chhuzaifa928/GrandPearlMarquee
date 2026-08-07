@@ -1,0 +1,51 @@
+.stats-chart-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    margin-top:30px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.chart-header{
+
+    margin-bottom:20px;
+
+}
+
+.chart-header h4{
+
+    font-weight:700;
+
+    margin-bottom:5px;
+
+}
+
+.chart-header p{
+
+    color:#777;
+
+    margin:0;
+
+}
+
+@media(max-width:768px){
+
+.stats-chart-card{
+
+    padding:18px;
+
+}
+
+.chart-header h4{
+
+    font-size:20px;
+
+}
+
+}

@@ -1,9 +1,16 @@
+require("dotenv").config();
+const decorRoutes = require("./routes/decorRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const adminRoutes = require("./routes/adminRoutes");
+const foodRoutes = require("./routes/foodRoutes");
+const galleryRoutes = require("./routes/galleryRoutes");
+const contactRoutes = require("./routes/contactRoutes");
+const settingsRoutes = require("./routes/settingsRoutes");
+const path = require("path");
 
 const app = express();
 
@@ -17,9 +24,18 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Grand Pearl Marquee Backend Running...");
 });
+//gallery uploads
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
 
 // Admin Routes
 app.use("/api/admin", adminRoutes);
 app.use("/api/bookings", bookingRoutes);
-
+app.use("/api/decor", decorRoutes);
+app.use("/api/food", foodRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/settings", settingsRoutes);
 module.exports = app;

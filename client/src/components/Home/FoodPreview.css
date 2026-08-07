@@ -32,8 +32,12 @@
 }
 
 .food-content p {
-  color: #7880030d;
+  color: #4B5563;
   line-height: 1.7;
+}
+
+.food-preview .food-content p {
+  color: #4B5563;
 }
 
 .food-preview .btn-gold {

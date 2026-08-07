@@ -1,0 +1,23 @@
+.card {
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card-body {
+  padding: 22px;
+}
+
+.card h5 {
+  font-size: 18px;
+}
+
+.card p {
+  font-size: 15px;
+}
+
+.btn {
+  border-radius: 10px;
+}

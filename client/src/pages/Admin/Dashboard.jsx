@@ -1,19 +1,30 @@
 import { useEffect, useState } from "react";
 
-import DashboardCards from "../../components/Admin/DashboardCards";
+import DashboardCards from "../../components/Admin/Dashboard/DashboardCards";
+import StatsChart from "../../components/Admin/Dashboard/StatsChart";
+import TodayBookings from "../../components/Admin/Dashboard/TodayBookings";
+import RecentBookings from "../../components/Admin/Dashboard/RecentBookings";
+import QuickActions from "../../components/Admin/Dashboard/QuickActions";
+
+
+
+
+
+
+
 import { getDashboardStats } from "../../services/adminService";
 
 function Dashboard() {
 
-  const [stats, setStats] = useState({
-    totalBookings: 0,
-    pending: 0,
-    approved: 0,
-    rejected: 0,
-    todayEvents: 0,
-  });
+  const [dashboard, setDashboard] = useState({
 
-  const [loading, setLoading] = useState(true);
+    stats: {},
+
+    todayBookings: [],
+
+    recentBookings: [],
+
+  });
 
   useEffect(() => {
 
@@ -21,53 +32,56 @@ function Dashboard() {
 
   }, []);
 
-  const loadDashboard = async () => {
+ const loadDashboard = async () => {
+  try {
+    const data = await getDashboardStats();
 
-    try {
+    console.log("Dashboard Data:", data);
 
-      const data = await getDashboardStats();
+    setDashboard(data);
 
-      setStats(data.stats);
-
-    } catch (error) {
-
-      console.error(error);
-
-    } finally {
-
-      setLoading(false);
-
-    }
-
-  };
-
-  if (loading) {
-
-    return (
-
-      <div className="text-center mt-5">
-
-        <div className="spinner-border text-primary"></div>
-
-      </div>
-
-    );
-
+  } catch (error) {
+    console.error("Dashboard Error:", error);
   }
+};
 
   return (
 
-    <div className="container-fluid">
+    <>
 
-      <h2 className="mb-4">
+      <h2 className="mb-4 fw-bold">
 
         Dashboard
 
       </h2>
 
-      <DashboardCards stats={stats} />
+      <DashboardCards />
 
-    </div>
+      <StatsChart />
+
+      <div className="row mt-4 g-4">
+
+        <div className="col-lg-6">
+
+          <TodayBookings
+            bookings={dashboard.todayBookings}
+          />
+
+        </div>
+
+        <div className="col-lg-6">
+
+          <RecentBookings
+            bookings={dashboard.recentBookings}
+          />
+
+        </div>
+        <div className="mt-4">
+        <QuickActions />
+        </div>
+      </div>
+
+    </>
 
   );
 

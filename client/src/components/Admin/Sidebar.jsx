@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaCalendarAlt,
@@ -11,7 +11,16 @@ import {
   FaGem,
 } from "react-icons/fa";
 
+import { logoutAdmin } from "../../services/adminService";
+
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logoutAdmin();
+    navigate("/admin/login", { replace: true });
+  };
+
   const menuItems = [
     {
       title: "Dashboard",
@@ -51,61 +60,54 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   ];
 
   return (
-    <aside className={`admin-sidebar ${sidebarOpen ? "show" : ""}`}>
-
+    <aside
+      className={`admin-sidebar ${
+        sidebarOpen ? "show" : ""
+      }`}
+    >
+      {/* Logo */}
       <div className="sidebar-header">
-
         <FaGem className="logo-icon" />
 
         <div>
-
           <h3>Grand Pearl</h3>
-
           <span>Admin Panel</span>
-
         </div>
-
       </div>
 
+      {/* Menu */}
       <nav className="sidebar-menu">
-
         {menuItems.map((item) => (
-
           <NavLink
             key={item.path}
             to={item.path}
             end={item.path === "/admin"}
             onClick={() => setSidebarOpen(false)}
             className={({ isActive }) =>
-              `sidebar-link ${isActive ? "active-link" : ""}`
+              `sidebar-link ${
+                isActive ? "active-link" : ""
+              }`
             }
           >
             <span className="sidebar-icon">
-
               {item.icon}
-
             </span>
 
             {item.title}
-
           </NavLink>
-
         ))}
-
       </nav>
 
+      {/* Logout */}
       <div className="sidebar-footer">
-
-        <button className="logout-btn">
-
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+        >
           <FaSignOutAlt />
-
-          Logout
-
+          <span className="ms-2">Logout</span>
         </button>
-
       </div>
-
     </aside>
   );
 }

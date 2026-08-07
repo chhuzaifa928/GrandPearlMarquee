@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 import AdminLayout from "./layouts/AdminLayout";
@@ -10,8 +10,8 @@ import Food from "./pages/Food/Food";
 import Gallery from "./pages/Gallery/Gallery";
 import Booking from "./pages/Booking/Booking";
 import Contact from "./pages/Contact/Contact";
+
 import Login from "./pages/Admin/Login";
-import NotFound from "./pages/NotFound/NotFound";
 import Dashboard from "./pages/Admin/Dashboard";
 import Bookings from "./pages/Admin/Bookings";
 import DecorAdmin from "./pages/Admin/Decor";
@@ -20,13 +20,15 @@ import GalleryAdmin from "./pages/Admin/Gallery";
 import ContactAdmin from "./pages/Admin/Contact";
 import Settings from "./pages/Admin/Settings";
 
-
+import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   return (
     <Routes>
 
-      {/* Public Website */}
+      {/* =========================
+          Public Website
+      ========================== */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -37,33 +39,72 @@ function App() {
         <Route path="/contact" element={<Contact />} />
       </Route>
 
-      {/* Admin */}
+      {/* =========================
+          Admin Login
+      ========================== */}
+      <Route
+        path="/admin/login"
+        element={<Login />}
+      />
 
-      
-      {/* Admin Login */}
-<Route path="/admin/login" element={<Login />} />
+      {/* =========================
+          Admin Panel
+      ========================== */}
+      <Route
+        path="/admin"
+        element={<AdminLayout />}
+      >
 
-{/* Admin Panel */}
-<Route path="/admin" element={<AdminLayout />}>
+        {/* Redirect /admin -> /admin/dashboard */}
+        <Route
+          index
+          element={<Navigate to="dashboard" replace />}
+        />
 
-  <Route index element={<Dashboard />} />
+        <Route
+          path="dashboard"
+          element={<Dashboard />}
+        />
 
-  <Route path="bookings" element={<Bookings />} />
+        <Route
+          path="bookings"
+          element={<Bookings />}
+        />
 
-  <Route path="decor" element={<DecorAdmin />} />
+        <Route
+          path="decor"
+          element={<DecorAdmin />}
+        />
 
-  <Route path="food" element={<FoodAdmin />} />
+        <Route
+          path="food"
+          element={<FoodAdmin />}
+        />
 
-  <Route path="gallery" element={<GalleryAdmin />} />
+        <Route
+          path="gallery"
+          element={<GalleryAdmin />}
+        />
 
-  <Route path="contact" element={<ContactAdmin />} />
+        <Route
+          path="contact"
+          element={<ContactAdmin />}
+        />
 
-  <Route path="settings" element={<Settings />} />
+        <Route
+          path="settings"
+          element={<Settings />}
+        />
 
-</Route>
+      </Route>
 
-      {/* 404 */}
-      <Route path="*" element={<NotFound />} />
+      {/* =========================
+          404
+      ========================== */}
+      <Route
+        path="*"
+        element={<NotFound />}
+      />
 
     </Routes>
   );

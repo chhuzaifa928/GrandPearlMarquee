@@ -1,0 +1,71 @@
+.dashboard-card{
+    background:white;
+    border-radius:18px;
+    padding:24px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.3s;
+    height:100%;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-5px);
+}
+
+.dashboard-icon{
+    width:65px;
+    height:65px;
+    border-radius:16px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    color:white;
+}
+
+.dashboard-card.primary .dashboard-icon{
+    background:#0d6efd;
+}
+
+.dashboard-card.warning .dashboard-icon{
+    background:#ffc107;
+    color:black;
+}
+
+.dashboard-card.success .dashboard-icon{
+    background:#198754;
+}
+
+.dashboard-card.danger .dashboard-icon{
+    background:#dc3545;
+}
+
+.dashboard-card h6{
+    margin:0;
+    color:#666;
+}
+
+.dashboard-card h2{
+    margin-top:6px;
+    font-weight:700;
+}
+
+@media(max-width:768px){
+
+.dashboard-card{
+    padding:18px;
+}
+
+.dashboard-icon{
+    width:55px;
+    height:55px;
+    font-size:22px;
+}
+
+.dashboard-card h2{
+    font-size:26px;
+}
+
+}

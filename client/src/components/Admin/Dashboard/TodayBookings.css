@@ -1,0 +1,63 @@
+.dashboard-widget{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+    height:100%;
+
+}
+
+.dashboard-widget h4{
+
+    margin-bottom:20px;
+
+    font-weight:700;
+
+}
+
+.booking-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.booking-item:last-child{
+
+    border:none;
+
+}
+
+.booking-item h6{
+
+    margin:0;
+
+}
+
+.booking-item small{
+
+    color:#777;
+
+}
+
+.empty-widget{
+
+    color:#999;
+
+    text-align:center;
+
+    padding:30px 0;
+
+}

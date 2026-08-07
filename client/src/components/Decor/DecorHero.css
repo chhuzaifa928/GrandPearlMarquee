@@ -19,20 +19,20 @@
     position:absolute;
     inset:0;
     background:linear-gradient(
-        rgba(5,8,15,.78),
-        rgba(5,8,15,.82)
+        rgba(8,10,15,.72),
+        rgba(8,10,15,.82)
     );
 }
 
-/* Content */
+/* Hero Content */
 
-.decor-content{
+.decor-hero-content{
     position:relative;
-    z-index:2;
-    max-width:720px;
+    z-index:10;
+    max-width:850px;
     color:#fff;
     text-align:left;
-    padding-top:90px;
+    padding-top:112px;
 }
 
 /* ==========================================
@@ -40,31 +40,33 @@
 ========================================== */
 
 .decor-tag{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
+    display:inline-block;
 
-    padding:12px 28px;
+    padding:4px 16px;
 
-    margin-bottom:28px;
+    border-radius:9999px;
 
-    border-radius:50px;
+    border:1px solid rgba(245,158,11,.4);
 
-    border:1px solid rgba(212,175,55,.45);
+    background:rgba(245,158,11,.1);
 
-    background:rgba(20,20,20,.40);
+    color:#fcd34d;
 
-    backdrop-filter:blur(10px);
+    font-size:.75rem;
 
-    color:#e7c55d;
+    font-weight:500;
 
-    font-size:.85rem;
+    margin-bottom:16px;
+}
 
-    font-weight:700;
+@media(min-width:640px){
 
-    letter-spacing:1px;
+.decor-tag{
 
-    text-transform:uppercase;
+font-size:.875rem;
+
+}
+
 }
 
 /* ==========================================
@@ -73,13 +75,15 @@
 
 .decor-hero h1{
 
-    font-size:4rem;
+    font-size:3rem;
 
     font-weight:800;
 
     line-height:1.15;
 
-    margin-bottom:25px;
+    margin-bottom:16px;
+
+    text-align:left;
 
     color:#f4d15b;
 
@@ -101,6 +105,10 @@
 
     max-width:650px;
 
+    text-align:left;
+
+    margin:0 0 16px;
+
 }
 
 /* ==========================================
@@ -115,17 +123,15 @@ min-height:62vh;
 
 }
 
-.decor-content{
+.decor-hero-content{
 
-max-width:650px;
-
-padding-top:70px;
+max-width:700px;
 
 }
 
 .decor-hero h1{
 
-font-size:3.2rem;
+font-size:2.5rem;
 
 }
 
@@ -151,29 +157,17 @@ padding:40px 0;
 
 }
 
-.decor-content{
-
-padding:0 20px;
-
-padding-top:50px;
+.decor-hero-content{
 
 text-align:left;
 
-}
-
-.decor-tag{
-
-font-size:.72rem;
-
-padding:10px 18px;
-
-margin-bottom:18px;
+padding-top:80px;
 
 }
 
 .decor-hero h1{
 
-font-size:2.1rem;
+font-size:1.875rem;
 
 line-height:1.2;
 
@@ -203,31 +197,23 @@ min-height:44vh;
 
 }
 
-.decor-content{
+.decor-hero-content{
 
-padding:0 18px;
+text-align:left;
 
-padding-top:40px;
+padding-top:72px;
 
 }
 
 .decor-hero h1{
 
-font-size:1.8rem;
+font-size:1.7rem;
 
 }
 
 .decor-hero p{
 
 font-size:.9rem;
-
-}
-
-.decor-tag{
-
-font-size:.68rem;
-
-padding:8px 16px;
 
 }
 

@@ -4,8 +4,9 @@ const {
   findAdminByEmail,
   createAdmin,
   getDashboardStats,
+  getTodayBookings,
+  getRecentBookings,
 } = require("../models/adminModel");
-
 // =========================
 // Register Admin
 // =========================
@@ -120,24 +121,48 @@ const loginAdmin = (req, res) => {
 
 const dashboardStats = (req, res) => {
 
-  getDashboardStats((err, result) => {
+  getDashboardStats((err, stats) => {
 
     if (err) {
-
       return res.status(500).json({
-
         success: false,
-        message: "Failed to load dashboard.",
-
       });
-
     }
 
-    res.json({
+    getTodayBookings((err, today) => {
 
-      success: true,
+      if (err) {
+        return res.status(500).json({
+          success: false,
+        });
+      }
 
-      stats: result[0],
+      getRecentBookings((err, recent) => {
+
+        if (err) {
+          return res.status(500).json({
+            success: false,
+          });
+        }
+
+        res.json({
+
+          success: true,
+
+         stats: {
+  totalBookings: Number(stats[0].totalBookings),
+  pending: Number(stats[0].pending),
+  approved: Number(stats[0].approved),
+  rejected: Number(stats[0].rejected),
+  todayEvents: Number(stats[0].todayEvents),
+},
+          todayBookings: today,
+
+          recentBookings: recent,
+
+        });
+
+      });
 
     });
 

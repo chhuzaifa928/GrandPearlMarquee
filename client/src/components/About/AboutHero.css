@@ -15,7 +15,7 @@
 
 /* Overlay */
 
-.about-hero-overlay{
+.about-overlay{
     position:absolute;
     inset:0;
     background:linear-gradient(
@@ -32,11 +32,42 @@
     max-width:850px;
     color:#fff;
     text-align:left;
+    padding-top:96px;
 }
 
 /* ==========================================
    PAGE TAG
 ========================================== */
+
+.about-tag{
+    display:inline-block;
+
+    padding:4px 16px;
+
+    border-radius:9999px;
+
+    border:1px solid rgba(245,158,11,.4);
+
+    background:rgba(245,158,11,.1);
+
+    color:#fcd34d;
+
+    font-size:.75rem;
+
+    font-weight:500;
+
+    margin-bottom:16px;
+}
+
+@media(min-width:640px){
+
+.about-tag{
+
+font-size:.875rem;
+
+}
+
+}
 
 .page-tag{
     display:inline-flex;
@@ -70,13 +101,13 @@
 
 .about-hero h1{
 
-    font-size:4.8rem;
+    font-size:3rem;
 
     font-weight:800;
 
     line-height:1.08;
 
-    margin-bottom:28px;
+    margin-bottom:16px;
 
     text-align:left;
 
@@ -112,7 +143,7 @@
 
     text-align:left;
 
-    margin:0;
+    margin:0 0 16px;
 
 }
 
@@ -136,7 +167,7 @@ max-width:700px;
 
 .about-hero h1{
 
-font-size:3.5rem;
+font-size:2.5rem;
 
 }
 
@@ -166,9 +197,9 @@ padding:40px 0;
 
 .about-hero-content{
 
-padding:0 20px;
-
 text-align:left;
+
+padding-top:80px;
 
 }
 
@@ -184,11 +215,11 @@ margin-bottom:18px;
 
 .about-hero h1{
 
-font-size:2.1rem;
+font-size:1.875rem;
 
 line-height:1.2;
 
-margin-bottom:18px;
+margin-bottom:16px;
 
 }
 
@@ -216,13 +247,15 @@ min-height:44vh;
 
 .about-hero-content{
 
-padding:0 18px;
+text-align:left;
+
+padding-top:72px;
 
 }
 
 .about-hero h1{
 
-font-size:1.8rem;
+font-size:1.7rem;
 
 }
 
