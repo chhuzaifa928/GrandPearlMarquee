@@ -1,34 +1,63 @@
 import "./Hero.css";
-import heroImage from "../../assets/images/hero/hero-main.jpg";
 import { Link } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { getWebsiteSettings } from "../../services/publicSettingsService";
 function Hero() {
+
+  const [settings, setSettings] = useState(null);
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const data = await getWebsiteSettings();
+      setSettings(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (!settings) {
+    return null;
+  }
+
   return (
     <section
       className="hero"
-      style={{ backgroundImage: `url(${heroImage})` }}
+      style={{
+        backgroundImage: `url(http://localhost:5000${settings.hero_image})`,
+      }}
       data-aos="fade-up"
     >
+
       <div className="hero-overlay"></div>
 
       <div className="container hero-content">
+
         <span className="hero-tag">
-          ✨ Premium Event Venue
+          {settings.hero_tagline}
         </span>
 
         <h1>
-          <span className="hero-small">Celebrate Life's</span>
-          <span className="hero-large">Finest Moments</span>
-        </h1>
+
+  <span className="hero-small">
+    {settings.hero_title_line1}
+  </span>
+
+  <span className="hero-large">
+    {settings.hero_title_line2}
+  </span>
+
+</h1>
 
         <p>
-          Grand Pearl Marquee offers an elegant venue for Barat,
-          Walima, Mehndi, Birthday, Bridal Shower, Corporate
-          Events, Family Gatherings, and unforgettable celebrations
-          crafted with luxury and excellence.
+          {settings.hero_description}
         </p>
 
         <div className="hero-buttons">
+
           <Link
             to="/booking"
             className="btn btn-gold"
@@ -42,8 +71,11 @@ function Hero() {
           >
             Explore Gallery
           </Link>
+
         </div>
+
       </div>
+
     </section>
   );
 }

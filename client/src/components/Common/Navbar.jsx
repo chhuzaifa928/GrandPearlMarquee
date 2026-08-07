@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "./Navbar.css";
+import useWebsiteSettings from "../../hooks/useWebsiteSettings";
 import logo from "../../assets/images/logo/grand-pearl-logo.png";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const settings = useWebsiteSettings();
 
 useEffect(() => {
   setMenuOpen(false);
@@ -77,10 +79,10 @@ useEffect(() => {
 }}
           >
             <img
-              src={logo}
-              alt="Grand Pearl Marquee"
-              className="logo"
-            />
+  src={logo}
+  className="logo"
+  alt={settings?.website_name || "Grand Pearl Marquee"}
+/>
           </NavLink>
 
           {/* Desktop Menu */}
@@ -153,10 +155,10 @@ useEffect(() => {
         <div className="mobile-logo">
 
           <img
-            src={logo}
-            alt="Grand Pearl Marquee"
-          />
-
+  src={logo}
+  className="logo"
+  alt={settings?.website_name || "Grand Pearl Marquee"}
+/>
         </div>
 
         <ul>

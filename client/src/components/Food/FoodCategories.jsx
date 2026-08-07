@@ -1,18 +1,29 @@
+import { useEffect, useState } from "react";
 import "./FoodCategories.css";
-import foodData from "../../data/foodData";
+import { getPublicFoodCategories } from "../../services/publicFoodService";
 
 function FoodCategories({
   selectedCategory,
   setSelectedCategory,
 }) {
+  const [categories, setCategories] = useState([]);
 
-  const categories = [
-    "All",
-    ...new Set(foodData.map((item) => item.category)),
-  ];
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      const data = await getPublicFoodCategories();
+      setCategories(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <section className="food-categories">
+    <section className="food-categories section-padding">
+
       <div className="container">
 
         <div
@@ -26,6 +37,7 @@ function FoodCategories({
           <p>
             Select an event type to explore our premium catering packages.
           </p>
+
         </div>
 
         <div
@@ -34,18 +46,31 @@ function FoodCategories({
           data-aos-delay="150"
         >
 
+          <button
+            className={
+              selectedCategory === "All"
+                ? "category-btn active"
+                : "category-btn"
+            }
+            onClick={() => setSelectedCategory("All")}
+          >
+            All
+          </button>
+
           {categories.map((category) => (
 
             <button
-              key={category}
+              key={category.id}
               className={
-                selectedCategory === category
+                selectedCategory === category.category_name
                   ? "category-btn active"
                   : "category-btn"
               }
-              onClick={() => setSelectedCategory(category)}
+              onClick={() =>
+                setSelectedCategory(category.category_name)
+              }
             >
-              {category}
+              {category.category_name}
             </button>
 
           ))}
@@ -53,6 +78,7 @@ function FoodCategories({
         </div>
 
       </div>
+
     </section>
   );
 }

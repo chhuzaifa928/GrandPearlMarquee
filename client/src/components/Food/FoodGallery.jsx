@@ -1,96 +1,147 @@
-import { useState } from "react";
-import FoodMenuModal from "./FoodMenuModal";
-import "./FoodGallery.css";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import foodData from "../../data/foodData";
+
+import FoodMenuModal from "./FoodMenuModal";
+
+import "./FoodGallery.css";
+
+import { getItems } from "../../services/publicFoodService";
+import { getPublicFoodCategories } from "../../services/publicFoodService";
 
 function FoodGallery({ selectedCategory }) {
+
+  const [items, setItems] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedFood, setSelectedFood] = useState(null);
-    const filteredFood =
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    try {
+
+      const categoryData =
+        await getPublicFoodCategories();
+
+      const itemData =
+        await getItems();
+
+      setCategories(categoryData);
+      setItems(itemData);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const filteredCategories =
     selectedCategory === "All"
-      ? foodData
-      : foodData.filter(
-          (item) => item.category === selectedCategory
+      ? categories
+      : categories.filter(
+          (cat) =>
+            cat.category_name === selectedCategory
         );
 
   return (
-    <section className="food-gallery">
+    <section className="food-gallery section-padding">
+
       <div className="container">
 
-        <div className="row">
+        {filteredCategories.map((category) => {
 
-          {filteredFood.map((item, index) => (
+          const categoryItems = items.filter(
+            (item) =>
+              item.category_name ===
+              category.category_name
+          );
+
+          return (
 
             <div
-              className="col-lg-4 col-md-6 mb-4"
-              key={item.id}
-              data-aos="zoom-in"
-              data-aos-delay={index * 100}
+              key={category.id}
+              className="mb-5"
             >
 
-              <div className="food-card">
+              <div className="row align-items-center mb-4">
 
-                <img
-                  src={item.image}
-                  alt={item.title}
-                />
+                <div className="col-lg-5">
 
-                <div className="food-info">
+                  <img
+                    src={`http://localhost:5000${category.image}`}
+                    alt={category.category_name}
+                    className="img-fluid rounded shadow"
+                  />
 
-  <span className="food-category">
-    {item.category}
-  </span>
+                </div>
 
-  <h4>{item.title}</h4>
+                <div className="col-lg-7">
 
-  <div className="dish-count">
-    🍽 {item.dishes} Dishes Included
-  </div>
+                  <h2 className="fw-bold mb-3">
+                    {category.category_name}
+                  </h2>
 
-  <p>{item.description}</p>
+                  <div className="row">
 
-  <div className="food-highlights">
+                    {categoryItems.map((item) => (
 
-    <span>✔ Fresh Ingredients</span>
+                      <div
+                        key={item.id}
+                        className="col-md-6 mb-3"
+                      >
 
-    <span>✔ Professional Catering</span>
+                        <div className="food-card p-3 h-100">
 
-    <span>✔ Hygienically Prepared</span>
+                          <h5>
+                            {item.item_name}
+                          </h5>
 
-  </div>
+                          <p>
+                            {item.description}
+                          </p>
 
-  <div className="food-buttons">
+                          <button
+                            className="btn btn-outline-dark me-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#foodMenuModal"
+                            onClick={() =>
+                              setSelectedFood(item)
+                            }
+                          >
+                            View Menu
+                          </button>
 
-    <button
-      className="btn btn-outline-dark"
-      data-bs-toggle="modal"
-      data-bs-target="#foodMenuModal"
-      onClick={() => setSelectedFood(item)}
-    >
-      View Menu
-    </button>
+                          <Link
+                            to="/booking"
+                            className="btn btn-gold"
+                          >
+                            Book Package
+                          </Link>
 
-    <Link
-      to="/booking"
-      className="btn btn-gold"
-    >
-      Book Package
-    </Link>
+                        </div>
 
-  </div>
+                      </div>
 
-</div>
+                    ))}
+
+                  </div>
+
+                </div>
 
               </div>
 
             </div>
 
-          ))}
+          );
 
-        </div>
+        })}
 
       </div>
-      <FoodMenuModal selectedFood={selectedFood} />
+
+      <FoodMenuModal
+        selectedFood={selectedFood}
+      />
+
     </section>
   );
 }

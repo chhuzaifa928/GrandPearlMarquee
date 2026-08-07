@@ -1,22 +1,33 @@
+import { useEffect, useState } from "react";
 import "./DecorGallery.css";
-import { Link } from "react-router-dom";
-import decorData from "../../data/decorData";
+import { getDecor } from "../../services/publicDecorService";
 
-function DecorCategories({ selectedCategory, setSelectedCategory }) {
-  const categories = [
-    "All",
-    "Barat",
-    "Walima",
-    "Mehndi",
-    "Nikkah",
-    "Birthday",
-    "Engagement",
-    "Corporate",
-    "Custom"
-  ];
+function DecorCategories({
+  selectedCategory,
+  setSelectedCategory,
+}) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    try {
+      const decor = await getDecor();
+
+      const uniqueCategories = [
+        ...new Set(decor.map((item) => item.category)),
+      ];
+
+      setCategories(uniqueCategories);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <section className="decor-categories">
+    <section className="decor-categories section-padding">
       <div className="container">
 
         <div
@@ -37,15 +48,26 @@ function DecorCategories({ selectedCategory, setSelectedCategory }) {
           data-aos="fade-up"
           data-aos-delay="150"
         >
+          <button
+            className={
+              selectedCategory === "All"
+                ? "category-btn active"
+                : "category-btn"
+            }
+            onClick={() => setSelectedCategory("All")}
+          >
+            All
+          </button>
+
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setSelectedCategory(category)}
               className={
                 selectedCategory === category
                   ? "category-btn active"
                   : "category-btn"
               }
+              onClick={() => setSelectedCategory(category)}
             >
               {category}
             </button>

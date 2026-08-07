@@ -1,9 +1,19 @@
 import "./Footer.css";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaInstagram, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
+
 import logo from "../../assets/images/logo/grand-pearl-logo.png";
+import useWebsiteSettings from "../../hooks/useWebsiteSettings";
 
 function Footer() {
+  const settings = useWebsiteSettings();
+
   return (
     <footer className="footer">
 
@@ -11,61 +21,99 @@ function Footer() {
 
         <div className="row">
 
-          {/* Logo & About */}
+          {/* Logo */}
+
           <div className="col-lg-4 mb-4 footer-brand">
-            <img src={logo} alt="Grand Pearl Marquee" className="footer-logo" />
+
+            <img
+              src={logo}
+              alt={settings?.website_name || "Grand Pearl Marquee"}
+              className="footer-logo"
+            />
 
             <p className="footer-text">
-              Grand Pearl Marquee is a luxury event venue designed to make every
-              celebration unforgettable with elegant décor, premium catering,
-              and exceptional service.
+              {settings?.tagline ||
+                "Luxury Weddings & Events"}
             </p>
+
           </div>
 
-          {/* Quick Links */}
+          {/* Links */}
+
           <div className="col-lg-2 col-md-6 mb-4 footer-links">
+
             <h5>Quick Links</h5>
 
             <ul>
+
               <li><Link to="/">Home</Link></li>
+
               <li><Link to="/about">About</Link></li>
+
               <li><Link to="/decor">Decor</Link></li>
+
               <li><Link to="/food">Food</Link></li>
+
               <li><Link to="/gallery">Gallery</Link></li>
+
               <li><Link to="/booking">Booking</Link></li>
+
             </ul>
+
           </div>
 
           {/* Contact */}
+
           <div className="col-lg-3 col-md-6 mb-4 footer-contact">
+
             <h5>Contact</h5>
 
-            <p><FaPhoneAlt /> +92 3165867635</p>
+            <p>
+              <FaPhoneAlt /> {settings?.phone}
+            </p>
 
-            <p><FaEnvelope /> info@grandpearl.com</p>
+            <p>
+              <FaEnvelope /> {settings?.email}
+            </p>
 
-            <p><FaMapMarkerAlt /> Grand Pearl Marquee, Adayala Road, Rawalpindi</p>
+            <p>
+              <FaMapMarkerAlt /> {settings?.address}
+            </p>
+
           </div>
 
           {/* Social */}
+
           <div className="col-lg-3 mb-4 footer-social">
+
             <h5>Follow Us</h5>
 
             <div className="footer-actions">
 
               <div className="social-icons">
 
-                <a href="#">
+                <a
+                  href={settings?.facebook || "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <FaFacebookF />
                 </a>
 
-                <a href="#">
+                <a
+                  href={settings?.instagram || "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <FaInstagram />
                 </a>
 
               </div>
 
-              <Link to="/booking" className="footer-btn">
+              <Link
+                to="/booking"
+                className="footer-btn"
+              >
                 Book Your Event
               </Link>
 
@@ -78,7 +126,10 @@ function Footer() {
         <hr />
 
         <div className="copyright">
-          © {new Date().getFullYear()} Grand Pearl Marquee. All Rights Reserved.
+          © {new Date().getFullYear()}{" "}
+          {settings?.website_name ||
+            "Grand Pearl Marquee"}
+          . All Rights Reserved.
         </div>
 
       </div>

@@ -13,12 +13,13 @@ function FoodCategoryTable({
 
       <div className="card-body">
 
-        <table className="table table-hover">
+        <table className="table table-hover align-middle">
 
           <thead>
 
             <tr>
               <th>ID</th>
+              <th>Image</th>
               <th>Category</th>
               <th width="100">Action</th>
             </tr>
@@ -27,30 +28,67 @@ function FoodCategoryTable({
 
           <tbody>
 
-            {categories.map((category) => (
+            {categories.length === 0 ? (
 
-              <tr key={category.id}>
-
-                <td>{category.id}</td>
-
-                <td>{category.category_name}</td>
-
-                <td>
-
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      onDelete(category.id)
-                    }
-                  >
-                    <FaTrash />
-                  </button>
-
+              <tr>
+                <td colSpan="4" className="text-center">
+                  No Categories Found
                 </td>
-
               </tr>
 
-            ))}
+            ) : (
+
+              categories.map((category) => (
+
+                <tr key={category.id}>
+
+                  <td>{category.id}</td>
+
+                  <td>
+
+                    {category.image ? (
+
+                      <img
+                        src={`http://localhost:5000${category.image}`}
+                        alt={category.category_name}
+                        width="80"
+                        height="60"
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                        }}
+                      />
+
+                    ) : (
+
+                      <span className="text-muted">
+                        No Image
+                      </span>
+
+                    )}
+
+                  </td>
+
+                  <td>{category.category_name}</td>
+
+                  <td>
+
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() =>
+                        onDelete(category.id)
+                      }
+                    >
+                      <FaTrash />
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              ))
+
+            )}
 
           </tbody>
 

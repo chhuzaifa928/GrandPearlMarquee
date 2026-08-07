@@ -16,13 +16,14 @@ export const getCategories = async () => {
   return response.data.categories;
 };
 
-export const addCategory = async (category_name) => {
+export const addCategory = async (formData) => {
   const response = await axios.post(
     `${API}/categories`,
-    { category_name },
+    formData,
     {
       headers: {
         Authorization: `Bearer ${token()}`,
+        "Content-Type": "multipart/form-data",
       },
     }
   );
