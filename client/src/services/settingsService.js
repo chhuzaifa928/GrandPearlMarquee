@@ -19,6 +19,14 @@ export const getSettings = async () => {
 };
 
 // ==========================
+// Get Public Settings
+// ==========================
+export const getPublicSettings = async () => {
+  const response = await axios.get(`${API}/public`);
+  return response.data.settings;
+};
+
+// ==========================
 // Update Settings
 // ==========================
 

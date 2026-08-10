@@ -8,14 +8,20 @@ const {
   saveSettings,
 } = require("../controllers/settingsController");
 
-// Get settings
+// Public: Get website settings
+router.get(
+  "/public",
+  fetchSettings
+);
+
+// Admin: Get settings
 router.get(
   "/",
   verifyToken,
   fetchSettings
 );
 
-// Update settings
+// Admin: Update settings
 router.put(
   "/",
   verifyToken,
