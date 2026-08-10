@@ -27,7 +27,11 @@ const updateSettings = (data, callback) => {
       facebook = ?,
       instagram = ?,
       youtube = ?,
-      tiktok = ?
+      tiktok = ?,
+      hero_tagline = ?,
+      hero_title_line1 = ?,
+      hero_title_line2 = ?,
+      hero_description = ?
     WHERE id = 1`,
     [
       data.website_name,
@@ -40,7 +44,25 @@ const updateSettings = (data, callback) => {
       data.instagram,
       data.youtube,
       data.tiktok,
+      data.hero_tagline,
+      data.hero_title_line1,
+      data.hero_title_line2,
+      data.hero_description,
     ],
+    callback
+  );
+};
+
+// ===============================
+// Update Hero Image
+// ===============================
+
+const updateHeroImage = (imagePath, callback) => {
+  db.query(
+    `UPDATE website_settings
+     SET hero_image = ?
+     WHERE id = 1`,
+    [imagePath],
     callback
   );
 };
@@ -48,4 +70,5 @@ const updateSettings = (data, callback) => {
 module.exports = {
   getSettings,
   updateSettings,
+  updateHeroImage,
 };

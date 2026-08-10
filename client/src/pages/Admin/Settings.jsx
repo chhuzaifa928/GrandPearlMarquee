@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+
 import {
   getSettings,
   updateSettings,
+  uploadHeroImage,
 } from "../../services/settingsService";
 
 function Settings() {
-
   const [formData, setFormData] = useState({
     website_name: "",
     tagline: "",
@@ -22,9 +23,12 @@ function Settings() {
     hero_title: "",
     hero_description: "",
     hero_image: "",
+    hero_title_line1: "",
+    hero_title_line2: "",
   });
 
-  const [heroFile, setHeroFile] = useState(null);
+  const [heroImage, setHeroImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     loadSettings();
@@ -33,9 +37,28 @@ function Settings() {
   const loadSettings = async () => {
     try {
       const data = await getSettings();
-      setFormData(data);
+
+      setFormData({
+        website_name: data.website_name || "",
+        tagline: data.tagline || "",
+        phone: data.phone || "",
+        whatsapp: data.whatsapp || "",
+        email: data.email || "",
+        address: data.address || "",
+        facebook: data.facebook || "",
+        instagram: data.instagram || "",
+        youtube: data.youtube || "",
+        tiktok: data.tiktok || "",
+
+        hero_tagline: data.hero_tagline || "",
+        hero_title: data.hero_title || "",
+        hero_description: data.hero_description || "",
+        hero_image: data.hero_image || "",
+        hero_title_line1: data.hero_title_line1 || "",
+        hero_title_line2: data.hero_title_line2 || "",
+      });
     } catch (error) {
-      console.error(error);
+      console.error("Failed to load settings:", error);
     }
   };
 
@@ -46,71 +69,68 @@ function Settings() {
     });
   };
 
+  const handleHeroImageChange = (e) => {
+    setHeroImage(e.target.files[0]);
+  };
+
+  const handleHeroImageUpload = async () => {
+    if (!heroImage) {
+      alert("Please select a hero image first.");
+      return;
+    }
+
+    try {
+      setUploading(true);
+
+      const data = await uploadHeroImage(heroImage);
+
+      setFormData({
+        ...formData,
+        hero_image: data.image,
+      });
+
+      setHeroImage(null);
+
+      alert("Hero image uploaded successfully.");
+    } catch (error) {
+      console.error("Hero image upload failed:", error);
+      alert("Failed to upload hero image.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-
-      let heroImage = formData.hero_image;
-
-      if (heroFile) {
-
-        const uploadData = new FormData();
-
-        uploadData.append("image", heroFile);
-
-        const response = await fetch(
-          "http://localhost:5000/api/upload/settings",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            body: uploadData,
-          }
-        );
-
-        const result = await response.json();
-
-        console.log("Upload Response:", result);
-
-        if (result.success) {
-          heroImage = result.image;
-        }
-
-      }
-
-      await updateSettings({
-        ...formData,
-        hero_image: heroImage,
-      });
+      await updateSettings(formData);
 
       alert("Settings updated successfully.");
-
-      loadSettings();
-
     } catch (error) {
-
       console.error(error);
-
       alert("Failed to update settings.");
-
     }
-
   };
 
   return (
-    <div className="container-fluid">
-
+    <div>
       <h2 className="fw-bold mb-4">
         Website Settings
       </h2>
 
       <div className="card shadow-sm">
-
         <div className="card-body">
 
           <form onSubmit={handleSubmit}>
+
+            {/* =========================
+                GENERAL WEBSITE SETTINGS
+            ========================== */}
+
+            <h4 className="mb-4">
+              General Website Settings
+            </h4>
 
             <div className="row">
 
@@ -121,7 +141,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="website_name"
-                  value={formData.website_name || ""}
+                  value={formData.website_name}
                   onChange={handleChange}
                 />
               </div>
@@ -133,7 +153,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="tagline"
-                  value={formData.tagline || ""}
+                  value={formData.tagline}
                   onChange={handleChange}
                 />
               </div>
@@ -145,7 +165,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="phone"
-                  value={formData.phone || ""}
+                  value={formData.phone}
                   onChange={handleChange}
                 />
               </div>
@@ -157,7 +177,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="whatsapp"
-                  value={formData.whatsapp || ""}
+                  value={formData.whatsapp}
                   onChange={handleChange}
                 />
               </div>
@@ -169,7 +189,7 @@ function Settings() {
                   type="email"
                   className="form-control"
                   name="email"
-                  value={formData.email || ""}
+                  value={formData.email}
                   onChange={handleChange}
                 />
               </div>
@@ -181,7 +201,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="address"
-                  value={formData.address || ""}
+                  value={formData.address}
                   onChange={handleChange}
                 />
               </div>
@@ -193,7 +213,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="facebook"
-                  value={formData.facebook || ""}
+                  value={formData.facebook}
                   onChange={handleChange}
                 />
               </div>
@@ -205,7 +225,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="instagram"
-                  value={formData.instagram || ""}
+                  value={formData.instagram}
                   onChange={handleChange}
                 />
               </div>
@@ -217,7 +237,7 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="youtube"
-                  value={formData.youtube || ""}
+                  value={formData.youtube}
                   onChange={handleChange}
                 />
               </div>
@@ -229,98 +249,132 @@ function Settings() {
                   type="text"
                   className="form-control"
                   name="tiktok"
-                  value={formData.tiktok || ""}
+                  value={formData.tiktok}
                   onChange={handleChange}
                 />
               </div>
 
             </div>
 
-            <hr className="my-4"/>
+            <hr className="my-4" />
 
-            <h4 className="mb-3">
-              Homepage Hero Section
+            {/* =========================
+                HERO SETTINGS
+            ========================== */}
+
+            <h4 className="mb-4">
+              Hero Section Settings
             </h4>
 
             <div className="row">
 
-              <div className="col-md-12 mb-3">
-
+              <div className="col-md-6 mb-3">
                 <label>Hero Tagline</label>
 
                 <input
                   type="text"
                   className="form-control"
                   name="hero_tagline"
-                  value={formData.hero_tagline || ""}
+                  value={formData.hero_tagline}
                   onChange={handleChange}
                 />
-
               </div>
 
               <div className="col-md-6 mb-3">
-  <label>Hero Title Line 1</label>
+                <label>Hero Title</label>
 
-  <input
-    type="text"
-    className="form-control"
-    name="hero_title_line1"
-    value={formData.hero_title_line1 || ""}
-    onChange={handleChange}
-  />
-</div>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="hero_title"
+                  value={formData.hero_title}
+                  onChange={handleChange}
+                />
+              </div>
 
-<div className="col-md-6 mb-3">
-  <label>Hero Title Line 2</label>
+              <div className="col-md-6 mb-3">
+                <label>Hero Title Line 1</label>
 
-  <input
-    type="text"
-    className="form-control"
-    name="hero_title_line2"
-    value={formData.hero_title_line2 || ""}
-    onChange={handleChange}
-  />
-</div>
-              <div className="col-md-12 mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="hero_title_line1"
+                  value={formData.hero_title_line1}
+                  onChange={handleChange}
+                />
+              </div>
 
+              <div className="col-md-6 mb-3">
+                <label>Hero Title Line 2</label>
+
+                <input
+                  type="text"
+                  className="form-control"
+                  name="hero_title_line2"
+                  value={formData.hero_title_line2}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="col-12 mb-3">
                 <label>Hero Description</label>
 
                 <textarea
                   className="form-control"
                   rows="4"
                   name="hero_description"
-                  value={formData.hero_description || ""}
+                  value={formData.hero_description}
                   onChange={handleChange}
                 />
-
               </div>
 
-              <div className="col-md-12 mb-3">
+              {/* Current Hero Image */}
 
-                <label>Hero Background Image</label>
+              {formData.hero_image && (
+                <div className="col-12 mb-3">
+                  <label className="d-block mb-2">
+                    Current Hero Image
+                  </label>
+
+                  <img
+                    src={`http://localhost:5000${formData.hero_image}`}
+                    alt="Current Hero"
+                    style={{
+                      width: "100%",
+                      maxWidth: "600px",
+                      height: "250px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </div>
+              )}
+
+              {/* Upload Hero Image */}
+
+              <div className="col-md-8 mb-3">
+                <label>Upload New Hero Image</label>
 
                 <input
                   type="file"
                   className="form-control"
-                  accept="image/*"
-                  onChange={(e) =>
-                    setHeroFile(e.target.files[0])
-                  }
+                  accept="image/jpeg,image/jpg,image/png,image/webp"
+                  onChange={handleHeroImageChange}
                 />
+              </div>
 
-                {formData.hero_image && (
+              <div className="col-md-4 mb-3 d-flex align-items-end">
 
-                  <img
-                    src={`http://localhost:5000${formData.hero_image}`}
-                    alt="Hero"
-                    className="img-fluid rounded mt-3"
-                    style={{
-                      maxHeight: "220px",
-                      objectFit: "cover",
-                    }}
-                  />
-
-                )}
+                <button
+                  type="button"
+                  className="btn btn-dark w-100"
+                  onClick={handleHeroImageUpload}
+                  disabled={uploading}
+                >
+                  {uploading
+                    ? "Uploading..."
+                    : "Upload Hero Image"}
+                </button>
 
               </div>
 
@@ -336,9 +390,7 @@ function Settings() {
           </form>
 
         </div>
-
       </div>
-
     </div>
   );
 }

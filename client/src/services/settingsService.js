@@ -19,14 +19,6 @@ export const getSettings = async () => {
 };
 
 // ==========================
-// Get Public Settings
-// ==========================
-export const getPublicSettings = async () => {
-  const response = await axios.get(`${API}/public`);
-  return response.data.settings;
-};
-
-// ==========================
 // Update Settings
 // ==========================
 
@@ -36,6 +28,28 @@ export const updateSettings = async (data) => {
       Authorization: `Bearer ${token()}`,
     },
   });
+
+  return response.data;
+};
+
+// ==========================
+// Upload Hero Image
+// ==========================
+
+export const uploadHeroImage = async (file) => {
+  const formData = new FormData();
+
+  formData.append("hero_image", file);
+
+  const response = await axios.post(
+    `${API}/hero-image`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+      },
+    }
+  );
 
   return response.data;
 };
