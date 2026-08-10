@@ -1,6 +1,7 @@
 const {
   getSettings,
   updateSettings,
+  updateHeroImage,
 } = require("../models/settingsModel");
 
 // ===============================
@@ -43,7 +44,38 @@ const saveSettings = (req, res) => {
   });
 };
 
+// ===============================
+// Save Hero Image
+// ===============================
+
+const saveHeroImage = (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      message: "No image uploaded.",
+    });
+  }
+
+  const imagePath = `/uploads/settings/${req.file.filename}`;
+
+  updateHeroImage(imagePath, (err) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to save Hero image.",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Hero image uploaded successfully.",
+      image: imagePath,
+    });
+  });
+};
+
 module.exports = {
   fetchSettings,
   saveSettings,
+  saveHeroImage,
 };

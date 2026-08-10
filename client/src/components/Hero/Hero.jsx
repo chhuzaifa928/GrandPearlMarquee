@@ -35,13 +35,13 @@ function Hero() {
   // Hero Image URL
   // ==========================
 
-  const heroImageUrl = settings.hero_image
-    ? `http://localhost:5000${
-        settings.hero_image.startsWith("/")
-          ? settings.hero_image
-          : `/${settings.hero_image}`
-      }`
-    : "";
+ const heroImageUrl = settings.hero_image
+  ? `http://localhost:5000${
+      settings.hero_image.startsWith("/")
+        ? settings.hero_image
+        : `/${settings.hero_image}`
+    }`
+  : "";
     
 
   console.log("FINAL HERO IMAGE URL:", heroImageUrl);
