@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 function FoodMenuModal({ selectedFood }) {
   if (!selectedFood) return null;
 
@@ -13,57 +11,62 @@ function FoodMenuModal({ selectedFood }) {
       <div className="modal-dialog modal-lg modal-dialog-centered">
         <div className="modal-content">
 
+          {/* Header */}
           <div className="modal-header">
 
             <h4 className="modal-title">
-              {selectedFood.title}
+              {selectedFood.item_name}
             </h4>
 
             <button
               type="button"
               className="btn-close"
               data-bs-dismiss="modal"
+              aria-label="Close"
             ></button>
 
           </div>
 
+          {/* Body */}
           <div className="modal-body">
 
-            <img
-              src={selectedFood.image}
-              alt={selectedFood.title}
-              className="img-fluid rounded mb-4"
-            />
-
             <h5 className="mb-3">
-              🍽 Menu Includes
+              🍽 Menu
             </h5>
 
-            <div className="row">
+            <div className="p-3 bg-light rounded">
 
-              {selectedFood.menu.map((dish, index) => (
+              <h6 className="fw-bold">
+                {selectedFood.item_name}
+              </h6>
 
-                <div
-                  className="col-md-6 mb-2"
-                  key={index}
-                >
-                  ✅ {dish}
-                </div>
-
-              ))}
+              {selectedFood.description && (
+                <p className="mb-0">
+                  {selectedFood.description}
+                </p>
+              )}
 
             </div>
 
           </div>
 
+          {/* Footer */}
           <div className="modal-footer">
 
-            <Link
-              to="/booking"
+            <button
+              type="button"
+              className="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+
+            <a
+              href="/booking"
               className="btn btn-gold"
             >
               Book This Package
-            </Link>
+            </a>
 
           </div>
 

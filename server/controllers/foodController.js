@@ -32,6 +32,7 @@ const fetchCategories = (req, res) => {
 
 // Add Category
 const createCategory = (req, res) => {
+
   const { category_name } = req.body;
 
   if (!category_name) {
@@ -41,19 +42,37 @@ const createCategory = (req, res) => {
     });
   }
 
-  addCategory(category_name, (err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: "Failed to add category.",
-      });
-    }
+  const image = req.file
+    ? `/uploads/food/${req.file.filename}`
+    : null;
 
-    res.status(201).json({
-      success: true,
-      message: "Category added successfully.",
-    });
-  });
+  addCategory(
+    category_name,
+    image,
+    (err, result) => {
+
+      if (err) {
+
+        console.error(
+          "Add category error:",
+          err
+        );
+
+        return res.status(500).json({
+          success: false,
+          message: "Failed to add category.",
+        });
+      }
+
+      res.status(201).json({
+        success: true,
+        message:
+          "Category added successfully.",
+        categoryId: result.insertId,
+      });
+
+    }
+  );
 };
 
 // Delete Category

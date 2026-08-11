@@ -1,8 +1,9 @@
 const express = require("express");
 
 const router = express.Router();
-
+const upload = require("../middleware/upload");
 const verifyToken = require("../middleware/authMiddleware");
+
 
 const {
   fetchCategories,
@@ -26,6 +27,7 @@ router.get("/categories", fetchCategories);
 router.post(
   "/categories",
   verifyToken,
+  upload.single("image"),
   createCategory
 );
 

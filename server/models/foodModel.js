@@ -13,10 +13,20 @@ const getAllCategories = (callback) => {
 };
 
 // Add Category
-const addCategory = (category_name, callback) => {
+const addCategory = (
+  category_name,
+  image,
+  callback
+) => {
+
   db.query(
-    "INSERT INTO food_categories (category_name) VALUES (?)",
-    [category_name],
+    `INSERT INTO food_categories
+     (category_name, image)
+     VALUES (?, ?)`,
+    [
+      category_name,
+      image,
+    ],
     callback
   );
 };
