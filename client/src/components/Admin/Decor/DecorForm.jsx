@@ -6,6 +6,7 @@ function DecorForm({ onSubmit }) {
     title: "",
     description: "",
     image: null,
+    media: [],
   });
 
   const handleChange = (e) => {
@@ -15,6 +16,11 @@ function DecorForm({ onSubmit }) {
       setFormData({
         ...formData,
         image: files[0],
+      });
+    } else if (name === "media") {
+      setFormData({
+        ...formData,
+        media: Array.from(files),
       });
     } else {
       setFormData({
@@ -32,7 +38,14 @@ function DecorForm({ onSubmit }) {
     data.append("category", formData.category);
     data.append("title", formData.title);
     data.append("description", formData.description);
-    data.append("image", formData.image);
+
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
+    formData.media.forEach((file) => {
+      data.append("media", file);
+    });
 
     onSubmit(data);
 
@@ -41,6 +54,7 @@ function DecorForm({ onSubmit }) {
       title: "",
       description: "",
       image: null,
+      media: [],
     });
 
     e.target.reset();
@@ -53,9 +67,9 @@ function DecorForm({ onSubmit }) {
       </div>
 
       <div className="card-body">
-
         <form onSubmit={submitForm}>
 
+          {/* Category */}
           <div className="mb-3">
             <label className="form-label">
               Category
@@ -70,6 +84,7 @@ function DecorForm({ onSubmit }) {
             />
           </div>
 
+          {/* Title */}
           <div className="mb-3">
             <label className="form-label">
               Title
@@ -84,6 +99,7 @@ function DecorForm({ onSubmit }) {
             />
           </div>
 
+          {/* Description */}
           <div className="mb-3">
             <label className="form-label">
               Description
@@ -97,9 +113,10 @@ function DecorForm({ onSubmit }) {
             />
           </div>
 
+          {/* Main Image */}
           <div className="mb-3">
             <label className="form-label">
-              Image
+              Main Decor Image
             </label>
 
             <input
@@ -112,6 +129,54 @@ function DecorForm({ onSubmit }) {
             />
           </div>
 
+          {/* Additional Images */}
+          <div className="mb-3">
+            <label className="form-label">
+              Additional Decor Images
+            </label>
+
+            <input
+              type="file"
+              name="media"
+              className="form-control"
+              accept="image/*"
+              multiple
+              onChange={handleChange}
+            />
+
+            <small className="text-muted">
+              You can select multiple images.
+            </small>
+          </div>
+
+          {/* Videos */}
+          <div className="mb-3">
+            <label className="form-label">
+              Decor Videos
+            </label>
+
+            <input
+              type="file"
+              name="media"
+              className="form-control"
+              accept="video/mp4,video/webm,video/quicktime"
+              multiple
+              onChange={(e) => {
+                const newVideos = Array.from(e.target.files);
+
+                setFormData((prev) => ({
+                  ...prev,
+                  media: [...prev.media, ...newVideos],
+                }));
+              }}
+            />
+
+            <small className="text-muted">
+              You can select multiple videos.
+            </small>
+          </div>
+
+          {/* Submit */}
           <button
             className="btn btn-warning"
             type="submit"
@@ -120,7 +185,6 @@ function DecorForm({ onSubmit }) {
           </button>
 
         </form>
-
       </div>
     </div>
   );

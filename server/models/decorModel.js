@@ -23,6 +23,7 @@ const getDecorById = (id, callback) => {
 };
 
 // Add Decor
+// Add Decor
 const addDecor = (decor, callback) => {
   const sql = `
     INSERT INTO decor
@@ -38,7 +39,13 @@ const addDecor = (decor, callback) => {
       decor.description,
       decor.image,
     ],
-    callback
+    (err, result) => {
+      if (err) {
+        return callback(err);
+      }
+
+      callback(null, result);
+    }
   );
 };
 

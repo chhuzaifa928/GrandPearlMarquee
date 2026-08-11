@@ -28,6 +28,25 @@ export const addDecor = async (formData) => {
   return response.data;
 };
 
+// ===============================
+// Upload Decor Media
+// ===============================
+
+export const uploadDecorMedia = async (decorId, formData) => {
+  const response = await axios.post(
+    `http://localhost:5000/api/decor-media/${decorId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return response.data;
+};
+
 // Update Decor
 export const updateDecor = async (id, formData) => {
   const response = await axios.put(

@@ -55,6 +55,10 @@ const fetchDecorById = (req, res) => {
 // ==========================
 // Add Decor
 // ==========================
+// ==========================
+// Add Decor
+// ==========================
+
 const createDecor = (req, res) => {
   const { category, title, description } = req.body;
 
@@ -74,7 +78,7 @@ const createDecor = (req, res) => {
       description,
       image,
     },
-    (err) => {
+    (err, result) => {
       if (err) {
         return res.status(500).json({
           success: false,
@@ -85,6 +89,7 @@ const createDecor = (req, res) => {
       res.status(201).json({
         success: true,
         message: "Decor added successfully.",
+        decorId: result.insertId,
       });
     }
   );

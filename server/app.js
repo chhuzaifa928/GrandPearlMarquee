@@ -1,5 +1,6 @@
 require("dotenv").config();
 const decorRoutes = require("./routes/decorRoutes");
+const decorMediaRoutes = require("./routes/decorMediaRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const express = require("express");
 const cors = require("cors");
@@ -34,6 +35,7 @@ app.use(
 app.use("/api/admin", adminRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/decor", decorRoutes);
+app.use("/api/decor-media", decorMediaRoutes);
 app.use("/api/food", foodRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/contact", contactRoutes);
