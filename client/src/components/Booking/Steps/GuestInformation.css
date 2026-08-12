@@ -2,220 +2,313 @@
    Guest Information
 ========================================== */
 
-.booking-summary-card{
+.booking-summary-card {
+  margin-top: 40px;
+  padding: 30px;
 
-    margin-top:40px;
+  background: #ffffff;
 
-    padding:30px;
+  border-radius: 18px;
 
-    background:#ffffff;
+  border: 1px solid #ececec;
 
-    border-radius:18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 
-    border:1px solid #ececec;
+  transition: 0.3s;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.06);
-
-    transition:.3s;
-
+  box-sizing: border-box;
 }
 
-.booking-summary-card:hover{
+.booking-summary-card:hover {
+  transform: translateY(-3px);
 
-    transform:translateY(-3px);
-
-    box-shadow:0 16px 40px rgba(0,0,0,.08);
-
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
 }
 
-.booking-summary-card h4{
+.booking-summary-card h4 {
+  color: var(--color-primary);
 
-    color:var(--color-primary);
+  margin-bottom: 25px;
 
-    margin-bottom:25px;
+  font-weight: 700;
 
-    font-weight:700;
-
+  line-height: 1.3;
 }
+
 
 /* ==========================================
    Summary Rows
 ========================================== */
 
-.summary-row{
+.summary-row {
+  display: flex;
 
-    display:flex;
+  justify-content: space-between;
 
-    justify-content:space-between;
+  align-items: center;
 
-    align-items:center;
+  gap: 15px;
 
-    padding:12px 0;
+  padding: 12px 0;
 
-    border-bottom:1px solid #f2f2f2;
-
+  border-bottom: 1px solid #f2f2f2;
 }
 
-.summary-row:last-child{
-
-    border-bottom:none;
-
+.summary-row:last-child {
+  border-bottom: none;
 }
 
-.summary-row span{
+.summary-row span {
+  color: #666;
 
-    color:#666;
-
-    font-weight:500;
-
+  font-weight: 500;
 }
 
-.summary-row strong{
+.summary-row strong {
+  color: #222;
 
-    color:#222;
+  font-size: 1.05rem;
 
-    font-size:1.05rem;
+  font-weight: 700;
 
-    font-weight:700;
-
+  text-align: right;
 }
+
 
 /* ==========================================
    Status Messages
 ========================================== */
 
-.booking-summary-card .text-success{
+.booking-summary-card .text-success {
+  background: #eaf8ef;
 
-    background:#eaf8ef;
+  color: #198754;
 
-    color:#198754;
+  padding: 12px 16px;
 
-    padding:12px 16px;
+  border-radius: 10px;
 
-    border-radius:10px;
+  margin-top: 18px;
 
-    margin-top:18px;
+  font-weight: 600;
 
-    font-weight:600;
-
+  line-height: 1.5;
 }
 
-.booking-summary-card .text-warning{
+.booking-summary-card .text-warning {
+  background: #fff7e6;
 
-    background:#fff7e6;
+  color: #d48806;
 
-    color:#d48806;
+  padding: 12px 16px;
 
-    padding:12px 16px;
+  border-radius: 10px;
 
-    border-radius:10px;
+  margin-top: 18px;
 
-    margin-top:18px;
+  font-weight: 600;
 
-    font-weight:600;
-
+  line-height: 1.5;
 }
 
-.booking-summary-card .text-danger{
+.booking-summary-card .text-danger {
+  background: #fff2f0;
 
-    background:#fff2f0;
+  color: #cf1322;
 
-    color:#cf1322;
+  padding: 12px 16px;
 
-    padding:12px 16px;
+  border-radius: 10px;
 
-    border-radius:10px;
+  margin-top: 18px;
 
-    margin-top:18px;
+  font-weight: 600;
 
-    font-weight:600;
-
+  line-height: 1.5;
 }
+
 
 /* ==========================================
    Small Text
 ========================================== */
 
-.booking-summary-card small{
+.booking-summary-card small {
+  display: block;
 
-    display:block;
+  margin-top: 10px;
 
-    margin-top:10px;
+  color: #888;
 
-    color:#888;
-
+  line-height: 1.5;
 }
+
 
 /* ==========================================
    Divider
 ========================================== */
 
-.booking-summary-card hr{
+.booking-summary-card hr {
+  margin: 25px 0;
 
-    margin:25px 0;
+  border: none;
 
-    border:none;
-
-    border-top:1px solid #ececec;
-
+  border-top: 1px solid #ececec;
 }
+
 
 /* ==========================================
    Error Styling
 ========================================== */
 
-.input-error{
+.input-error {
+  border: 2px solid #dc3545 !important;
 
-    border:2px solid #dc3545 !important;
-
-    box-shadow:none !important;
-
+  box-shadow: none !important;
 }
 
-.error-text{
+.error-text {
+  color: #dc3545;
 
-    color:#dc3545;
+  font-size: 0.88rem;
 
-    font-size:.88rem;
+  margin-top: 8px;
 
-    margin-top:8px;
+  font-weight: 500;
 
-    font-weight:500;
-
+  line-height: 1.4;
 }
 
-.required{
-
-    color:#dc3545;
-
+.required {
+  color: #dc3545;
 }
+
 
 /* ==========================================
-   Responsive
+   Mobile — 768px
 ========================================== */
 
-@media (max-width:768px){
+@media (max-width: 768px) {
 
-.booking-summary-card{
+  .booking-summary-card {
+    margin-top: 25px;
 
-padding:20px;
+    padding: 20px;
+
+    border-radius: 14px;
+  }
+
+  .booking-summary-card h4 {
+    font-size: 1.15rem;
+
+    margin-bottom: 18px;
+  }
+
+  .summary-row {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 5px;
+
+    padding: 11px 0;
+  }
+
+  .summary-row span {
+    font-size: 0.9rem;
+  }
+
+  .summary-row strong {
+    font-size: 1rem;
+
+    text-align: left;
+
+    width: 100%;
+  }
+
+  .booking-summary-card .text-success,
+  .booking-summary-card .text-warning,
+  .booking-summary-card .text-danger {
+    padding: 10px 12px;
+
+    font-size: 0.88rem;
+
+    margin-top: 14px;
+  }
+
+  .booking-summary-card hr {
+    margin: 18px 0;
+  }
+
+  .booking-summary-card small {
+    font-size: 0.8rem;
+  }
 
 }
 
-.summary-row{
 
-flex-direction:column;
+/* ==========================================
+   Small Phones — 576px
+========================================== */
 
-align-items:flex-start;
+@media (max-width: 576px) {
 
-gap:5px;
+  .booking-summary-card {
+    padding: 16px;
+
+    border-radius: 12px;
+  }
+
+  .booking-summary-card h4 {
+    font-size: 1.05rem;
+  }
+
+  .summary-row {
+    padding: 10px 0;
+  }
+
+  .summary-row span {
+    font-size: 0.85rem;
+  }
+
+  .summary-row strong {
+    font-size: 0.95rem;
+  }
+
+  .booking-summary-card .text-success,
+  .booking-summary-card .text-warning,
+  .booking-summary-card .text-danger {
+    font-size: 0.82rem;
+
+    padding: 9px 10px;
+  }
+
+  .error-text {
+    font-size: 0.8rem;
+  }
 
 }
 
-.summary-row strong{
 
-font-size:1rem;
+/* ==========================================
+   Very Small Phones — 375px
+========================================== */
 
-}
+@media (max-width: 375px) {
+
+  .booking-summary-card {
+    padding: 14px;
+  }
+
+  .booking-summary-card h4 {
+    font-size: 1rem;
+  }
+
+  .summary-row span {
+    font-size: 0.82rem;
+  }
+
+  .summary-row strong {
+    font-size: 0.9rem;
+  }
 
 }

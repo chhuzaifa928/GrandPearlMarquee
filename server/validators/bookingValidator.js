@@ -7,12 +7,24 @@ const bookingValidator = [
     .withMessage("Customer name is required."),
 
   body("email")
+    .optional({ checkFalsy: true })
     .isEmail()
     .withMessage("Please enter a valid email address."),
 
   body("phone")
+    .trim()
     .isLength({ min: 11, max: 15 })
     .withMessage("Please enter a valid phone number."),
+
+  body("whatsapp")
+    .trim()
+    .isLength({ min: 11, max: 15 })
+    .withMessage("Please enter a valid WhatsApp number."),
+
+  body("city")
+    .trim()
+    .notEmpty()
+    .withMessage("City is required."),
 
   body("event_type")
     .notEmpty()
@@ -30,9 +42,25 @@ const bookingValidator = [
     .isInt({ min: 1 })
     .withMessage("Guests must be at least 1."),
 
+  body("male_guests")
+    .isInt({ min: 0 })
+    .withMessage("Male guests cannot be negative."),
+
+  body("female_guests")
+    .isInt({ min: 0 })
+    .withMessage("Female guests cannot be negative."),
+
   body("vip_guests")
     .isInt({ min: 0 })
     .withMessage("VIP guests cannot be negative."),
+
+  body("male_vip")
+    .isInt({ min: 0 })
+    .withMessage("Male VIP guests cannot be negative."),
+
+  body("female_vip")
+    .isInt({ min: 0 })
+    .withMessage("Female VIP guests cannot be negative."),
 
   body("food_category")
     .notEmpty()

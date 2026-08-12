@@ -66,16 +66,23 @@ function Bookings() {
     }
   };
 
-  const handleView = async (id) => {
-    try {
-      const booking = await getBookingById(id);
+ const handleView = async (id) => {
+  try {
+    console.log("VIEW CLICKED - ID:", id);
+    console.log("ID TYPE:", typeof id);
 
-      setSelectedBooking(booking);
-      setShowModal(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const booking = await getBookingById(id);
+
+    console.log("BOOKING DETAILS:", booking);
+
+    setSelectedBooking(booking);
+    setShowModal(true);
+
+  } catch (error) {
+    console.error("VIEW BOOKING ERROR:", error);
+    console.error("SERVER RESPONSE:", error.response?.data);
+  }
+};
 
   const handleApprove = async (id) => {
     try {

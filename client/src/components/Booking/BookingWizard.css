@@ -1,142 +1,334 @@
-.booking-wizard{
+/* =========================================
+   BOOKING WIZARD
+========================================= */
 
-padding:80px 0;
-
-background:#f8f8f8;
-
+.booking-wizard {
+  padding: 80px 0;
+  background: #f8f8f8;
 }
 
-@media(max-width:768px){
-
-.booking-wizard{
-
-padding:40px 0;
-
+/* Keep wizard content from becoming too wide */
+.booking-wizard .container {
+  width: 100%;
 }
 
-/* Uniform step card sizing across all 8 steps */
 
-.booking-wizard .booking-card{
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
 
-max-width:512px;
+@media (max-width: 768px) {
+  .booking-wizard {
+    padding: 40px 0;
+    overflow-x: hidden;
+  }
 
-width:100%;
+  /* Bootstrap container spacing */
+  .booking-wizard .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 
-margin:0 auto;
+  /* =========================================
+     BOOKING CARD
+  ========================================= */
 
-padding:20px 16px;
+  .booking-wizard .booking-card {
+    width: 100%;
+    max-width: 512px;
+    margin: 0 auto;
+    padding: 20px 16px;
+    border-radius: 14px;
+    overflow: visible;
+  }
 
-border-radius:14px;
+  .booking-wizard .booking-card > h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
 
+  .booking-wizard .booking-card > p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+
+  /* =========================================
+     STEP HEADER
+  ========================================= */
+
+  .booking-wizard .step-header {
+    margin-bottom: 24px;
+  }
+
+
+  /* =========================================
+     FORM FIELDS
+  ========================================= */
+
+  .booking-wizard .booking-card .form-control,
+  .booking-wizard .booking-card .form-select,
+  .booking-wizard .booking-card textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+  }
+
+  .booking-wizard .booking-card .form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .booking-wizard .booking-card input,
+  .booking-wizard .booking-card select,
+  .booking-wizard .booking-card textarea,
+  .booking-wizard .booking-card button {
+    max-width: 100%;
+  }
+
+
+  /* =========================================
+     BOOTSTRAP ROW FIX
+  ========================================= */
+
+  .booking-wizard .booking-card .row {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+
+  .booking-wizard .booking-card .row > [class*="col-"] {
+    padding-left: 8px;
+    padding-right: 8px;
+    min-width: 0;
+  }
+
+
+  /* =========================================
+     SPACING
+  ========================================= */
+
+  .booking-wizard .booking-card .mb-4 {
+    margin-bottom: 14px !important;
+  }
+
+  .booking-wizard .booking-card .mb-5 {
+    margin-bottom: 20px !important;
+  }
+
+
+  /* =========================================
+     NAVIGATION BUTTONS
+  ========================================= */
+
+  .booking-wizard .booking-card .d-flex.justify-content-between {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .booking-wizard .booking-card .d-flex.justify-content-between > .btn {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .booking-wizard .booking-card .btn {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 50px;
+  }
+
+
+  /* =========================================
+     RIGHT-ALIGNED NEXT BUTTON
+  ========================================= */
+
+  .booking-wizard .booking-card .text-end {
+    display: flex;
+    width: 100%;
+  }
+
+  .booking-wizard .booking-card .text-end .btn {
+    width: 100%;
+  }
+
+
+  /* =========================================
+     RADIO BUTTONS
+  ========================================= */
+
+  .booking-wizard .booking-card .form-check {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+  }
+
+  .booking-wizard .booking-card .form-check-label {
+    font-size: 0.95rem;
+  }
+
+
+  /* =========================================
+     ADDITIONAL REQUIREMENTS
+  ========================================= */
+
+  .booking-wizard .booking-card .additional-notes {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .booking-wizard .booking-card .additional-notes textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+  }
+
+
+  /* =========================================
+     PACKAGE / SERVICE CARDS
+  ========================================= */
+
+  .booking-wizard .booking-package-card,
+  .booking-wizard .booking-service-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .booking-wizard .booking-package-card img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: cover;
+  }
+
+
+  /* =========================================
+     TABLES
+  ========================================= */
+
+  .booking-wizard .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .booking-wizard .table {
+    min-width: 600px;
+  }
+
+
+  /* =========================================
+     GUEST SUMMARY
+  ========================================= */
+
+  .booking-wizard .booking-summary-card {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .booking-wizard .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
 }
 
-.booking-wizard .booking-card > h2{
 
-font-size:1.5rem;
+/* =========================================
+   SMALL PHONES
+   ========================================= */
 
-margin-bottom:8px;
+@media (max-width: 576px) {
+  .booking-wizard {
+    padding: 25px 0;
+  }
 
+  .booking-wizard .container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .booking-wizard .booking-card {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+
+  .booking-wizard .booking-card > h2 {
+    font-size: 1.3rem;
+  }
+
+  .booking-wizard .booking-card > p {
+    font-size: 0.85rem;
+  }
+
+  .booking-wizard .booking-card .form-control,
+  .booking-wizard .booking-card .form-select,
+  .booking-wizard .booking-card textarea {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .booking-wizard .booking-card .btn {
+    min-height: 44px;
+    padding: 11px 16px;
+    font-size: 0.9rem;
+  }
+
+  .booking-wizard .booking-summary-card {
+    padding: 14px;
+  }
+
+  .booking-wizard .summary-row {
+    font-size: 0.9rem;
+  }
 }
 
-.booking-wizard .booking-card > p{
 
-font-size:.9rem;
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
 
-margin-bottom:18px;
+@media (max-width: 375px) {
+  .booking-wizard {
+    padding: 20px 0;
+  }
 
-}
+  .booking-wizard .container {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
 
-.booking-wizard .step-header{
+  .booking-wizard .booking-card {
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
 
-margin-bottom:24px;
+  .booking-wizard .booking-card > h2 {
+    font-size: 1.2rem;
+  }
 
-}
+  .booking-wizard .booking-card > p {
+    font-size: 0.82rem;
+  }
 
-/* Consistent input field sizing */
+  .booking-wizard .booking-card .form-label {
+    font-size: 0.82rem;
+  }
 
-.booking-wizard .booking-card .form-control,
-.booking-wizard .booking-card .form-select,
-.booking-wizard .booking-card textarea{
-
-padding:10px 14px;
-
-font-size:.95rem;
-
-width:100%;
-
-}
-
-.booking-wizard .booking-card .form-label{
-
-font-size:.875rem;
-
-font-weight:500;
-
-margin-bottom:6px;
-
-}
-
-.booking-wizard .booking-card .mb-4{
-
-margin-bottom:14px;
-
-}
-
-.booking-wizard .booking-card .mb-5{
-
-margin-bottom:20px;
-
-}
-
-.booking-wizard .booking-card .row,
-.booking-wizard .booking-card .row > [class*="col-"]{
-
-min-width:0;
-
-}
-
-/* Uniform navigation buttons */
-
-.booking-wizard .booking-card .btn{
-
-width:100%;
-
-padding:12px 24px;
-
-font-size:.95rem;
-
-font-weight:600;
-
-border-radius:50px;
-
-}
-
-.booking-wizard .booking-card .d-flex.justify-content-between{
-
-flex-direction:column;
-
-gap:10px;
-
-}
-
-.booking-wizard .booking-card .text-end{
-
-display:flex;
-
-}
-
-/* Compact extra services */
-
-.booking-wizard .booking-card .additional-notes{
-
-margin-top:20px;
-
-}
-
-.booking-wizard .booking-card .additional-notes textarea{
-
-min-height:100px;
-
-}
-
+  .booking-wizard .booking-card .form-control,
+  .booking-wizard .booking-card .form-select,
+  .booking-wizard .booking-card textarea {
+    font-size: 0.88rem;
+  }
 }

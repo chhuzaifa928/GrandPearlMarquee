@@ -81,3 +81,77 @@ color:#666;
 margin:0;
 
 }
+
+/* ==========================================
+   Package Cards - Mobile Responsive
+========================================== */
+
+@media (max-width: 768px) {
+
+  .booking-package-card {
+    border-radius: 14px;
+  }
+
+  .booking-package-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .booking-package-card.selected {
+    border-width: 2px;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+  }
+
+  .booking-package-card img {
+    height: 190px;
+  }
+
+  .package-body {
+    padding: 15px;
+  }
+
+  .package-category {
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    margin-bottom: 8px;
+  }
+
+  .package-body h4 {
+    font-size: 1.05rem;
+    margin-bottom: 7px;
+  }
+
+  .package-body p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+}
+
+
+/* ==========================================
+   Small Mobile Devices
+========================================== */
+
+@media (max-width: 480px) {
+
+  .booking-package-card img {
+    height: 170px;
+  }
+
+  .package-body {
+    padding: 13px;
+  }
+
+  .package-category {
+    font-size: 0.68rem;
+  }
+
+  .package-body h4 {
+    font-size: 1rem;
+  }
+
+  .package-body p {
+    font-size: 0.82rem;
+  }
+
+}

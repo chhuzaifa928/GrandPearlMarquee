@@ -1,15 +1,26 @@
-.decor-categories {
+/* ==========================================
+   Food Categories
+========================================== */
+
+.food-categories {
   padding: 100px 0 60px;
   background: #fff;
 }
 
+
+/* ==========================================
+   Category Buttons
+========================================== */
+
 .category-buttons {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   gap: 18px;
   margin-top: 40px;
 }
+
 
 .category-btn {
   padding: 12px 28px;
@@ -18,41 +29,102 @@
   background: white;
   color: #222;
   font-weight: 600;
-  transition: all .3s ease;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
   cursor: pointer;
+  white-space: nowrap;
 }
+
 
 .category-btn:hover {
   background: #d4af37;
   color: white;
 }
 
+
 .category-btn.active {
-  background: linear-gradient(135deg,#d4af37,#b8860b);
+  background: linear-gradient(
+    135deg,
+    #d4af37,
+    #b8860b
+  );
   color: white;
   border-color: transparent;
 }
 
-@media(max-width:768px){
 
-.food-categories{
-padding:50px 0 30px;
-background:#fff;
+/* ==========================================
+   Tablet
+========================================== */
+
+@media (max-width: 991px) {
+
+  .food-categories {
+    padding: 80px 0 50px;
+  }
+
+  .category-buttons {
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  .category-btn {
+    padding: 10px 22px;
+    font-size: 0.9rem;
+  }
+
 }
 
-.food-categories .section-heading{
-margin-bottom:24px;
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+
+  .food-categories {
+    padding: 55px 0 35px;
+  }
+
+  .food-categories .section-heading {
+    margin-bottom: 20px;
+  }
+
+  .category-buttons {
+    gap: 9px;
+    margin-top: 24px;
+    padding: 0 5px;
+  }
+
+  .category-btn {
+    padding: 8px 15px;
+    font-size: 0.82rem;
+    border-width: 1px;
+    border-radius: 30px;
+  }
+
 }
 
-.category-buttons{
-gap:8px;
-margin-top:24px;
-}
 
-.category-btn{
-padding:7px 14px;
-font-size:.82rem;
-border-width:1px;
-}
+/* ==========================================
+   Small Phones
+========================================== */
+
+@media (max-width: 400px) {
+
+  .food-categories {
+    padding: 45px 0 30px;
+  }
+
+  .category-buttons {
+    gap: 7px;
+    margin-top: 20px;
+    padding: 0;
+  }
+
+  .category-btn {
+    padding: 7px 12px;
+    font-size: 0.75rem;
+  }
 
 }

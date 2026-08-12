@@ -1,23 +1,24 @@
-.card {
+.booking-mobile-card {
   transition: 0.3s ease;
 }
 
-.card:hover {
+.booking-mobile-card:hover {
   transform: translateY(-4px);
 }
 
-.card-body {
+.booking-mobile-card .card-body {
   padding: 22px;
 }
 
-.card h5 {
+.booking-mobile-card h5 {
   font-size: 18px;
+  word-break: break-word;
 }
 
-.card p {
+.booking-mobile-card p {
   font-size: 15px;
 }
 
-.btn {
+.booking-mobile-card .btn {
   border-radius: 10px;
 }

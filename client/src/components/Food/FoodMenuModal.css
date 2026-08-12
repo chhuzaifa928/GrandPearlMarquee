@@ -1,0 +1,189 @@
+/* ==========================================
+   Food Menu Modal
+========================================== */
+
+#foodMenuModal .modal-content {
+  border: none;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ==========================================
+   Modal Header
+========================================== */
+
+#foodMenuModal .modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+}
+
+#foodMenuModal .modal-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+#foodMenuModal .btn-close {
+  transition: 0.2s ease;
+}
+
+#foodMenuModal .btn-close:hover {
+  transform: rotate(90deg);
+}
+
+
+/* ==========================================
+   Modal Body
+========================================== */
+
+#foodMenuModal .modal-body {
+  padding: 25px;
+}
+
+#foodMenuModal .modal-body h5 {
+  color: #222;
+  font-weight: 700;
+}
+
+#foodMenuModal .modal-body .bg-light {
+  padding: 20px !important;
+  border-radius: 12px !important;
+}
+
+#foodMenuModal .modal-body h6 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+#foodMenuModal .modal-body p {
+  color: #666;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+
+/* ==========================================
+   Modal Footer
+========================================== */
+
+#foodMenuModal .modal-footer {
+  padding: 18px 24px;
+  border-top: 1px solid #eee;
+  gap: 10px;
+}
+
+#foodMenuModal .modal-footer .btn {
+  border-radius: 50px;
+  padding: 10px 22px;
+  font-weight: 600;
+}
+
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+
+  #foodMenuModal .modal-dialog {
+    width: auto;
+    max-width: none;
+    margin: 12px;
+  }
+
+  #foodMenuModal .modal-content {
+    border-radius: 15px;
+  }
+
+  #foodMenuModal .modal-header {
+    padding: 15px 16px;
+  }
+
+  #foodMenuModal .modal-title {
+    font-size: 1.05rem;
+    padding-right: 10px;
+  }
+
+  #foodMenuModal .modal-body {
+    padding: 16px;
+  }
+
+  #foodMenuModal .modal-body h5 {
+    font-size: 1rem;
+    margin-bottom: 12px !important;
+  }
+
+  #foodMenuModal .modal-body .bg-light {
+    padding: 14px !important;
+  }
+
+  #foodMenuModal .modal-body h6 {
+    font-size: 0.95rem;
+  }
+
+  #foodMenuModal .modal-body p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  #foodMenuModal .modal-footer {
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  #foodMenuModal .modal-footer .btn {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    margin: 0;
+  }
+
+}
+
+
+/* ==========================================
+   Small Phones
+========================================== */
+
+@media (max-width: 400px) {
+
+  #foodMenuModal .modal-dialog {
+    margin: 8px;
+  }
+
+  #foodMenuModal .modal-header {
+    padding: 13px 14px;
+  }
+
+  #foodMenuModal .modal-title {
+    font-size: 0.95rem;
+  }
+
+  #foodMenuModal .modal-body {
+    padding: 14px;
+  }
+
+  #foodMenuModal .modal-body .bg-light {
+    padding: 12px !important;
+  }
+
+  #foodMenuModal .modal-body p {
+    font-size: 0.8rem;
+  }
+
+  #foodMenuModal .modal-footer {
+    padding: 12px 14px;
+  }
+
+  #foodMenuModal .modal-footer .btn {
+    font-size: 0.75rem;
+    padding: 9px 8px;
+  }
+
+}

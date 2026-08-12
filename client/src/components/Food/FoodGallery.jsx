@@ -68,10 +68,10 @@ function FoodGallery({ selectedCategory }) {
                 <div className="col-lg-5">
 
                   <img
-                    src={`http://localhost:5000${category.image}`}
-                    alt={category.category_name}
-                    className="img-fluid rounded shadow"
-                  />
+  src={`http://localhost:5000${category.image}`}
+  alt={category.category_name}
+  className="img-fluid rounded shadow category-image"
+/>
 
                 </div>
 

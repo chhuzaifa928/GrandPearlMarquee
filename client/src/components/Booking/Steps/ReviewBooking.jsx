@@ -7,98 +7,254 @@ import extraServices from "../../../data/extraServices";
 
 import BookingSuccessModal from "../BookingSuccessModal";
 
-// NEW
 import { createBooking } from "../../../services/bookingService";
+
 function ReviewBooking({
   formData,
   prevStep,
 }) {
-
   const [showSuccess, setShowSuccess] = useState(false);
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // ============================================
+  // SELECTED DECOR
+  // ============================================
 
   const selectedDecor = decorPackages.find(
-    (item) => item.id === formData.decorId
+    (item) => String(item.id) === String(formData.decorId)
   );
 
+  // ============================================
+  // SELECTED FOOD
+  // ============================================
+
   const selectedFood = foodPackages.find(
-    (item) => item.id === formData.foodId
+    (item) => String(item.id) === String(formData.foodId)
   );
+
+  // ============================================
+  // FALLBACK FOOD
+  // ============================================
+  // If foodId somehow gets lost, try to find the
+  // food package using the event type.
+
+  const fallbackFood = foodPackages.find(
+    (item) =>
+      item.category?.toLowerCase() ===
+      formData.eventType?.toLowerCase()
+  );
+
+  const finalFood = selectedFood || fallbackFood;
+
+  // ============================================
+  // SELECTED EXTRAS
+  // ============================================
 
   const selectedExtras = extraServices.filter(
     (item) => formData.extras.includes(item.id)
   );
 
+  // ============================================
+  // DEBUG
+  // ============================================
+
+  console.log("========== BOOKING DEBUG ==========");
+  console.log("formData =", formData);
+  console.log("formData.foodId =", formData.foodId);
+  console.log("selectedFood =", selectedFood);
+  console.log("fallbackFood =", fallbackFood);
+  console.log("finalFood =", finalFood);
+  console.log("selectedDecor =", selectedDecor);
+  console.log("===================================");
+
+  // ============================================
+  // SUBMIT BOOKING
+  // ============================================
+
   const submitBooking = async () => {
+    try {
+      setLoading(true);
 
-  try {
+      // ------------------------------------------
+      // Make sure food exists
+      // ------------------------------------------
 
-    setLoading(true);
+      if (!finalFood) {
+        alert(
+          "Please select a food package before submitting."
+        );
 
-    const bookingData = {
+        setLoading(false);
+        return;
+      }
 
-      customer_name: formData.fullName,
+      // ------------------------------------------
+      // Build booking data
+      // ------------------------------------------
 
-      email: formData.email,
+      const bookingData = {
+        // =========================
+        // CUSTOMER
+        // =========================
 
-      phone: formData.phone,
+        customer_name: formData.fullName,
 
-      event_type: formData.eventType,
+        email: formData.email || "",
 
-      event_date: formData.eventDate,
+        phone: formData.phone,
 
-      event_time: formData.eventTime,
+        whatsapp: formData.whatsapp,
 
-      guests: Number(formData.totalGuests),
+        city: formData.city,
 
-      vip_guests:
-        Number(formData.maleVIP) +
-        Number(formData.femaleVIP),
+        // =========================
+        // EVENT
+        // =========================
 
-      partition_required:
-        formData.partition === "Yes",
+        event_type: formData.eventType,
 
-      food_category:
-        selectedFood?.title || "",
+        event_date: formData.eventDate,
 
-      custom_food: "",
+        event_time: formData.eventTime,
 
-      decor_theme:
-        selectedDecor?.title || "",
+        // =========================
+        // GUESTS
+        // =========================
 
-      additional_requirements:
-        formData.notes,
+        guests: Number(formData.totalGuests) || 0,
 
-      sound_system:
-        formData.extras.includes("sound"),
+        male_guests:
+          Number(formData.maleGuests) || 0,
 
-      ac_required:
-        formData.extras.includes("ac"),
+        female_guests:
+          Number(formData.femaleGuests) || 0,
 
-      heater_required:
-        formData.extras.includes("heater")
+        // =========================
+        // VIP
+        // =========================
 
-    };
+        vip_guests:
+          (Number(formData.maleVIP) || 0) +
+          (Number(formData.femaleVIP) || 0),
 
-    const response = await createBooking(bookingData);
+        male_vip:
+          Number(formData.maleVIP) || 0,
 
-    if (response.success) {
+        female_vip:
+          Number(formData.femaleVIP) || 0,
 
-      setShowSuccess(true);
+        // =========================
+        // ARRANGEMENT
+        // =========================
 
+        partition_required:
+          formData.partition === "Yes",
+
+        // =========================
+        // FOOD
+        // =========================
+        // IMPORTANT:
+        // Backend expects food_category
+
+        food_category: finalFood.category,
+
+        custom_food: "",
+
+        // =========================
+        // DECOR
+        // =========================
+
+        decor_theme:
+          selectedDecor?.title || "",
+
+        // =========================
+        // ADDITIONAL REQUIREMENTS
+        // =========================
+
+        additional_requirements:
+          formData.notes || "",
+
+        // =========================
+        // EXTRA SERVICES
+        // =========================
+
+        sound_system:
+          formData.extras.includes("sound"),
+
+        ac_required:
+          formData.extras.includes("ac"),
+
+        heater_required:
+          formData.extras.includes("heater"),
+      };
+
+      console.log(
+        "========== BOOKING DATA SENT =========="
+      );
+
+      console.log(bookingData);
+
+      console.log(
+        "food_category =",
+        bookingData.food_category
+      );
+
+      console.log(
+        "========================================"
+      );
+
+      // ========================================
+      // SEND TO BACKEND
+      // ========================================
+
+      const response =
+        await createBooking(bookingData);
+
+      console.log(
+        "SERVER RESPONSE =",
+        response
+      );
+
+      if (response.success) {
+        setShowSuccess(true);
+      }
+
+    } catch (error) {
+      console.error(
+        "BOOKING ERROR:",
+        error
+      );
+
+      console.error(
+        "SERVER RESPONSE:",
+        error.response?.data
+      );
+
+      const serverErrors =
+        error.response?.data?.errors;
+
+      if (serverErrors?.length) {
+        alert(
+          serverErrors
+            .map((err) => err.msg)
+            .join("\n")
+        );
+      } else {
+        alert(
+          error.response?.data?.message ||
+          error.message ||
+          "Booking failed."
+        );
+      }
+
+    } finally {
+      setLoading(false);
     }
+  };
 
-  } catch (error) {
-
-    alert(error.message || "Booking failed.");
-
-  } finally {
-
-    setLoading(false);
-
-  }
-
-};
+  // ============================================
+  // UI
+  // ============================================
 
   return (
     <>
@@ -107,7 +263,8 @@ const [loading, setLoading] = useState(false);
         <h2>Review Your Booking</h2>
 
         <p>
-          Please review all the information before submitting your booking request.
+          Please review all the information before
+          submitting your booking request.
         </p>
 
         <div className="table-responsive">
@@ -133,7 +290,9 @@ const [loading, setLoading] = useState(false);
 
               <tr>
                 <th>Email</th>
-                <td>{formData.email || "-"}</td>
+                <td>
+                  {formData.email || "-"}
+                </td>
               </tr>
 
               <tr>
@@ -186,28 +345,65 @@ const [loading, setLoading] = useState(false);
                 <td>{formData.partition}</td>
               </tr>
 
+              {/* DECOR */}
+
               <tr>
                 <th>Decor Package</th>
-                <td>{selectedDecor?.title || "-"}</td>
-              </tr>
 
-              <tr>
-                <th>Food Package</th>
-                <td>{selectedFood?.title || "-"}</td>
-              </tr>
-
-              <tr>
-                <th>Extra Services</th>
                 <td>
-                  {selectedExtras.length > 0
-                    ? selectedExtras.map(service => service.title).join(", ")
-                    : "None"}
+                  {selectedDecor?.title || "-"}
+                </td>
+              </tr>
+
+              {/* FOOD */}
+
+              <tr>
+                <th>Food Menu</th>
+
+                <td>
+                  {finalFood
+                    ? finalFood.title
+                    : "-"}
                 </td>
               </tr>
 
               <tr>
-                <th>Additional Requirements</th>
-                <td>{formData.notes || "-"}</td>
+                <th>Food Category</th>
+
+                <td>
+                  {finalFood
+                    ? finalFood.category
+                    : "-"}
+                </td>
+              </tr>
+
+              {/* EXTRA SERVICES */}
+
+              <tr>
+                <th>Extra Services</th>
+
+                <td>
+                  {selectedExtras.length > 0
+                    ? selectedExtras
+                        .map(
+                          (service) =>
+                            service.title
+                        )
+                        .join(", ")
+                    : "None"}
+                </td>
+              </tr>
+
+              {/* NOTES */}
+
+              <tr>
+                <th>
+                  Additional Requirements
+                </th>
+
+                <td>
+                  {formData.notes || "-"}
+                </td>
               </tr>
 
             </tbody>
@@ -215,6 +411,8 @@ const [loading, setLoading] = useState(false);
           </table>
 
         </div>
+
+        {/* BUTTONS */}
 
         <div className="d-flex justify-content-between">
 
@@ -227,13 +425,15 @@ const [loading, setLoading] = useState(false);
           </button>
 
           <button
-  type="button"
-  className="btn btn-gold"
-  onClick={submitBooking}
-  disabled={loading}
->
-  {loading ? "Submitting..." : "Submit Booking Request →"}
-</button>
+            type="button"
+            className="btn btn-gold"
+            onClick={submitBooking}
+            disabled={loading}
+          >
+            {loading
+              ? "Submitting..."
+              : "Submit Booking Request →"}
+          </button>
 
         </div>
 
@@ -241,8 +441,11 @@ const [loading, setLoading] = useState(false);
 
       <BookingSuccessModal
         show={showSuccess}
-        onClose={() => setShowSuccess(false)}
+        onClose={() =>
+          setShowSuccess(false)
+        }
       />
+
     </>
   );
 }

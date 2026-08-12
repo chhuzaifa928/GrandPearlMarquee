@@ -1,3 +1,5 @@
+import "./FoodMenuModal.css";
+
 function FoodMenuModal({ selectedFood }) {
   if (!selectedFood) return null;
 

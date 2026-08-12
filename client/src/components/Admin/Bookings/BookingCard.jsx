@@ -18,7 +18,7 @@ function BookingCard({
   onDelete,
 }) {
   return (
-    <div className="card shadow-sm mb-3 border-0 rounded-4">
+  <div className="booking-mobile-card shadow-sm mb-3 border-0 rounded-4">
 
       <div className="card-body">
 
@@ -62,7 +62,7 @@ function BookingCard({
 
           <button
             className="btn btn-primary"
-            onClick={() => onView(booking)}
+            onClick={() => onView(booking.id)}
           >
             <FaEye className="me-2" />
             View

@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import "./FoodSelection.css";
-import foodPackages from "../../../data/foodPackages";
+
+import { getPublicFoodCategories, getItems } from "../../../services/publicFoodService";
 
 function FoodSelection({
   formData,
@@ -7,89 +9,152 @@ function FoodSelection({
   nextStep,
   prevStep,
 }) {
+  const [categories, setCategories] = useState([]);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  console.log("Selected Event:", formData.eventType);
+  useEffect(() => {
+    loadFoodData();
+  }, []);
 
-const filteredFood = foodPackages;
+  const loadFoodData = async () => {
+    try {
+      const categoryData = await getPublicFoodCategories();
+      const itemData = await getItems();
 
-  const selectFood = (foodId) => {
+      setCategories(categoryData);
+      setItems(itemData);
+    } catch (error) {
+      console.error("Failed to load food data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const selectFood = (item) => {
     setFormData({
       ...formData,
-      foodId,
+
+      foodId: item.id,
+
+      foodName: item.item_name,
+
+      foodCategory: item.category_name,
+
+      foodDescription: item.description || "",
     });
   };
-console.log("formData =", formData);
-console.log("eventType =", JSON.stringify(formData.eventType));
-console.log(
-  "categories =",
-  foodPackages.map(item => item.category)
-);
+
+  if (loading) {
+    return (
+      <div className="booking-card text-center">
+        <div className="spinner-border text-warning" role="status"></div>
+
+        <p className="mt-3">
+          Loading food menus...
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="booking-card">
 
-      <h2>Select Food Package</h2>
+      <h2>Select Food Menu</h2>
 
       <p>
-        Choose your preferred food package for your event.
+        Choose your preferred food menu for your event.
+        Food prices are not displayed.
       </p>
 
-      <div className="row">
+      {categories.map((category) => {
 
-        {filteredFood.length > 0 ? (
+        const categoryItems = items.filter(
+          (item) =>
+            item.category_name === category.category_name
+        );
 
-          filteredFood.map((item) => (
+        if (categoryItems.length === 0) {
+          return null;
+        }
 
-            <div
-              className="col-lg-4 col-md-6 mb-4"
-              key={item.id}
-            >
+        return (
+          <div
+            key={category.id}
+            className="mb-5"
+          >
 
-              <div
-                className={`booking-package-card ${
-                  formData.foodId === item.id ? "selected" : ""
-                }`}
-                onClick={() => selectFood(item.id)}
-              >
+            <h3 className="mb-4">
+              {category.category_name}
+            </h3>
 
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="img-fluid"
-                />
+            <div className="row">
 
-                <div className="package-body">
+              {categoryItems.map((item) => (
 
-                  <span className="package-category">
-                    {item.category}
-                  </span>
+                <div
+                  className="col-lg-4 col-md-6 mb-4"
+                  key={item.id}
+                >
 
-                  <h4>{item.title}</h4>
+                  <div
+                    className={`booking-package-card ${
+                      formData.foodId === item.id
+                        ? "selected"
+                        : ""
+                    }`}
+                    onClick={() => selectFood(item)}
+                  >
 
-                  <p>{item.description}</p>
+                    {item.image && (
+                      <img
+                        src={`http://localhost:5000${item.image}`}
+                        alt={item.item_name}
+                        className="img-fluid"
+                      />
+                    )}
+
+                    <div className="package-body">
+
+                      <span className="package-category">
+                        {item.category_name}
+                      </span>
+
+                      <h4>
+                        {item.item_name}
+                      </h4>
+
+                      {item.description && (
+                        <p>
+                          {item.description}
+                        </p>
+                      )}
+
+                      {formData.foodId === item.id && (
+                        <div className="selected-label">
+                          ✓ Selected
+                        </div>
+                      )}
+
+                    </div>
+
+                  </div>
 
                 </div>
 
-              </div>
-
-            </div>
-
-          ))
-
-        ) : (
-
-          <div className="col-12">
-
-            <div className="alert alert-warning">
-
-              No food packages are currently available for the selected event type.
+              ))}
 
             </div>
 
           </div>
+        );
+      })}
 
-        )}
-
-      </div>
+      {categories.length === 0 && (
+        <div className="alert alert-warning">
+          No food menus are currently available.
+        </div>
+      )}
 
       <div className="d-flex justify-content-between mt-4">
 
