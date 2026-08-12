@@ -1,14 +1,22 @@
 import "./GalleryCategories.css";
-import galleryData from "../../data/galleryData";
 
 function GalleryCategories({
+  gallery,
   selectedCategory,
   setSelectedCategory,
 }) {
 
+  // ===============================
+  // Create Categories From Database
+  // ===============================
+
   const categories = [
     "All",
-    ...new Set(galleryData.map(item => item.category))
+    ...new Set(
+      gallery
+        .map((item) => item.category)
+        .filter(Boolean)
+    ),
   ];
 
   return (
@@ -26,7 +34,8 @@ function GalleryCategories({
           <h2>Browse By Event Type</h2>
 
           <p>
-            Explore memorable celebrations organised at Grand Pearl Marquee.
+            Explore memorable celebrations organised
+            at Grand Pearl Marquee.
           </p>
 
         </div>
@@ -37,11 +46,13 @@ function GalleryCategories({
           data-aos-delay="150"
         >
 
-          {categories.map(category => (
+          {categories.map((category) => (
 
             <button
               key={category}
-              onClick={() => setSelectedCategory(category)}
+              onClick={() =>
+                setSelectedCategory(category)
+              }
               className={
                 selectedCategory === category
                   ? "category-btn active"

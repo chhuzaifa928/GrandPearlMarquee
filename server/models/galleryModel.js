@@ -18,10 +18,11 @@ const getAllGallery = (callback) => {
 const addGallery = (gallery, callback) => {
   db.query(
     `INSERT INTO gallery
-    (title,image,media_type)
-    VALUES (?,?,?)`,
+      (title, category, image, media_type)
+     VALUES (?, ?, ?, ?)`,
     [
       gallery.title,
+      gallery.category,
       gallery.image,
       gallery.media_type,
     ],
@@ -35,7 +36,7 @@ const addGallery = (gallery, callback) => {
 
 const deleteGallery = (id, callback) => {
   db.query(
-    "DELETE FROM gallery WHERE id=?",
+    "DELETE FROM gallery WHERE id = ?",
     [id],
     callback
   );

@@ -1,8 +1,20 @@
 import { useState } from "react";
 
+const GALLERY_CATEGORIES = [
+  "Barat",
+  "Walima",
+  "Mehndi",
+  "Nikkah",
+  "Birthday",
+  "Corporate",
+  "Gathering",
+  "Engagement",
+];
+
 function GalleryForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     title: "",
+    category: "",
     media_type: "image",
     image: null,
   });
@@ -24,9 +36,20 @@ function GalleryForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!formData.image) {
+      alert("Please select an image or video.");
+      return;
+    }
+
+    if (!formData.category) {
+      alert("Please select a category.");
+      return;
+    }
+
     const data = new FormData();
 
     data.append("title", formData.title);
+    data.append("category", formData.category);
     data.append("media_type", formData.media_type);
     data.append("image", formData.image);
 
@@ -34,6 +57,7 @@ function GalleryForm({ onSubmit }) {
 
     setFormData({
       title: "",
+      category: "",
       media_type: "image",
       image: null,
     });
@@ -52,20 +76,65 @@ function GalleryForm({ onSubmit }) {
 
         <form onSubmit={handleSubmit}>
 
+          {/* Title */}
+
           <div className="mb-3">
-            <label>Title</label>
+
+            <label className="form-label">
+              Title
+            </label>
 
             <input
               className="form-control"
               name="title"
               value={formData.title}
               onChange={handleChange}
+              placeholder="Enter gallery title"
               required
             />
+
           </div>
 
+          {/* Category */}
+
           <div className="mb-3">
-            <label>Media Type</label>
+
+            <label className="form-label">
+              Category
+            </label>
+
+            <select
+              className="form-select"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            >
+
+              <option value="">
+                Select Category
+              </option>
+
+              {GALLERY_CATEGORIES.map((category) => (
+                <option
+                  key={category}
+                  value={category}
+                >
+                  {category}
+                </option>
+              ))}
+
+            </select>
+
+          </div>
+
+          {/* Media Type */}
+
+          <div className="mb-3">
+
+            <label className="form-label">
+              Media Type
+            </label>
 
             <select
               className="form-select"
@@ -73,6 +142,7 @@ function GalleryForm({ onSubmit }) {
               value={formData.media_type}
               onChange={handleChange}
             >
+
               <option value="image">
                 Image
               </option>
@@ -82,10 +152,16 @@ function GalleryForm({ onSubmit }) {
               </option>
 
             </select>
+
           </div>
 
+          {/* File */}
+
           <div className="mb-3">
-            <label>Select File</label>
+
+            <label className="form-label">
+              Select File
+            </label>
 
             <input
               type="file"
@@ -95,6 +171,7 @@ function GalleryForm({ onSubmit }) {
               onChange={handleChange}
               required
             />
+
           </div>
 
           <button
