@@ -2,6 +2,10 @@ import "./GalleryGrid.css";
 
 const SERVER_URL = "http://localhost:5000";
 
+// ===============================
+// Media URL Helper
+// ===============================
+
 function getMediaUrl(path) {
   if (!path) return "";
 
@@ -13,21 +17,26 @@ function getMediaUrl(path) {
     return path;
   }
 
-  // Admin uploaded media
+  // Admin uploaded files
   if (path.startsWith("/uploads/")) {
     return `${SERVER_URL}${path}`;
   }
 
-  // Frontend assets
+  // Frontend/public assets
   if (
     path.startsWith("/src/") ||
-    path.startsWith("/assets/")
+    path.startsWith("/assets/") ||
+    path.startsWith("/")
   ) {
     return path;
   }
 
-  return `/${path}`;
+  return `${SERVER_URL}/${path}`;
 }
+
+// ===============================
+// Gallery Grid
+// ===============================
 
 function GalleryGrid({
   gallery,
@@ -39,7 +48,7 @@ function GalleryGrid({
   // Filter By Category
   // ===============================
 
-  const filteredImages =
+  const filteredGallery =
     selectedCategory === "All"
       ? gallery
       : gallery.filter(
@@ -51,7 +60,7 @@ function GalleryGrid({
   // Empty Gallery
   // ===============================
 
-  if (filteredImages.length === 0) {
+  if (filteredGallery.length === 0) {
     return (
       <section className="gallery-grid-section">
 
@@ -63,7 +72,7 @@ function GalleryGrid({
               No gallery items available.
             </h4>
 
-            <p>
+            <p className="text-muted">
               Please check another category.
             </p>
 
@@ -82,13 +91,15 @@ function GalleryGrid({
 
         <div className="row">
 
-          {filteredImages.map((item, index) => {
+          {filteredGallery.map((item, index) => {
 
             const mediaUrl =
               getMediaUrl(item.image);
 
-            return (
+            const isVideo =
+              item.media_type === "video";
 
+            return (
               <div
                 className="col-lg-4 col-md-6 mb-4"
                 key={item.id}
@@ -98,7 +109,7 @@ function GalleryGrid({
 
                 <div
                   className={`gallery-card ${
-                    item.media_type === "video"
+                    isVideo
                       ? "gallery-video-card"
                       : ""
                   }`}
@@ -110,30 +121,36 @@ function GalleryGrid({
                 >
 
                   {/* =========================
-                      IMAGE
+                      MEDIA
                   ========================= */}
 
-                  {item.media_type === "image" ? (
+                  {isVideo ? (
 
-                    <img
-                      src={mediaUrl}
-                      alt={
-                        item.title ||
-                        "Gallery Image"
-                      }
-                    />
+                    <div className="gallery-video-wrapper">
+
+                      <video
+                        className="gallery-card-video"
+                        src={mediaUrl}
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+
+                      <div className="gallery-play-icon">
+                        ▶
+                      </div>
+
+                    </div>
 
                   ) : (
 
-                    /* =========================
-                       VIDEO
-                    ========================= */
-
-                    <video
+                    <img
+                      className="gallery-card-image"
                       src={mediaUrl}
-                      muted
-                      playsInline
-                      preload="metadata"
+                      alt={
+                        item.title ||
+                        "Grand Pearl Marquee Gallery"
+                      }
                     />
 
                   )}
@@ -153,7 +170,7 @@ function GalleryGrid({
                     </h4>
 
                     <p>
-                      {item.media_type === "video"
+                      {isVideo
                         ? "Click to Watch"
                         : "Click to View"}
                     </p>
@@ -163,7 +180,6 @@ function GalleryGrid({
                 </div>
 
               </div>
-
             );
           })}
 

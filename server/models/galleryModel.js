@@ -18,12 +18,12 @@ const getAllGallery = (callback) => {
 const addGallery = (gallery, callback) => {
   db.query(
     `INSERT INTO gallery
-      (title, category, image, media_type)
-     VALUES (?, ?, ?, ?)`,
+      (title, image, category, media_type)
+      VALUES (?, ?, ?, ?)`,
     [
       gallery.title,
-      gallery.category,
       gallery.image,
+      gallery.category,
       gallery.media_type,
     ],
     callback

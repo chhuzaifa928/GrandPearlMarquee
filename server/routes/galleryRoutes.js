@@ -3,18 +3,55 @@ const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
 
+// Gallery controller
 const {
   fetchGallery,
   createGallery,
   removeGallery,
 } = require("../controllers/galleryController");
 
+// Gallery category controller
+const {
+  fetchGalleryCategories,
+  createGalleryCategory,
+  removeGalleryCategory,
+} = require("../controllers/galleryCategoryController");
+
 const upload = require("../middleware/galleryUpload");
 
-// Public
+// =====================================
+// Public Routes
+// =====================================
+
+// Get all gallery items
 router.get("/", fetchGallery);
 
-// Admin
+// Get all gallery categories
+router.get("/categories", fetchGalleryCategories);
+
+// =====================================
+// Admin Category Routes
+// =====================================
+
+// Add category
+router.post(
+  "/categories",
+  verifyToken,
+  createGalleryCategory
+);
+
+// Delete category
+router.delete(
+  "/categories/:id",
+  verifyToken,
+  removeGalleryCategory
+);
+
+// =====================================
+// Admin Gallery Routes
+// =====================================
+
+// Upload image/video
 router.post(
   "/",
   verifyToken,
@@ -22,6 +59,7 @@ router.post(
   createGallery
 );
 
+// Delete gallery item
 router.delete(
   "/:id",
   verifyToken,

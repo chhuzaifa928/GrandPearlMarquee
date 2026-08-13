@@ -49,3 +49,38 @@ export const deleteGallery = async (id) => {
 
   return response.data;
 };
+
+// ===============================
+// Get Gallery Categories
+// ===============================
+
+export const getGalleryCategories = async () => {
+
+  const response = await axios.get(
+    `${API}/categories`
+  );
+
+  return response.data.categories;
+
+};
+
+
+// ===============================
+// Add Gallery Category
+// ===============================
+
+export const addGalleryCategory = async (name) => {
+
+  const response = await axios.post(
+    `${API}/categories`,
+    { name },
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+      },
+    }
+  );
+
+  return response.data;
+
+};

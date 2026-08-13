@@ -1,23 +1,23 @@
 import { useState } from "react";
 
-const GALLERY_CATEGORIES = [
-  "Barat",
-  "Walima",
-  "Mehndi",
-  "Nikkah",
-  "Birthday",
-  "Corporate",
-  "Gathering",
-  "Engagement",
-];
-
-function GalleryForm({ onSubmit }) {
+function GalleryForm({
+  onSubmit,
+  categories = [],
+  onAddCategory,
+}) {
   const [formData, setFormData] = useState({
     title: "",
     category: "",
     media_type: "image",
     image: null,
   });
+
+  const [newCategory, setNewCategory] = useState("");
+  const [addingCategory, setAddingCategory] = useState(false);
+
+  // =====================================
+  // Handle Form Changes
+  // =====================================
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
@@ -33,16 +33,55 @@ function GalleryForm({ onSubmit }) {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // =====================================
+  // Add New Category
+  // =====================================
 
-    if (!formData.image) {
-      alert("Please select an image or video.");
+  const handleAddCategory = async () => {
+    const categoryName = newCategory.trim();
+
+    if (!categoryName) {
+      alert("Please enter a category name.");
       return;
     }
 
+    if (!onAddCategory) {
+      return;
+    }
+
+    try {
+      setAddingCategory(true);
+
+      await onAddCategory(categoryName);
+
+      // Select newly added category
+      setFormData((previous) => ({
+        ...previous,
+        category: categoryName,
+      }));
+
+      setNewCategory("");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setAddingCategory(false);
+    }
+  };
+
+  // =====================================
+  // Submit Gallery
+  // =====================================
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     if (!formData.category) {
-      alert("Please select a category.");
+      alert("Please select a gallery category.");
+      return;
+    }
+
+    if (!formData.image) {
+      alert("Please select an image or video.");
       return;
     }
 
@@ -76,7 +115,9 @@ function GalleryForm({ onSubmit }) {
 
         <form onSubmit={handleSubmit}>
 
-          {/* Title */}
+          {/* =====================================
+              Title
+          ===================================== */}
 
           <div className="mb-3">
 
@@ -85,6 +126,7 @@ function GalleryForm({ onSubmit }) {
             </label>
 
             <input
+              type="text"
               className="form-control"
               name="title"
               value={formData.title}
@@ -95,7 +137,9 @@ function GalleryForm({ onSubmit }) {
 
           </div>
 
-          {/* Category */}
+          {/* =====================================
+              Category
+          ===================================== */}
 
           <div className="mb-3">
 
@@ -115,20 +159,68 @@ function GalleryForm({ onSubmit }) {
                 Select Category
               </option>
 
-              {GALLERY_CATEGORIES.map((category) => (
+              {categories.map((category) => (
+
                 <option
-                  key={category}
-                  value={category}
+                  key={category.id}
+                  value={category.name}
                 >
-                  {category}
+                  {category.name}
                 </option>
+
               ))}
 
             </select>
 
           </div>
 
-          {/* Media Type */}
+          {/* =====================================
+              Add New Category
+          ===================================== */}
+
+          <div className="mb-3">
+
+            <label className="form-label">
+              Add New Category
+            </label>
+
+            <div className="input-group">
+
+              <input
+                type="text"
+                className="form-control"
+                value={newCategory}
+                onChange={(e) =>
+                  setNewCategory(e.target.value)
+                }
+                placeholder="Enter new category"
+              />
+
+              <button
+                type="button"
+                className="btn btn-dark"
+                onClick={handleAddCategory}
+                disabled={addingCategory}
+              >
+
+                {addingCategory
+                  ? "Adding..."
+                  : "Add Category"}
+
+              </button>
+
+            </div>
+
+            <small className="text-muted">
+              Add a new event category if it does not
+              already exist.
+            </small>
+
+          </div>
+
+          {/* =====================================
+              Media Type
+          ===================================== */}
 
           <div className="mb-3">
 
@@ -155,7 +247,9 @@ function GalleryForm({ onSubmit }) {
 
           </div>
 
-          {/* File */}
+          {/* =====================================
+              File
+          ===================================== */}
 
           <div className="mb-3">
 
@@ -167,12 +261,20 @@ function GalleryForm({ onSubmit }) {
               type="file"
               className="form-control"
               name="image"
-              accept="image/*,video/*"
+              accept={
+                formData.media_type === "video"
+                  ? "video/*"
+                  : "image/*"
+              }
               onChange={handleChange}
               required
             />
 
           </div>
+
+          {/* =====================================
+              Upload Button
+          ===================================== */}
 
           <button
             className="btn btn-warning"
