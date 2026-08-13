@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import "./FoodSelection.css";
 
-import { getPublicFoodCategories, getItems } from "../../../services/publicFoodService";
+import {
+  getPublicFoodCategories,
+  getItems,
+} from "../../../services/publicFoodService";
 
 function FoodSelection({
   formData,
@@ -31,6 +34,10 @@ function FoodSelection({
     }
   };
 
+  // =================================
+  // SELECT EXISTING FOOD
+  // =================================
+
   const selectFood = (item) => {
     setFormData({
       ...formData,
@@ -42,17 +49,60 @@ function FoodSelection({
       foodCategory: item.category_name,
 
       foodDescription: item.description || "",
+
+      customFood: "",
     });
   };
+
+  // =================================
+  // SELECT CUSTOM FOOD
+  // =================================
+
+  const selectCustomFood = () => {
+    setFormData({
+      ...formData,
+
+      foodId: "custom",
+
+      foodName: "Custom Food",
+
+      foodCategory: "Custom",
+
+      foodDescription: "",
+
+      customFood: formData.customFood || "",
+    });
+  };
+
+  // =================================
+  // CUSTOM FOOD CHANGE
+  // =================================
+
+  const handleCustomFoodChange = (event) => {
+    setFormData({
+      ...formData,
+
+      customFood: event.target.value,
+    });
+  };
+
+  // =================================
+  // LOADING
+  // =================================
 
   if (loading) {
     return (
       <div className="booking-card text-center">
-        <div className="spinner-border text-warning" role="status"></div>
+
+        <div
+          className="spinner-border text-warning"
+          role="status"
+        ></div>
 
         <p className="mt-3">
           Loading food menus...
         </p>
+
       </div>
     );
   }
@@ -67,11 +117,16 @@ function FoodSelection({
         Food prices are not displayed.
       </p>
 
+      {/* =================================
+          DATABASE FOOD CATEGORIES
+      ================================= */}
+
       {categories.map((category) => {
 
         const categoryItems = items.filter(
           (item) =>
-            item.category_name === category.category_name
+            item.category_name ===
+            category.category_name
         );
 
         if (categoryItems.length === 0) {
@@ -103,7 +158,9 @@ function FoodSelection({
                         ? "selected"
                         : ""
                     }`}
-                    onClick={() => selectFood(item)}
+                    onClick={() =>
+                      selectFood(item)
+                    }
                   >
 
                     {item.image && (
@@ -150,11 +207,114 @@ function FoodSelection({
         );
       })}
 
+      {/* =================================
+          CUSTOM FOOD
+      ================================= */}
+
+      <div className="custom-food-section mt-5">
+
+        <h3>Custom Food</h3>
+
+        <p>
+          Can't find the menu you want?
+          Create your own food selection.
+        </p>
+
+        <div
+          className={`booking-package-card ${
+            formData.foodId === "custom"
+              ? "selected"
+              : ""
+          }`}
+          onClick={selectCustomFood}
+        >
+
+          <div className="package-body">
+
+            <span className="package-category">
+              Custom
+            </span>
+
+            <h4>
+              Create Your Own Menu
+            </h4>
+
+            <p>
+              Enter the food items you would like
+              for your event.
+            </p>
+
+            {/* =============================
+                CUSTOM FOOD INPUT
+            ============================= */}
+
+            {formData.foodId === "custom" && (
+
+              <div
+                className="mt-3"
+                onClick={(event) =>
+                  event.stopPropagation()
+                }
+              >
+
+                <label className="form-label">
+                  Your Food Requirements
+                </label>
+
+                <textarea
+                  className="form-control"
+                  rows="6"
+                  placeholder={
+                    "Example:\nChicken Biryani\nMutton Karahi\nBBQ\nNaan\nSalad\nKheer"
+                  }
+                  value={
+                    formData.customFood || ""
+                  }
+                  onChange={handleCustomFoodChange}
+                />
+
+                <small className="text-muted">
+                  Write the food items you would
+                  like for your event. The Grand
+                  Pearl team will discuss the final
+                  menu with you.
+                </small>
+
+              </div>
+
+            )}
+
+            {/* =============================
+                SELECTED LABEL
+            ============================= */}
+
+            {formData.foodId === "custom" && (
+
+              <div className="selected-label mt-3">
+                ✓ Custom Food Selected
+              </div>
+
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* =================================
+          NO FOOD
+      ================================= */}
+
       {categories.length === 0 && (
         <div className="alert alert-warning">
           No food menus are currently available.
         </div>
       )}
+
+      {/* =================================
+          NAVIGATION
+      ================================= */}
 
       <div className="d-flex justify-content-between mt-4">
 
@@ -170,7 +330,13 @@ function FoodSelection({
           type="button"
           className="btn btn-gold"
           onClick={nextStep}
-          disabled={!formData.foodId}
+          disabled={
+            !formData.foodId ||
+            (
+              formData.foodId === "custom" &&
+              !formData.customFood?.trim()
+            )
+          }
         >
           Next →
         </button>

@@ -122,11 +122,21 @@ export const validateDecor = (data) => {
 // ===============================
 
 export const validateFood = (data) => {
-
   const errors = {};
 
+  // No food selected
   if (!data.foodId) {
-    errors.foodId = "Please select a food package.";
+    errors.foodId = "Please select a food menu.";
+    return errors;
+  }
+
+  // Custom food selected
+  if (
+    data.foodId === "custom" &&
+    !data.custom_food?.trim()
+  ) {
+    errors.custom_food =
+      "Please enter your custom food requirements.";
   }
 
   return errors;

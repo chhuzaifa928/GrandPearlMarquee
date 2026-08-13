@@ -62,10 +62,29 @@ const bookingValidator = [
     .isInt({ min: 0 })
     .withMessage("Female VIP guests cannot be negative."),
 
-  body("food_category")
-    .notEmpty()
-    .withMessage("Food category is required."),
+ body("food_category")
+  .notEmpty()
+  .withMessage("Food category is required."),
 
+body("custom_food")
+  .optional({ checkFalsy: true })
+  .trim()
+  .isLength({ max: 2000 })
+  .withMessage("Custom food requirements are too long.")
+  .custom((value, { req }) => {
+    if (
+      req.body.food_category === "Custom" &&
+      !value
+    ) {
+      throw new Error(
+        "Please enter your custom food requirements."
+      );
+    }
+
+    return true;
+  }),
+
+  
   body("decor_theme")
     .notEmpty()
     .withMessage("Decor theme is required."),

@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./ReviewBooking.css";
 
 import decorPackages from "../../../data/decorPackages";
-import foodPackages from "../../../data/foodPackages";
 import extraServices from "../../../data/extraServices";
 
 import BookingSuccessModal from "../BookingSuccessModal";
@@ -21,51 +20,74 @@ function ReviewBooking({
   // ============================================
 
   const selectedDecor = decorPackages.find(
-    (item) => String(item.id) === String(formData.decorId)
+    (item) =>
+      String(item.id) === String(formData.decorId)
   );
 
   // ============================================
   // SELECTED FOOD
   // ============================================
 
-  const selectedFood = foodPackages.find(
-    (item) => String(item.id) === String(formData.foodId)
-  );
+  const isCustomFood =
+    formData.foodId === "custom";
 
-  // ============================================
-  // FALLBACK FOOD
-  // ============================================
-  // If foodId somehow gets lost, try to find the
-  // food package using the event type.
-
-  const fallbackFood = foodPackages.find(
-    (item) =>
-      item.category?.toLowerCase() ===
-      formData.eventType?.toLowerCase()
-  );
-
-  const finalFood = selectedFood || fallbackFood;
+  const finalFood = formData.foodId
+    ? {
+        id: formData.foodId,
+        title: formData.foodName || "",
+        category: formData.foodCategory || "",
+        description:
+          formData.foodDescription || "",
+      }
+    : null;
 
   // ============================================
   // SELECTED EXTRAS
   // ============================================
 
   const selectedExtras = extraServices.filter(
-    (item) => formData.extras.includes(item.id)
+    (item) =>
+      formData.extras?.includes(item.id)
   );
 
   // ============================================
   // DEBUG
   // ============================================
 
-  console.log("========== BOOKING DEBUG ==========");
+  console.log(
+    "========== BOOKING DEBUG =========="
+  );
+
   console.log("formData =", formData);
-  console.log("formData.foodId =", formData.foodId);
-  console.log("selectedFood =", selectedFood);
-  console.log("fallbackFood =", fallbackFood);
-  console.log("finalFood =", finalFood);
-  console.log("selectedDecor =", selectedDecor);
-  console.log("===================================");
+
+  console.log(
+    "formData.foodId =",
+    formData.foodId
+  );
+
+  console.log(
+    "isCustomFood =",
+    isCustomFood
+  );
+
+  console.log(
+    "finalFood =",
+    finalFood
+  );
+
+  console.log(
+    "selectedDecor =",
+    selectedDecor
+  );
+
+  console.log(
+    "customFood =",
+    formData.customFood
+  );
+
+  console.log(
+    "==================================="
+  );
 
   // ============================================
   // SUBMIT BOOKING
@@ -82,6 +104,22 @@ function ReviewBooking({
       if (!finalFood) {
         alert(
           "Please select a food package before submitting."
+        );
+
+        setLoading(false);
+        return;
+      }
+
+      // ------------------------------------------
+      // Custom food validation
+      // ------------------------------------------
+
+      if (
+        isCustomFood &&
+        !formData.customFood?.trim()
+      ) {
+        alert(
+          "Please enter your custom food requirements."
         );
 
         setLoading(false);
@@ -121,7 +159,8 @@ function ReviewBooking({
         // GUESTS
         // =========================
 
-        guests: Number(formData.totalGuests) || 0,
+        guests:
+          Number(formData.totalGuests) || 0,
 
         male_guests:
           Number(formData.maleGuests) || 0,
@@ -153,12 +192,14 @@ function ReviewBooking({
         // =========================
         // FOOD
         // =========================
-        // IMPORTANT:
-        // Backend expects food_category
 
-        food_category: finalFood.category,
+        food_category: isCustomFood
+          ? "Custom"
+          : finalFood?.category || "",
 
-        custom_food: "",
+        custom_food: isCustomFood
+          ? formData.customFood?.trim() || ""
+          : "",
 
         // =========================
         // DECOR
@@ -179,14 +220,21 @@ function ReviewBooking({
         // =========================
 
         sound_system:
-          formData.extras.includes("sound"),
+          formData.extras?.includes("sound") ||
+          false,
 
         ac_required:
-          formData.extras.includes("ac"),
+          formData.extras?.includes("ac") ||
+          false,
 
         heater_required:
-          formData.extras.includes("heater"),
+          formData.extras?.includes("heater") ||
+          false,
       };
+
+      // ========================================
+      // DEBUG BOOKING DATA
+      // ========================================
 
       console.log(
         "========== BOOKING DATA SENT =========="
@@ -197,6 +245,11 @@ function ReviewBooking({
       console.log(
         "food_category =",
         bookingData.food_category
+      );
+
+      console.log(
+        "custom_food =",
+        bookingData.custom_food
       );
 
       console.log(
@@ -214,6 +267,10 @@ function ReviewBooking({
         "SERVER RESPONSE =",
         response
       );
+
+      // ========================================
+      // SUCCESS
+      // ========================================
 
       if (response.success) {
         setShowSuccess(true);
@@ -273,19 +330,27 @@ function ReviewBooking({
 
             <tbody>
 
+              {/* CUSTOMER */}
+
               <tr>
                 <th>Full Name</th>
-                <td>{formData.fullName}</td>
+                <td>
+                  {formData.fullName}
+                </td>
               </tr>
 
               <tr>
                 <th>Phone</th>
-                <td>{formData.phone}</td>
+                <td>
+                  {formData.phone}
+                </td>
               </tr>
 
               <tr>
                 <th>WhatsApp</th>
-                <td>{formData.whatsapp}</td>
+                <td>
+                  {formData.whatsapp}
+                </td>
               </tr>
 
               <tr>
@@ -297,52 +362,80 @@ function ReviewBooking({
 
               <tr>
                 <th>City</th>
-                <td>{formData.city}</td>
+                <td>
+                  {formData.city}
+                </td>
               </tr>
+
+              {/* EVENT */}
 
               <tr>
                 <th>Event Type</th>
-                <td>{formData.eventType}</td>
+                <td>
+                  {formData.eventType}
+                </td>
               </tr>
 
               <tr>
                 <th>Event Date</th>
-                <td>{formData.eventDate}</td>
+                <td>
+                  {formData.eventDate}
+                </td>
               </tr>
 
               <tr>
                 <th>Time Slot</th>
-                <td>{formData.eventTime}</td>
+                <td>
+                  {formData.eventTime}
+                </td>
               </tr>
+
+              {/* GUESTS */}
 
               <tr>
                 <th>Total Guests</th>
-                <td>{formData.totalGuests}</td>
+                <td>
+                  {formData.totalGuests}
+                </td>
               </tr>
 
               <tr>
                 <th>Male Guests</th>
-                <td>{formData.maleGuests}</td>
+                <td>
+                  {formData.maleGuests}
+                </td>
               </tr>
 
               <tr>
                 <th>Female Guests</th>
-                <td>{formData.femaleGuests}</td>
+                <td>
+                  {formData.femaleGuests}
+                </td>
               </tr>
+
+              {/* VIP */}
 
               <tr>
                 <th>Male VIP</th>
-                <td>{formData.maleVIP}</td>
+                <td>
+                  {formData.maleVIP}
+                </td>
               </tr>
 
               <tr>
                 <th>Female VIP</th>
-                <td>{formData.femaleVIP}</td>
+                <td>
+                  {formData.femaleVIP}
+                </td>
               </tr>
+
+              {/* PARTITION */}
 
               <tr>
                 <th>Separate Seating</th>
-                <td>{formData.partition}</td>
+                <td>
+                  {formData.partition}
+                </td>
               </tr>
 
               {/* DECOR */}
@@ -361,9 +454,9 @@ function ReviewBooking({
                 <th>Food Menu</th>
 
                 <td>
-                  {finalFood
-                    ? finalFood.title
-                    : "-"}
+                  {isCustomFood
+                    ? "Create Your Own Food Menu"
+                    : formData.foodName || "-"}
                 </td>
               </tr>
 
@@ -371,11 +464,23 @@ function ReviewBooking({
                 <th>Food Category</th>
 
                 <td>
-                  {finalFood
-                    ? finalFood.category
-                    : "-"}
+                  {isCustomFood
+                    ? "Custom"
+                    : formData.foodCategory || "-"}
                 </td>
               </tr>
+
+              {/* CUSTOM FOOD */}
+
+              {isCustomFood && (
+                <tr>
+                  <th>Custom Food</th>
+
+                  <td>
+                    {formData.customFood || "-"}
+                  </td>
+                </tr>
+              )}
 
               {/* EXTRA SERVICES */}
 
@@ -438,6 +543,8 @@ function ReviewBooking({
         </div>
 
       </div>
+
+      {/* SUCCESS MODAL */}
 
       <BookingSuccessModal
         show={showSuccess}

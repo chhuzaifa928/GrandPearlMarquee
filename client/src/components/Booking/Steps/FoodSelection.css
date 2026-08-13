@@ -48,3 +48,172 @@
   color: #6c757d;
   margin-bottom: 0;
 }
+/* =================================
+   CUSTOM FOOD
+================================= */
+
+.custom-food-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #e9ecef;
+}
+
+
+/* =================================
+   CUSTOM FOOD CARD
+================================= */
+
+.custom-food-card {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  padding: 25px;
+
+  border: 2px solid #e9ecef;
+  border-radius: 18px;
+
+  background: #fff;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+
+.custom-food-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+
+.custom-food-card.selected {
+  border: 3px solid #d4af37;
+
+  box-shadow:
+    0 12px 30px rgba(212, 175, 55, 0.25);
+}
+
+
+/* =================================
+   CUSTOM FOOD ICON
+================================= */
+
+.custom-food-icon {
+  width: 75px;
+  height: 75px;
+
+  min-width: 75px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #d4af37;
+
+  font-size: 32px;
+}
+
+
+/* =================================
+   CUSTOM FOOD CONTENT
+================================= */
+
+.custom-food-content {
+  flex: 1;
+}
+
+
+.custom-food-content h4 {
+  margin-top: 10px;
+  margin-bottom: 8px;
+
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+
+.custom-food-content p {
+  margin-bottom: 0;
+
+  color: #6c757d;
+
+  line-height: 1.6;
+}
+
+
+/* =================================
+   CUSTOM FOOD INPUT
+================================= */
+
+.custom-food-input {
+  margin-top: 20px;
+
+  padding: 25px;
+
+  background: #faf9f5;
+
+  border: 1px solid #e9ecef;
+
+  border-radius: 15px;
+}
+
+
+.custom-food-input label {
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
+
+.custom-food-input textarea {
+  resize: vertical;
+
+  min-height: 140px;
+
+  border-radius: 10px;
+
+  border: 1px solid #ced4da;
+}
+
+
+.custom-food-input textarea:focus {
+  border-color: #d4af37;
+
+  box-shadow:
+    0 0 0 0.2rem rgba(212, 175, 55, 0.15);
+}
+
+
+.custom-food-input small {
+  display: block;
+
+  margin-top: 10px;
+
+  line-height: 1.5;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 768px) {
+
+  .custom-food-card {
+    flex-direction: column;
+
+    text-align: center;
+
+    padding: 25px 20px;
+  }
+
+  .custom-food-content {
+    width: 100%;
+  }
+
+}
