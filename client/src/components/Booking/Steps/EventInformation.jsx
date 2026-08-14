@@ -19,7 +19,15 @@ const TIME_SLOTS = [
   "Night",
 ];
 
-const WEEKDAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+const WEEKDAYS = [
+  "Su",
+  "Mo",
+  "Tu",
+  "We",
+  "Th",
+  "Fr",
+  "Sa",
+];
 
 const MONTHS = [
   "January",
@@ -139,7 +147,10 @@ function SelectMenu({
       }
     };
 
-    document.addEventListener("mousedown", onDoc);
+    document.addEventListener(
+      "mousedown",
+      onDoc
+    );
 
     return () => {
       document.removeEventListener(
@@ -155,7 +166,10 @@ function SelectMenu({
   };
 
   return (
-    <div className="custom-select" ref={ref}>
+    <div
+      className="custom-select"
+      ref={ref}
+    >
 
       <label className="form-label">
         {label}{" "}
@@ -167,8 +181,11 @@ function SelectMenu({
         className={`custom-select-trigger ${
           error ? "input-error" : ""
         }`}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() =>
+          setOpen((o) => !o)
+        }
       >
+
         <span
           className={
             value ? "" : "placeholder"
@@ -180,6 +197,7 @@ function SelectMenu({
         <span className="custom-select-arrow">
           {open ? "▲" : "▼"}
         </span>
+
       </button>
 
       {open && (
@@ -189,12 +207,15 @@ function SelectMenu({
             className={`custom-option ${
               !value ? "selected" : ""
             }`}
-            onClick={() => select("")}
+            onClick={() =>
+              select("")
+            }
           >
             {placeholder}
           </li>
 
           {options.map((opt) => (
+
             <li
               key={opt}
               className={`custom-option ${
@@ -202,10 +223,13 @@ function SelectMenu({
                   ? "selected"
                   : ""
               }`}
-              onClick={() => select(opt)}
+              onClick={() =>
+                select(opt)
+              }
             >
               {opt}
             </li>
+
           ))}
 
         </ul>
@@ -246,12 +270,6 @@ function DatePicker({
 
   today.setHours(0, 0, 0, 0);
 
-  const todayValue = toValue(
-    today.getFullYear(),
-    today.getMonth() + 1,
-    today.getDate()
-  );
-
   // ============================================
   // CALENDAR VIEW
   // ============================================
@@ -269,7 +287,7 @@ function DatePicker({
   );
 
   // ============================================
-  // CLOSE CALENDAR WHEN CLICKING OUTSIDE
+  // CLOSE WHEN CLICKING OUTSIDE
   // ============================================
 
   useEffect(() => {
@@ -289,11 +307,12 @@ function DatePicker({
       onDoc
     );
 
-    return () =>
+    return () => {
       document.removeEventListener(
         "mousedown",
         onDoc
       );
+    };
   }, [open]);
 
   // ============================================
@@ -315,7 +334,7 @@ function DatePicker({
   };
 
   // ============================================
-  // CHECK IF DATE IS BEFORE TODAY
+  // CHECK PAST DATE
   // ============================================
 
   const isPastDate = (y, m, d) => {
@@ -331,8 +350,6 @@ function DatePicker({
   // ============================================
 
   const prevMonth = () => {
-    // Do not allow going before current month
-
     if (
       viewY === today.getFullYear() &&
       viewM === today.getMonth() + 1
@@ -366,17 +383,9 @@ function DatePicker({
     viewM
   );
 
-  // ============================================
-  // IS CURRENT MONTH
-  // ============================================
-
   const isCurrentMonth =
     viewY === today.getFullYear() &&
     viewM === today.getMonth() + 1;
-
-  // ============================================
-  // UI
-  // ============================================
 
   return (
     <div
@@ -396,6 +405,7 @@ function DatePicker({
         }`}
         onClick={openCalendar}
       >
+
         <span
           className={
             parts ? "" : "placeholder"
@@ -410,14 +420,11 @@ function DatePicker({
               )
             : "Select Date"}
         </span>
+
       </button>
 
       {open && (
         <div className="custom-calendar">
-
-          {/* =================================
-              CALENDAR HEADER
-          ================================= */}
 
           <div className="cal-header">
 
@@ -445,10 +452,6 @@ function DatePicker({
 
           </div>
 
-          {/* =================================
-              WEEKDAYS
-          ================================= */}
-
           <div className="cal-weekdays">
 
             {WEEKDAYS.map((w) => (
@@ -458,10 +461,6 @@ function DatePicker({
             ))}
 
           </div>
-
-          {/* =================================
-              DAYS
-          ================================= */}
 
           <div className="cal-grid">
 
@@ -475,7 +474,6 @@ function DatePicker({
                 );
 
               return (
-
                 <button
                   key={i}
                   type="button"
@@ -516,7 +514,6 @@ function DatePicker({
                 >
                   {d.d}
                 </button>
-
               );
 
             })}
@@ -535,6 +532,7 @@ function DatePicker({
     </div>
   );
 }
+
 
 // ============================================
 // EVENT INFORMATION
@@ -560,17 +558,17 @@ function EventInformation({
       value,
     } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
 
     if (errors[name]) {
 
-      setErrors({
-        ...errors,
+      setErrors((prev) => ({
+        ...prev,
         [name]: "",
-      });
+      }));
 
     }
 
@@ -582,74 +580,108 @@ function EventInformation({
   // ============================================
 
   const handleEventTypeChange = (value) => {
-  if (value === "Other / Custom Event") {
-    setFormData({
-      ...formData,
-      eventType: "Other / Custom Event",
-      customEventType: formData.customEventType || "",
-    });
-  } else {
-    setFormData({
-      ...formData,
-      eventType: value,
-      customEventType: "",
-    });
-  }
 
-  if (errors.eventType) {
-    setErrors({
-      ...errors,
+    if (
+      value === "Other / Custom Event"
+    ) {
+
+      // Keep the special option in eventType
+      // so React knows the custom input must remain visible.
+
+      setFormData((prev) => ({
+        ...prev,
+        eventType:
+          "Other / Custom Event",
+        customEventType:
+          prev.customEventType || "",
+      }));
+
+    } else {
+
+      // Normal event selected
+
+      setFormData((prev) => ({
+        ...prev,
+        eventType: value,
+        customEventType: "",
+      }));
+
+    }
+
+    setErrors((prev) => ({
+      ...prev,
       eventType: "",
-    });
-  }
-};
+    }));
+
+  };
+
 
   // ============================================
   // CUSTOM EVENT TYPE CHANGE
   // ============================================
 
   const handleCustomEventChange = (e) => {
-  const value = e.target.value;
 
-  setFormData({
-    ...formData,
-    eventType: "Other / Custom Event",
-    customEventType: value,
-  });
+    const value =
+      e.target.value;
 
-  if (errors.eventType) {
-    setErrors({
-      ...errors,
-      eventType: "",
-    });
-  }
-};
+    setFormData((prev) => ({
+      ...prev,
+
+      // Keep special option selected
+      eventType:
+        "Other / Custom Event",
+
+      // Store user's actual event
+      customEventType: value,
+    }));
+
+    if (errors.eventType) {
+
+      setErrors((prev) => ({
+        ...prev,
+        eventType: "",
+      }));
+
+    }
+
+  };
+
 
   // ============================================
   // NEXT
   // ============================================
 
   const handleNext = () => {
-  const validationErrors = validateEvent(formData);
 
-  setErrors(validationErrors);
+    const validationErrors =
+      validateEvent(formData);
 
-  if (Object.keys(validationErrors).length === 0) {
-    nextStep();
-  }
-};
+    setErrors(validationErrors);
+
+    if (
+      Object.keys(
+        validationErrors
+      ).length === 0
+    ) {
+
+      nextStep();
+
+    }
+
+  };
 
 
   // ============================================
-  // DETERMINE CUSTOM EVENT
+  // CUSTOM EVENT SELECTED?
   // ============================================
 
   const isCustomEvent =
-    Boolean(formData.customEventType);
+    formData.eventType ===
+    "Other / Custom Event";
 
 
   return (
-
     <div className="booking-card">
 
       <h2>
@@ -673,9 +705,7 @@ function EventInformation({
             placeholder="Select Event"
             options={EVENT_TYPES}
             value={
-              isCustomEvent
-                ? "Other / Custom Event"
-                : formData.eventType
+              formData.eventType
             }
             onChange={
               handleEventTypeChange
@@ -689,7 +719,7 @@ function EventInformation({
               CUSTOM EVENT INPUT
           ================================= */}
 
-          {formData.eventType === "Other / Custom Event" && (
+          {isCustomEvent && (
 
             <div className="mt-3">
 
@@ -712,7 +742,8 @@ function EventInformation({
                 }`}
                 placeholder="e.g. Dholki, Anniversary, Baby Shower"
                 value={
-                  formData.customEventType || ""
+                  formData.customEventType ||
+                  ""
                 }
                 onChange={
                   handleCustomEventChange
@@ -821,7 +852,6 @@ function EventInformation({
       </div>
 
     </div>
-
   );
 }
 

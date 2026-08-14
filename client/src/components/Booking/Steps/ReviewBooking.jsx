@@ -23,6 +23,17 @@ function ReviewBooking({
     (item) =>
       String(item.id) === String(formData.decorId)
   );
+  const isCustomDecor =
+  formData.decorId === "custom";
+
+  // ============================================
+// FINAL EVENT TYPE
+// ============================================
+
+const finalEventType =
+  formData.eventType === "Other / Custom Event"
+    ? formData.customEventType?.trim() || ""
+    : formData.eventType || "";
 
   // ============================================
   // SELECTED FOOD
@@ -149,7 +160,7 @@ function ReviewBooking({
         // EVENT
         // =========================
 
-        event_type: formData.eventType,
+        event_type: finalEventType,
 
         event_date: formData.eventDate,
 
@@ -204,9 +215,9 @@ function ReviewBooking({
         // =========================
         // DECOR
         // =========================
-
-        decor_theme:
-          selectedDecor?.title || "",
+decor_theme: isCustomDecor
+  ? formData.customDecorCategory?.trim() || ""
+  : selectedDecor?.title || "",
 
         // =========================
         // ADDITIONAL REQUIREMENTS
@@ -370,11 +381,9 @@ function ReviewBooking({
               {/* EVENT */}
 
               <tr>
-                <th>Event Type</th>
-                <td>
-                  {formData.eventType}
-                </td>
-              </tr>
+  <th>Event Type</th>
+  <td>{finalEventType || "-"}</td>
+</tr>
 
               <tr>
                 <th>Event Date</th>
@@ -440,13 +449,15 @@ function ReviewBooking({
 
               {/* DECOR */}
 
-              <tr>
-                <th>Decor Package</th>
+             <tr>
+  <th>Decor Package</th>
 
-                <td>
-                  {selectedDecor?.title || "-"}
-                </td>
-              </tr>
+  <td>
+    {isCustomDecor
+      ? formData.customDecorCategory || "-"
+      : selectedDecor?.title || "-"}
+  </td>
+</tr>
 
               {/* FOOD */}
 

@@ -3,27 +3,27 @@
 // ===============================
 
 export const validateCustomer = (data) => {
-
   const errors = {};
 
-  if (!data.fullName.trim()) {
+  if (!data.fullName?.trim()) {
     errors.fullName = "Full Name is required.";
   }
 
-  if (!data.phone.trim()) {
+  if (!data.phone?.trim()) {
     errors.phone = "Phone Number is required.";
   }
 
-  if (!data.whatsapp.trim()) {
+  if (!data.whatsapp?.trim()) {
     errors.whatsapp = "WhatsApp Number is required.";
   }
 
-  if (!data.city.trim()) {
+  if (!data.city?.trim()) {
     errors.city = "City is required.";
   }
 
   return errors;
 };
+
 
 // ===============================
 // EVENT INFORMATION
@@ -32,34 +32,36 @@ export const validateCustomer = (data) => {
 export const validateEvent = (data) => {
   const errors = {};
 
-  if (!data.eventType) {
-    errors.eventType = "Please select an event type.";
-  }
-
+  // Normal event OR custom event must be provided
   if (
-    data.eventType === "Other / Custom Event" &&
+    !data.eventType &&
     !data.customEventType?.trim()
   ) {
-    errors.eventType = "Please enter your event type.";
+    errors.eventType =
+      "Please select an event type or enter your own event type.";
   }
 
+  // Event date
   if (!data.eventDate) {
-    errors.eventDate = "Please select an event date.";
+    errors.eventDate =
+      "Please select an event date.";
   }
 
+  // Event time
   if (!data.eventTime) {
-    errors.eventTime = "Please select a time slot.";
+    errors.eventTime =
+      "Please select a time slot.";
   }
 
   return errors;
 };
+
 
 // ===============================
 // GUEST INFORMATION
 // ===============================
 
 export const validateGuests = (data) => {
-
   const errors = {};
 
   if (!data.totalGuests) {
@@ -75,9 +77,7 @@ export const validateGuests = (data) => {
   }
 
   const total = Number(data.totalGuests);
-
   const male = Number(data.maleGuests);
-
   const female = Number(data.femaleGuests);
 
   if (
@@ -93,12 +93,12 @@ export const validateGuests = (data) => {
   return errors;
 };
 
+
 // ===============================
 // ARRANGEMENT
 // ===============================
 
 export const validateArrangement = (data) => {
-
   const errors = {};
 
   if (!data.partition) {
@@ -108,20 +108,29 @@ export const validateArrangement = (data) => {
   return errors;
 };
 
+
 // ===============================
 // DECOR
 // ===============================
 
 export const validateDecor = (data) => {
-
   const errors = {};
 
   if (!data.decorId) {
     errors.decorId = "Please select a decor package.";
   }
 
+  if (
+    data.decorId === "custom" &&
+    !data.customDecorCategory?.trim()
+  ) {
+    errors.customDecorCategory =
+      "Please enter the decor category you want.";
+  }
+
   return errors;
 };
+
 
 // ===============================
 // FOOD
@@ -130,13 +139,11 @@ export const validateDecor = (data) => {
 export const validateFood = (data) => {
   const errors = {};
 
-  // No food selected
   if (!data.foodId) {
     errors.foodId = "Please select a food menu.";
     return errors;
   }
 
-  // Custom food selected
   if (
     data.foodId === "custom" &&
     !data.custom_food?.trim()

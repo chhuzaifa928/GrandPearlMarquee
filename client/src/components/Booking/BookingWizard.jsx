@@ -13,74 +13,83 @@ import ReviewBooking from "./Steps/ReviewBooking";
 import "./BookingWizard.css";
 
 function BookingWizard({
-
   step,
-
   setStep,
-
 }) {
-
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
 
-    // Customer
+    // =========================
+    // CUSTOMER
+    // =========================
     fullName: "",
     phone: "",
     whatsapp: "",
     email: "",
     city: "",
 
-    // Event
-eventType: "",
-customEventType: "",
-eventDate: "",
-eventTime: "",
+    // =========================
+    // EVENT
+    // =========================
+    eventType: "",
+    customEventType: "",
+    eventDate: "",
+    eventTime: "",
 
-    // Guests
+    // =========================
+    // GUESTS
+    // =========================
     totalGuests: "",
     maleGuests: "",
     maleVIP: "",
     femaleGuests: "",
     femaleVIP: "",
 
-    // Arrangement
+    // =========================
+    // ARRANGEMENT
+    // =========================
     partition: "",
 
-    // Packages
+    // =========================
+    // DECOR
+    // =========================
     decorId: "",
-    foodId: "",
+    customDecorCategory: "",
 
-    // Extras
+    // =========================
+    // FOOD
+    // =========================
+    foodId: "",
+    foodName: "",
+    foodCategory: "",
+    foodDescription: "",
+    customFood: "",
+
+    // =========================
+    // EXTRA SERVICES
+    // =========================
     extras: [],
 
-    // Notes
+    // =========================
+    // NOTES
+    // =========================
     notes: "",
-
   });
 
   const nextStep = () => {
-
     if (step < 8) {
-
       setStep(step + 1);
-
     }
-
   };
 
   const prevStep = () => {
-
     if (step > 1) {
-
       setStep(step - 1);
-
     }
-
   };
 
   const pageVariants = {
-
     initial: {
       opacity: 0,
       x: 60,
@@ -95,17 +104,13 @@ eventTime: "",
       opacity: 0,
       x: -60,
     },
-
   };
 
   const pageTransition = {
-
     duration: 0.35,
-
   };
 
   return (
-
     <section className="booking-wizard">
 
       <div className="container">
@@ -122,7 +127,6 @@ eventTime: "",
           >
 
             {step === 1 && (
-
               <CustomerInformation
                 formData={formData}
                 setFormData={setFormData}
@@ -130,11 +134,9 @@ eventTime: "",
                 errors={errors}
                 setErrors={setErrors}
               />
-
             )}
 
             {step === 2 && (
-
               <EventInformation
                 formData={formData}
                 setFormData={setFormData}
@@ -143,11 +145,9 @@ eventTime: "",
                 errors={errors}
                 setErrors={setErrors}
               />
-
             )}
 
             {step === 3 && (
-
               <GuestInformation
                 formData={formData}
                 setFormData={setFormData}
@@ -156,11 +156,9 @@ eventTime: "",
                 errors={errors}
                 setErrors={setErrors}
               />
-
             )}
 
             {step === 4 && (
-
               <EventArrangement
                 formData={formData}
                 setFormData={setFormData}
@@ -169,11 +167,9 @@ eventTime: "",
                 errors={errors}
                 setErrors={setErrors}
               />
-
             )}
 
             {step === 5 && (
-
               <DecorSelection
                 formData={formData}
                 setFormData={setFormData}
@@ -182,11 +178,9 @@ eventTime: "",
                 errors={errors}
                 setErrors={setErrors}
               />
-
             )}
 
             {step === 6 && (
-
               <FoodSelection
                 formData={formData}
                 setFormData={setFormData}
@@ -195,27 +189,22 @@ eventTime: "",
                 errors={errors}
                 setErrors={setErrors}
               />
-
             )}
 
             {step === 7 && (
-
               <ExtraServices
                 formData={formData}
                 setFormData={setFormData}
                 nextStep={nextStep}
                 prevStep={prevStep}
               />
-
             )}
 
             {step === 8 && (
-
               <ReviewBooking
                 formData={formData}
                 prevStep={prevStep}
               />
-
             )}
 
           </motion.div>
@@ -225,9 +214,7 @@ eventTime: "",
       </div>
 
     </section>
-
   );
-
 }
 
 export default BookingWizard;

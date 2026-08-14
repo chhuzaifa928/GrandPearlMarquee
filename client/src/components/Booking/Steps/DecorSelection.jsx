@@ -6,20 +6,65 @@ function DecorSelection({
   nextStep,
   prevStep,
 }) {
+  // ============================================
+  // SELECT EXISTING DECOR
+  // ============================================
 
   const selectDecor = (decorId) => {
-
     setFormData({
-
-        ...formData,
-
-        decorId,
-
+      ...formData,
+      decorId,
+      customDecorCategory: "",
     });
   };
 
-  return (
+  // ============================================
+  // SELECT CUSTOM DECOR CATEGORY
+  // ============================================
 
+  const selectCustomDecor = () => {
+    setFormData({
+      ...formData,
+      decorId: "custom",
+      customDecorCategory:
+        formData.customDecorCategory || "",
+    });
+  };
+
+  // ============================================
+  // CUSTOM DECOR CATEGORY CHANGE
+  // ============================================
+
+  const handleCustomDecorChange = (e) => {
+    setFormData({
+      ...formData,
+      decorId: "custom",
+      customDecorCategory: e.target.value,
+    });
+  };
+
+  // ============================================
+  // NEXT
+  // ============================================
+
+  const handleNext = () => {
+    if (
+      formData.decorId === "custom" &&
+      !formData.customDecorCategory?.trim()
+    ) {
+      alert("Please enter the decor category you want.");
+      return;
+    }
+
+    if (!formData.decorId) {
+      alert("Please select a decor package.");
+      return;
+    }
+
+    nextStep();
+  };
+
+  return (
     <div className="booking-card">
 
       <h2>Select Decor Package</h2>
@@ -27,6 +72,10 @@ function DecorSelection({
       <p>
         Choose your preferred décor package for your event.
       </p>
+
+      {/* ============================================
+          EXISTING DECOR PACKAGES
+      ============================================ */}
 
       <div className="row">
 
@@ -39,9 +88,13 @@ function DecorSelection({
 
             <div
               className={`booking-package-card ${
-                formData.decorId === item.id ? "selected" : ""
+                formData.decorId === item.id
+                  ? "selected"
+                  : ""
               }`}
-             onClick={() => selectDecor(item.id)}
+              onClick={() =>
+                selectDecor(item.id)
+              }
             >
 
               <img
@@ -60,6 +113,12 @@ function DecorSelection({
 
                 <p>{item.description}</p>
 
+                {formData.decorId === item.id && (
+                  <div className="selected-label">
+                    ✓ Selected
+                  </div>
+                )}
+
               </div>
 
             </div>
@@ -70,7 +129,82 @@ function DecorSelection({
 
       </div>
 
-      <div className="d-flex justify-content-between">
+      {/* ============================================
+          CUSTOM DECOR CATEGORY
+      ============================================ */}
+
+      <div className="custom-food-section mt-4">
+
+        <div
+          className={`booking-package-card ${
+            formData.decorId === "custom"
+              ? "selected"
+              : ""
+          }`}
+          onClick={selectCustomDecor}
+        >
+
+          <div className="package-body">
+
+            <span className="package-category">
+              Custom
+            </span>
+
+            <h4>
+              Other / Custom Decor Category
+            </h4>
+
+            <p>
+              Don't see the decor category you
+              need? Enter your preferred category
+              below and our team will review it.
+            </p>
+
+            {formData.decorId === "custom" && (
+              <div
+                className="mt-3"
+                onClick={(event) =>
+                  event.stopPropagation()
+                }
+              >
+
+                <label className="form-label">
+                  Enter Your Decor Category{" "}
+                  <span className="required">*</span>
+                </label>
+
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Dholki, Baby Shower, Anniversary"
+                  value={
+                    formData.customDecorCategory || ""
+                  }
+                  onChange={
+                    handleCustomDecorChange
+                  }
+                />
+
+              </div>
+            )}
+
+            {formData.decorId === "custom" && (
+              <div className="selected-label mt-3">
+                ✓ Custom Decor Selected
+              </div>
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* ============================================
+          NAVIGATION
+      ============================================ */}
+
+      <div className="d-flex justify-content-between mt-4">
 
         <button
           type="button"
@@ -83,8 +217,14 @@ function DecorSelection({
         <button
           type="button"
           className="btn btn-gold"
-          onClick={nextStep}
-          disabled={!formData.decorId}
+          onClick={handleNext}
+          disabled={
+            !formData.decorId ||
+            (
+              formData.decorId === "custom" &&
+              !formData.customDecorCategory?.trim()
+            )
+          }
         >
           Next →
         </button>
@@ -92,9 +232,7 @@ function DecorSelection({
       </div>
 
     </div>
-
   );
-
 }
 
 export default DecorSelection;
