@@ -23,17 +23,18 @@ function ReviewBooking({
     (item) =>
       String(item.id) === String(formData.decorId)
   );
+
   const isCustomDecor =
-  formData.decorId === "custom";
+    formData.decorId === "custom";
 
   // ============================================
-// FINAL EVENT TYPE
-// ============================================
+  // FINAL EVENT TYPE
+  // ============================================
 
-const finalEventType =
-  formData.eventType === "Other / Custom Event"
-    ? formData.customEventType?.trim() || ""
-    : formData.eventType || "";
+  const finalEventType =
+    formData.eventType === "Other / Custom Event"
+      ? formData.customEventType?.trim() || ""
+      : formData.eventType || "";
 
   // ============================================
   // SELECTED FOOD
@@ -53,51 +54,15 @@ const finalEventType =
     : null;
 
   // ============================================
-  // SELECTED EXTRAS
+  // SELECTED EXTRA SERVICES
   // ============================================
 
   const selectedExtras = extraServices.filter(
     (item) =>
-      formData.extras?.includes(item.id)
-  );
-
-  // ============================================
-  // DEBUG
-  // ============================================
-
-  console.log(
-    "========== BOOKING DEBUG =========="
-  );
-
-  console.log("formData =", formData);
-
-  console.log(
-    "formData.foodId =",
-    formData.foodId
-  );
-
-  console.log(
-    "isCustomFood =",
-    isCustomFood
-  );
-
-  console.log(
-    "finalFood =",
-    finalFood
-  );
-
-  console.log(
-    "selectedDecor =",
-    selectedDecor
-  );
-
-  console.log(
-    "customFood =",
-    formData.customFood
-  );
-
-  console.log(
-    "==================================="
+      formData.extras?.some(
+        (selectedId) =>
+          String(selectedId) === String(item.id)
+      )
   );
 
   // ============================================
@@ -137,9 +102,21 @@ const finalEventType =
         return;
       }
 
-      // ------------------------------------------
-      // Build booking data
-      // ------------------------------------------
+      // ==========================================
+      // ALL SELECTED EXTRA SERVICES
+      // ==========================================
+
+      const extraServicesData =
+        selectedExtras.map((service) => ({
+          id: service.id,
+          title: service.title,
+          icon: service.icon,
+          description: service.description,
+        }));
+
+      // ==========================================
+      // BOOKING DATA
+      // ==========================================
 
       const bookingData = {
         // =========================
@@ -215,9 +192,10 @@ const finalEventType =
         // =========================
         // DECOR
         // =========================
-decor_theme: isCustomDecor
-  ? formData.customDecorCategory?.trim() || ""
-  : selectedDecor?.title || "",
+
+        decor_theme: isCustomDecor
+          ? formData.customDecorCategory?.trim() || ""
+          : selectedDecor?.title || "",
 
         // =========================
         // ADDITIONAL REQUIREMENTS
@@ -230,21 +208,34 @@ decor_theme: isCustomDecor
         // EXTRA SERVICES
         // =========================
 
+        extra_services: JSON.stringify(
+          extraServicesData
+        ),
+
+        // Keep these fields for compatibility
+        // with the existing database/admin code.
+
         sound_system:
-          formData.extras?.includes("sound") ||
-          false,
+          formData.extras?.some(
+            (id) =>
+              String(id) === "5"
+          ) || false,
 
         ac_required:
-          formData.extras?.includes("ac") ||
-          false,
+          formData.extras?.some(
+            (id) =>
+              String(id) === "7"
+          ) || false,
 
         heater_required:
-          formData.extras?.includes("heater") ||
-          false,
+          formData.extras?.some(
+            (id) =>
+              String(id) === "8"
+          ) || false,
       };
 
       // ========================================
-      // DEBUG BOOKING DATA
+      // DEBUG
       // ========================================
 
       console.log(
@@ -254,13 +245,13 @@ decor_theme: isCustomDecor
       console.log(bookingData);
 
       console.log(
-        "food_category =",
-        bookingData.food_category
+        "Selected Extras:",
+        selectedExtras
       );
 
       console.log(
-        "custom_food =",
-        bookingData.custom_food
+        "Extra Services Data:",
+        extraServicesData
       );
 
       console.log(
@@ -345,23 +336,17 @@ decor_theme: isCustomDecor
 
               <tr>
                 <th>Full Name</th>
-                <td>
-                  {formData.fullName}
-                </td>
+                <td>{formData.fullName}</td>
               </tr>
 
               <tr>
                 <th>Phone</th>
-                <td>
-                  {formData.phone}
-                </td>
+                <td>{formData.phone}</td>
               </tr>
 
               <tr>
                 <th>WhatsApp</th>
-                <td>
-                  {formData.whatsapp}
-                </td>
+                <td>{formData.whatsapp}</td>
               </tr>
 
               <tr>
@@ -373,91 +358,75 @@ decor_theme: isCustomDecor
 
               <tr>
                 <th>City</th>
-                <td>
-                  {formData.city}
-                </td>
+                <td>{formData.city}</td>
               </tr>
 
               {/* EVENT */}
 
               <tr>
-  <th>Event Type</th>
-  <td>{finalEventType || "-"}</td>
-</tr>
-
-              <tr>
-                <th>Event Date</th>
+                <th>Event Type</th>
                 <td>
-                  {formData.eventDate}
+                  {finalEventType || "-"}
                 </td>
               </tr>
 
               <tr>
+                <th>Event Date</th>
+                <td>{formData.eventDate}</td>
+              </tr>
+
+              <tr>
                 <th>Time Slot</th>
-                <td>
-                  {formData.eventTime}
-                </td>
+                <td>{formData.eventTime}</td>
               </tr>
 
               {/* GUESTS */}
 
               <tr>
                 <th>Total Guests</th>
-                <td>
-                  {formData.totalGuests}
-                </td>
+                <td>{formData.totalGuests}</td>
               </tr>
 
               <tr>
                 <th>Male Guests</th>
-                <td>
-                  {formData.maleGuests}
-                </td>
+                <td>{formData.maleGuests}</td>
               </tr>
 
               <tr>
                 <th>Female Guests</th>
-                <td>
-                  {formData.femaleGuests}
-                </td>
+                <td>{formData.femaleGuests}</td>
               </tr>
 
               {/* VIP */}
 
               <tr>
                 <th>Male VIP</th>
-                <td>
-                  {formData.maleVIP}
-                </td>
+                <td>{formData.maleVIP}</td>
               </tr>
 
               <tr>
                 <th>Female VIP</th>
-                <td>
-                  {formData.femaleVIP}
-                </td>
+                <td>{formData.femaleVIP}</td>
               </tr>
 
               {/* PARTITION */}
 
               <tr>
                 <th>Separate Seating</th>
-                <td>
-                  {formData.partition}
-                </td>
+                <td>{formData.partition}</td>
               </tr>
 
               {/* DECOR */}
 
-             <tr>
-  <th>Decor Package</th>
+              <tr>
+                <th>Decor Package</th>
 
-  <td>
-    {isCustomDecor
-      ? formData.customDecorCategory || "-"
-      : selectedDecor?.title || "-"}
-  </td>
-</tr>
+                <td>
+                  {isCustomDecor
+                    ? formData.customDecorCategory || "-"
+                    : selectedDecor?.title || "-"}
+                </td>
+              </tr>
 
               {/* FOOD */}
 
@@ -499,14 +468,22 @@ decor_theme: isCustomDecor
                 <th>Extra Services</th>
 
                 <td>
-                  {selectedExtras.length > 0
-                    ? selectedExtras
-                        .map(
-                          (service) =>
-                            service.title
+                  {selectedExtras.length > 0 ? (
+                    <div className="d-flex flex-column gap-1">
+
+                      {selectedExtras.map(
+                        (service) => (
+                          <span key={service.id}>
+                            {service.icon}{" "}
+                            {service.title}
+                          </span>
                         )
-                        .join(", ")
-                    : "None"}
+                      )}
+
+                    </div>
+                  ) : (
+                    "None"
+                  )}
                 </td>
               </tr>
 

@@ -1,11 +1,11 @@
 const db = require("../config/db");
 
-
 // ===========================
 // Create Booking
 // ===========================
 
 const createBooking = (bookingData, callback) => {
+
   const sql = `
     INSERT INTO bookings (
       customer_name,
@@ -36,7 +36,9 @@ const createBooking = (bookingData, callback) => {
 
       sound_system,
       ac_required,
-      heater_required
+      heater_required,
+
+      extra_services
     )
     VALUES (
       ?, ?, ?, ?, ?,
@@ -46,50 +48,84 @@ const createBooking = (bookingData, callback) => {
       ?,
       ?, ?,
       ?, ?,
-      ?, ?, ?
+
+      ?, ?, ?,
+
+      ?
     )
   `;
 
   db.query(
     sql,
     [
-      // Customer
+
+      // =========================
+      // CUSTOMER
+      // =========================
+
       bookingData.customer_name,
       bookingData.email,
       bookingData.phone,
       bookingData.whatsapp,
       bookingData.city,
 
-      // Event
+      // =========================
+      // EVENT
+      // =========================
+
       bookingData.event_type,
       bookingData.event_date,
       bookingData.event_time,
 
-      // Guests
+      // =========================
+      // GUESTS
+      // =========================
+
       bookingData.guests,
       bookingData.male_guests,
       bookingData.female_guests,
 
+      // =========================
       // VIP
+      // =========================
+
       bookingData.vip_guests,
       bookingData.male_vip,
       bookingData.female_vip,
 
-      // Arrangement
+      // =========================
+      // ARRANGEMENT
+      // =========================
+
       bookingData.partition_required,
 
-      // Food
+      // =========================
+      // FOOD
+      // =========================
+
       bookingData.food_category,
       bookingData.custom_food,
 
-      // Decor
+      // =========================
+      // DECOR
+      // =========================
+
       bookingData.decor_theme,
       bookingData.additional_requirements,
 
-      // Extra services
+      // =========================
+      // EXISTING EXTRA FIELDS
+      // =========================
+
       bookingData.sound_system,
       bookingData.ac_required,
       bookingData.heater_required,
+
+      // =========================
+      // ALL EXTRA SERVICES
+      // =========================
+
+      bookingData.extra_services || "[]",
     ],
     callback
   );
@@ -101,10 +137,12 @@ const createBooking = (bookingData, callback) => {
 // ===========================
 
 const getAllBookings = (callback) => {
+
   db.query(
     "SELECT * FROM bookings ORDER BY created_at DESC",
     callback
   );
+
 };
 
 
@@ -113,11 +151,13 @@ const getAllBookings = (callback) => {
 // ===========================
 
 const getBookingById = (id, callback) => {
+
   db.query(
     "SELECT * FROM bookings WHERE id = ?",
     [id],
     callback
   );
+
 };
 
 
@@ -125,12 +165,18 @@ const getBookingById = (id, callback) => {
 // Update Booking Status
 // ===========================
 
-const updateBookingStatus = (id, status, callback) => {
+const updateBookingStatus = (
+  id,
+  status,
+  callback
+) => {
+
   db.query(
     "UPDATE bookings SET booking_status = ? WHERE id = ?",
     [status, id],
     callback
   );
+
 };
 
 
@@ -139,11 +185,13 @@ const updateBookingStatus = (id, status, callback) => {
 // ===========================
 
 const deleteBooking = (id, callback) => {
+
   db.query(
     "DELETE FROM bookings WHERE id = ?",
     [id],
     callback
   );
+
 };
 
 

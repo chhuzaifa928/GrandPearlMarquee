@@ -23,11 +23,46 @@ const addBooking = (req, res) => {
   }
 
   // Custom Validation
-  if (req.body.vip_guests > req.body.guests) {
+  if (
+    Number(req.body.vip_guests || 0) >
+    Number(req.body.guests || 0)
+  ) {
     return res.status(400).json({
       success: false,
-      message: "VIP guests cannot be greater than total guests.",
+      message:
+        "VIP guests cannot be greater than total guests.",
     });
+  }
+
+  // Make sure extra_services is valid JSON
+  if (req.body.extra_services) {
+    try {
+      const parsedExtras =
+        typeof req.body.extra_services === "string"
+          ? JSON.parse(req.body.extra_services)
+          : req.body.extra_services;
+
+      if (!Array.isArray(parsedExtras)) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Extra services must be an array.",
+        });
+      }
+
+      // Store it as JSON string
+      req.body.extra_services =
+        JSON.stringify(parsedExtras);
+
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Invalid extra services data.",
+      });
+    }
+  } else {
+    req.body.extra_services = "[]";
   }
 
   createBooking(req.body, (err, result) => {
@@ -41,7 +76,8 @@ const addBooking = (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Booking submitted successfully.",
+      message:
+        "Booking submitted successfully.",
       bookingId: result.insertId,
     });
   });
