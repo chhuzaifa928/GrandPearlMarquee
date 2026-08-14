@@ -14,3 +14,13 @@
     box-shadow:0 0 0 .2rem rgba(200,164,93,.2);
 
 }
+
+@media (max-width: 768px) {
+
+    .form-select {
+        width: 100%;
+        max-width: 100%;
+        padding-right: 2.25rem;
+    }
+
+}

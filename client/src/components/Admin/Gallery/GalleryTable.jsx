@@ -1,4 +1,5 @@
 import { FaTrash } from "react-icons/fa";
+import "./GalleryTable.css";
 
 function GalleryTable({
   gallery = [],
@@ -12,6 +13,8 @@ function GalleryTable({
       </div>
 
       <div className="card-body">
+
+        <div className="gallery-table-wrapper">
 
         <table className="table table-hover align-middle">
 
@@ -98,6 +101,8 @@ function GalleryTable({
           </tbody>
 
         </table>
+
+        </div>
 
       </div>
 

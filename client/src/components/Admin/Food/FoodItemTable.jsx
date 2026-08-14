@@ -14,15 +14,26 @@ function FoodItemTable({
 
       <div className="card-body">
 
-        <table className="table table-hover">
+        <div
+          className="table-responsive"
+          style={{
+            overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+
+        <table
+          className="table table-hover"
+          style={{ minWidth: 600 }}
+        >
 
           <thead>
 
             <tr>
-              <th>Category</th>
-              <th>Item</th>
-              <th>Description</th>
-              <th width="120">Actions</th>
+              <th style={{ whiteSpace: "nowrap" }}>Category</th>
+              <th style={{ whiteSpace: "nowrap" }}>Item</th>
+              <th style={{ whiteSpace: "nowrap" }}>Description</th>
+              <th width="120" style={{ whiteSpace: "nowrap" }}>Actions</th>
             </tr>
 
           </thead>
@@ -33,13 +44,13 @@ function FoodItemTable({
 
               <tr key={item.id}>
 
-                <td>{item.category_name}</td>
+                <td style={{ whiteSpace: "nowrap" }}>{item.category_name}</td>
 
-                <td>{item.item_name}</td>
+                <td style={{ whiteSpace: "nowrap" }}>{item.item_name}</td>
 
                 <td>{item.description}</td>
 
-                <td>
+                <td style={{ whiteSpace: "nowrap" }}>
 
                   <button
                     className="btn btn-warning btn-sm me-2"
@@ -64,6 +75,8 @@ function FoodItemTable({
           </tbody>
 
         </table>
+
+        </div>
 
       </div>
 

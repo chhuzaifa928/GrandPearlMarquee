@@ -1,0 +1,20 @@
+@media (max-width: 768px) {
+  .contact-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .contact-table-wrapper .table {
+    min-width: 900px;
+  }
+
+  .contact-table-wrapper .table th,
+  .contact-table-wrapper .table td {
+    white-space: nowrap;
+  }
+
+  .contact-table-wrapper .table th:nth-child(5),
+  .contact-table-wrapper .table td:nth-child(5) {
+    white-space: normal;
+  }
+}

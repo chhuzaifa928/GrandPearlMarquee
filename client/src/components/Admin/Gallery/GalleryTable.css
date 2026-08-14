@@ -1,0 +1,11 @@
+@media (max-width: 768px) {
+  .gallery-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .gallery-table-wrapper .table {
+    min-width: 500px;
+    white-space: nowrap;
+  }
+}

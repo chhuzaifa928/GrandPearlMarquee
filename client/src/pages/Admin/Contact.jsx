@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
+import "./Contact.css";
 
 import {
   getMessages,
@@ -60,6 +61,8 @@ function Contact() {
       <div className="card shadow-sm">
 
         <div className="card-body">
+
+          <div className="contact-table-wrapper">
 
           <table className="table table-hover">
 
@@ -134,6 +137,8 @@ function Contact() {
             </tbody>
 
           </table>
+
+          </div>
 
         </div>
 

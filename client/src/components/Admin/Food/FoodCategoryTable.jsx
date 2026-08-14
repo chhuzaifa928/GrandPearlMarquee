@@ -51,9 +51,9 @@ function FoodCategoryTable({
                       <img
                         src={`http://localhost:5000${category.image}`}
                         alt={category.category_name}
-                        width="80"
-                        height="60"
                         style={{
+                          width: "80px",
+                          height: "60px",
                           objectFit: "cover",
                           borderRadius: "8px",
                         }}

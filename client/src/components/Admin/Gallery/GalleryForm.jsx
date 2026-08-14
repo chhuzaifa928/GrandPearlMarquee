@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./GalleryForm.css";
 
 function GalleryForm({
   onSubmit,
@@ -184,7 +185,7 @@ function GalleryForm({
               Add New Category
             </label>
 
-            <div className="input-group">
+            <div className="input-group add-category-group">
 
               <input
                 type="text"
