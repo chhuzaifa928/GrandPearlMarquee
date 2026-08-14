@@ -32,9 +32,10 @@ function BookingWizard({
     city: "",
 
     // Event
-    eventType: "",
-    eventDate: "",
-    eventTime: "",
+eventType: "",
+customEventType: "",
+eventDate: "",
+eventTime: "",
 
     // Guests
     totalGuests: "",

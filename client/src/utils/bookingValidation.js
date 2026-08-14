@@ -30,11 +30,17 @@ export const validateCustomer = (data) => {
 // ===============================
 
 export const validateEvent = (data) => {
-
   const errors = {};
 
   if (!data.eventType) {
     errors.eventType = "Please select an event type.";
+  }
+
+  if (
+    data.eventType === "Other / Custom Event" &&
+    !data.customEventType?.trim()
+  ) {
+    errors.eventType = "Please enter your event type.";
   }
 
   if (!data.eventDate) {

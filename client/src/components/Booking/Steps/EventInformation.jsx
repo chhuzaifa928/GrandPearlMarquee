@@ -10,6 +10,7 @@ const EVENT_TYPES = [
   "Birthday",
   "Corporate",
   "Gathering",
+  "Other / Custom Event",
 ];
 
 const TIME_SLOTS = [
@@ -35,7 +36,15 @@ const MONTHS = [
   "December",
 ];
 
-const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const DAY_NAMES = [
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+];
 
 function toValue(y, m, d) {
   return `${y}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
@@ -43,21 +52,44 @@ function toValue(y, m, d) {
 
 function fromValue(value) {
   if (!value) return null;
+
   const parts = value.split("-").map(Number);
-  if (parts.length !== 3 || !parts[0] || !parts[1] || !parts[2]) return null;
-  return { y: parts[0], m: parts[1], d: parts[2] };
+
+  if (
+    parts.length !== 3 ||
+    !parts[0] ||
+    !parts[1] ||
+    !parts[2]
+  ) {
+    return null;
+  }
+
+  return {
+    y: parts[0],
+    m: parts[1],
+    d: parts[2],
+  };
 }
 
 function buildDays(y, m) {
   const first = new Date(y, m - 1, 1).getDay();
   const total = new Date(y, m, 0).getDate();
+
   const days = [];
+
   for (let i = 0; i < 42; i++) {
     const day = i - first + 1;
+
     if (day >= 1 && day <= total) {
-      days.push({ y, m, d: day, inMonth: true });
+      days.push({
+        y,
+        m,
+        d: day,
+        inMonth: true,
+      });
     } else {
       const dt = new Date(y, m - 1, day);
+
       days.push({
         y: dt.getFullYear(),
         m: dt.getMonth() + 1,
@@ -66,13 +98,23 @@ function buildDays(y, m) {
       });
     }
   }
+
   return days;
 }
 
 function formatDisplay(y, m, d) {
   const day = new Date(y, m - 1, d);
-  return `${DAY_NAMES[day.getDay()]}, ${String(d).padStart(2, "0")} ${MONTHS[m - 1].slice(0, 3)} ${y}`;
+
+  return `${DAY_NAMES[day.getDay()]}, ${String(d).padStart(
+    2,
+    "0"
+  )} ${MONTHS[m - 1].slice(0, 3)} ${y}`;
 }
+
+
+// ============================================
+// CUSTOM SELECT MENU
+// ============================================
 
 function SelectMenu({
   label,
@@ -87,11 +129,24 @@ function SelectMenu({
 
   useEffect(() => {
     if (!open) return;
+
     const onDoc = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      if (
+        ref.current &&
+        !ref.current.contains(e.target)
+      ) {
+        setOpen(false);
+      }
     };
+
     document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        onDoc
+      );
+    };
   }, [open]);
 
   const select = (val) => {
@@ -101,25 +156,39 @@ function SelectMenu({
 
   return (
     <div className="custom-select" ref={ref}>
+
       <label className="form-label">
-        {label} <span className="required">*</span>
+        {label}{" "}
+        <span className="required">*</span>
       </label>
 
       <button
         type="button"
-        className={`custom-select-trigger ${error ? "input-error" : ""}`}
+        className={`custom-select-trigger ${
+          error ? "input-error" : ""
+        }`}
         onClick={() => setOpen((o) => !o)}
       >
-        <span className={value ? "" : "placeholder"}>
+        <span
+          className={
+            value ? "" : "placeholder"
+          }
+        >
           {value || placeholder}
         </span>
-        <span className="custom-select-arrow">{open ? "▲" : "▼"}</span>
+
+        <span className="custom-select-arrow">
+          {open ? "▲" : "▼"}
+        </span>
       </button>
 
       {open && (
         <ul className="custom-select-menu">
+
           <li
-            className={`custom-option ${!value ? "selected" : ""}`}
+            className={`custom-option ${
+              !value ? "selected" : ""
+            }`}
             onClick={() => select("")}
           >
             {placeholder}
@@ -128,19 +197,34 @@ function SelectMenu({
           {options.map((opt) => (
             <li
               key={opt}
-              className={`custom-option ${value === opt ? "selected" : ""}`}
+              className={`custom-option ${
+                value === opt
+                  ? "selected"
+                  : ""
+              }`}
               onClick={() => select(opt)}
             >
               {opt}
             </li>
           ))}
+
         </ul>
       )}
 
-      {error && <p className="error-text">{error}</p>}
+      {error && (
+        <p className="error-text">
+          {error}
+        </p>
+      )}
+
     </div>
   );
 }
+
+
+// ============================================
+// DATE PICKER
+// ============================================
 
 function DatePicker({
   label,
@@ -149,31 +233,113 @@ function DatePicker({
   error,
 }) {
   const [open, setOpen] = useState(false);
+
   const ref = useRef(null);
+
   const parts = fromValue(value);
+
+  // ============================================
+  // TODAY
+  // ============================================
+
   const today = new Date();
-  const [viewY, setViewY] = useState(parts ? parts.y : today.getFullYear());
-  const [viewM, setViewM] = useState(parts ? parts.m : today.getMonth() + 1);
+
+  today.setHours(0, 0, 0, 0);
+
+  const todayValue = toValue(
+    today.getFullYear(),
+    today.getMonth() + 1,
+    today.getDate()
+  );
+
+  // ============================================
+  // CALENDAR VIEW
+  // ============================================
+
+  const [viewY, setViewY] = useState(
+    parts
+      ? parts.y
+      : today.getFullYear()
+  );
+
+  const [viewM, setViewM] = useState(
+    parts
+      ? parts.m
+      : today.getMonth() + 1
+  );
+
+  // ============================================
+  // CLOSE CALENDAR WHEN CLICKING OUTSIDE
+  // ============================================
 
   useEffect(() => {
     if (!open) return;
+
     const onDoc = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+      if (
+        ref.current &&
+        !ref.current.contains(e.target)
+      ) {
+        setOpen(false);
+      }
     };
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
+
+    document.addEventListener(
+      "mousedown",
+      onDoc
+    );
+
+    return () =>
+      document.removeEventListener(
+        "mousedown",
+        onDoc
+      );
   }, [open]);
+
+  // ============================================
+  // OPEN CALENDAR
+  // ============================================
 
   const openCalendar = () => {
     const p = fromValue(value);
+
     if (p) {
       setViewY(p.y);
       setViewM(p.m);
+    } else {
+      setViewY(today.getFullYear());
+      setViewM(today.getMonth() + 1);
     }
+
     setOpen(true);
   };
 
+  // ============================================
+  // CHECK IF DATE IS BEFORE TODAY
+  // ============================================
+
+  const isPastDate = (y, m, d) => {
+    const date = new Date(y, m - 1, d);
+
+    date.setHours(0, 0, 0, 0);
+
+    return date < today;
+  };
+
+  // ============================================
+  // PREVIOUS MONTH
+  // ============================================
+
   const prevMonth = () => {
+    // Do not allow going before current month
+
+    if (
+      viewY === today.getFullYear() &&
+      viewM === today.getMonth() + 1
+    ) {
+      return;
+    }
+
     if (viewM === 1) {
       setViewM(12);
       setViewY(viewY - 1);
@@ -181,6 +347,10 @@ function DatePicker({
       setViewM(viewM - 1);
     }
   };
+
+  // ============================================
+  // NEXT MONTH
+  // ============================================
 
   const nextMonth = () => {
     if (viewM === 12) {
@@ -191,73 +361,184 @@ function DatePicker({
     }
   };
 
-  const days = buildDays(viewY, viewM);
+  const days = buildDays(
+    viewY,
+    viewM
+  );
+
+  // ============================================
+  // IS CURRENT MONTH
+  // ============================================
+
+  const isCurrentMonth =
+    viewY === today.getFullYear() &&
+    viewM === today.getMonth() + 1;
+
+  // ============================================
+  // UI
+  // ============================================
 
   return (
-    <div className="custom-date" ref={ref}>
+    <div
+      className="custom-date"
+      ref={ref}
+    >
+
       <label className="form-label">
-        {label} <span className="required">*</span>
+        {label}{" "}
+        <span className="required">*</span>
       </label>
 
       <button
         type="button"
-        className={`custom-date-trigger ${error ? "input-error" : ""}`}
+        className={`custom-date-trigger ${
+          error ? "input-error" : ""
+        }`}
         onClick={openCalendar}
       >
-        <span className={parts ? "" : "placeholder"}>
-          📅 {parts ? formatDisplay(parts.y, parts.m, parts.d) : "Select Date"}
+        <span
+          className={
+            parts ? "" : "placeholder"
+          }
+        >
+          📅{" "}
+          {parts
+            ? formatDisplay(
+                parts.y,
+                parts.m,
+                parts.d
+              )
+            : "Select Date"}
         </span>
       </button>
 
       {open && (
         <div className="custom-calendar">
+
+          {/* =================================
+              CALENDAR HEADER
+          ================================= */}
+
           <div className="cal-header">
-            <button type="button" className="cal-nav" onClick={prevMonth}>
+
+            <button
+              type="button"
+              className="cal-nav"
+              onClick={prevMonth}
+              disabled={isCurrentMonth}
+            >
               ‹
             </button>
+
             <span className="cal-title">
-              {MONTHS[viewM - 1]} {viewY}
+              {MONTHS[viewM - 1]}{" "}
+              {viewY}
             </span>
-            <button type="button" className="cal-nav" onClick={nextMonth}>
+
+            <button
+              type="button"
+              className="cal-nav"
+              onClick={nextMonth}
+            >
               ›
             </button>
+
           </div>
+
+          {/* =================================
+              WEEKDAYS
+          ================================= */}
 
           <div className="cal-weekdays">
+
             {WEEKDAYS.map((w) => (
-              <span key={w}>{w}</span>
+              <span key={w}>
+                {w}
+              </span>
             ))}
+
           </div>
 
+          {/* =================================
+              DAYS
+          ================================= */}
+
           <div className="cal-grid">
-            {days.map((d, i) => (
-              <button
-                key={i}
-                type="button"
-                className={`cal-day ${!d.inMonth ? "outside" : ""} ${
-                  parts &&
-                  parts.y === d.y &&
-                  parts.m === d.m &&
-                  parts.d === d.d
-                    ? "selected"
-                    : ""
-                }`}
-                onClick={() => {
-                  onChange(toValue(d.y, d.m, d.d));
-                  setOpen(false);
-                }}
-              >
-                {d.d}
-              </button>
-            ))}
+
+            {days.map((d, i) => {
+
+              const disabled =
+                isPastDate(
+                  d.y,
+                  d.m,
+                  d.d
+                );
+
+              return (
+
+                <button
+                  key={i}
+                  type="button"
+                  disabled={disabled}
+                  className={`cal-day ${
+                    !d.inMonth
+                      ? "outside"
+                      : ""
+                  } ${
+                    disabled
+                      ? "disabled"
+                      : ""
+                  } ${
+                    parts &&
+                    parts.y === d.y &&
+                    parts.m === d.m &&
+                    parts.d === d.d
+                      ? "selected"
+                      : ""
+                  }`}
+                  onClick={() => {
+
+                    if (disabled) {
+                      return;
+                    }
+
+                    onChange(
+                      toValue(
+                        d.y,
+                        d.m,
+                        d.d
+                      )
+                    );
+
+                    setOpen(false);
+
+                  }}
+                >
+                  {d.d}
+                </button>
+
+              );
+
+            })}
+
           </div>
+
         </div>
       )}
 
-      {error && <p className="error-text">{error}</p>}
+      {error && (
+        <p className="error-text">
+          {error}
+        </p>
+      )}
+
     </div>
   );
 }
+
+// ============================================
+// EVENT INFORMATION
+// ============================================
 
 function EventInformation({
   formData,
@@ -268,9 +549,16 @@ function EventInformation({
   setErrors,
 }) {
 
+  // ============================================
+  // GENERAL CHANGE
+  // ============================================
+
   const handleChange = (e) => {
 
-    const { name, value } = e.target;
+    const {
+      name,
+      value,
+    } = e.target;
 
     setFormData({
       ...formData,
@@ -288,25 +576,85 @@ function EventInformation({
 
   };
 
+
+  // ============================================
+  // EVENT TYPE CHANGE
+  // ============================================
+
+  const handleEventTypeChange = (value) => {
+  if (value === "Other / Custom Event") {
+    setFormData({
+      ...formData,
+      eventType: "Other / Custom Event",
+      customEventType: formData.customEventType || "",
+    });
+  } else {
+    setFormData({
+      ...formData,
+      eventType: value,
+      customEventType: "",
+    });
+  }
+
+  if (errors.eventType) {
+    setErrors({
+      ...errors,
+      eventType: "",
+    });
+  }
+};
+
+  // ============================================
+  // CUSTOM EVENT TYPE CHANGE
+  // ============================================
+
+  const handleCustomEventChange = (e) => {
+  const value = e.target.value;
+
+  setFormData({
+    ...formData,
+    eventType: "Other / Custom Event",
+    customEventType: value,
+  });
+
+  if (errors.eventType) {
+    setErrors({
+      ...errors,
+      eventType: "",
+    });
+  }
+};
+
+  // ============================================
+  // NEXT
+  // ============================================
+
   const handleNext = () => {
+  const validationErrors = validateEvent(formData);
 
-    const validationErrors = validateEvent(formData);
+  setErrors(validationErrors);
 
-    setErrors(validationErrors);
+  if (Object.keys(validationErrors).length === 0) {
+    nextStep();
+  }
+};
 
-    if (Object.keys(validationErrors).length === 0) {
 
-      nextStep();
+  // ============================================
+  // DETERMINE CUSTOM EVENT
+  // ============================================
 
-    }
+  const isCustomEvent =
+    Boolean(formData.customEventType);
 
-  };
 
   return (
 
     <div className="booking-card">
 
-      <h2>Event Information</h2>
+      <h2>
+        Event Information
+      </h2>
 
       <p>
         Tell us about your event.
@@ -314,7 +662,9 @@ function EventInformation({
 
       <div className="row">
 
-        {/* Event Type */}
+        {/* =================================
+            EVENT TYPE
+        ================================= */}
 
         <div className="col-md-4 mb-4">
 
@@ -322,42 +672,133 @@ function EventInformation({
             label="Event Type"
             placeholder="Select Event"
             options={EVENT_TYPES}
-            value={formData.eventType}
-            onChange={(value) => handleChange({ target: { name: "eventType", value } })}
-            error={errors.eventType}
+            value={
+              isCustomEvent
+                ? "Other / Custom Event"
+                : formData.eventType
+            }
+            onChange={
+              handleEventTypeChange
+            }
+            error={
+              errors.eventType
+            }
           />
+
+          {/* =================================
+              CUSTOM EVENT INPUT
+          ================================= */}
+
+          {formData.eventType === "Other / Custom Event" && (
+
+            <div className="mt-3">
+
+              <label className="form-label">
+
+                Enter Your Event Type{" "}
+
+                <span className="required">
+                  *
+                </span>
+
+              </label>
+
+              <input
+                type="text"
+                className={`form-control ${
+                  errors.eventType
+                    ? "input-error"
+                    : ""
+                }`}
+                placeholder="e.g. Dholki, Anniversary, Baby Shower"
+                value={
+                  formData.customEventType || ""
+                }
+                onChange={
+                  handleCustomEventChange
+                }
+              />
+
+              {errors.eventType && (
+
+                <p className="error-text">
+                  {errors.eventType}
+                </p>
+
+              )}
+
+            </div>
+
+          )}
 
         </div>
 
-        {/* Date */}
+
+        {/* =================================
+            DATE
+        ================================= */}
 
         <div className="col-md-4 mb-4">
 
           <DatePicker
             label="Event Date"
-            value={formData.eventDate}
-            onChange={(value) => handleChange({ target: { name: "eventDate", value } })}
-            error={errors.eventDate}
+            value={
+              formData.eventDate
+            }
+            onChange={(value) =>
+              handleChange({
+                target: {
+                  name:
+                    "eventDate",
+                  value,
+                },
+              })
+            }
+            error={
+              errors.eventDate
+            }
           />
 
         </div>
 
-        {/* Time */}
+
+        {/* =================================
+            TIME
+        ================================= */}
 
         <div className="col-md-4 mb-4">
 
           <SelectMenu
             label="Time Slot"
             placeholder="Select Time"
-            options={TIME_SLOTS}
-            value={formData.eventTime}
-            onChange={(value) => handleChange({ target: { name: "eventTime", value } })}
-            error={errors.eventTime}
+            options={
+              TIME_SLOTS
+            }
+            value={
+              formData.eventTime
+            }
+            onChange={(value) =>
+              handleChange({
+                target: {
+                  name:
+                    "eventTime",
+                  value,
+                },
+              })
+            }
+            error={
+              errors.eventTime
+            }
           />
 
         </div>
 
       </div>
+
+
+      {/* =================================
+          NAVIGATION
+      ================================= */}
 
       <div className="d-flex justify-content-between">
 
@@ -382,7 +823,6 @@ function EventInformation({
     </div>
 
   );
-
 }
 
 export default EventInformation;

@@ -479,3 +479,13 @@
     padding: 10px 6px;
   }
 }
+
+/* ============================================
+   DISABLED / PAST CALENDAR DATES
+============================================ */
+
+.cal-day.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
