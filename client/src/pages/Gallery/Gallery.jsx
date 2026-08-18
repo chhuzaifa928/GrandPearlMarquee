@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import SEO from "../../components/SEO/SEO";
+
 import GalleryHero from "../../components/Gallery/GalleryHero";
 import GalleryCategories from "../../components/Gallery/GalleryCategories";
 import GalleryGrid from "../../components/Gallery/GalleryGrid";
@@ -68,33 +70,41 @@ function Gallery() {
   }
 
   return (
-    <div className="gallery-page">
-
-      <GalleryHero />
-
-      <GalleryCategories
-        gallery={gallery}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={
-          setSelectedCategory
-        }
+    <>
+      <SEO
+        title="Wedding & Event Gallery | Grand Pearl Marquee Rawalpindi"
+        description="View wedding, Mehndi, Barat, Walima and event photos from Grand Pearl Marquee in Rawalpindi. Explore our venue, décor and celebrations."
+        keywords="Grand Pearl Marquee gallery, wedding photos Rawalpindi, wedding venue photos Rawalpindi, Mehndi decor photos, Barat decor photos, Walima photos"
       />
 
-      <GalleryGrid
-        gallery={gallery}
-        selectedCategory={selectedCategory}
-        setSelectedImage={
-          setSelectedImage
-        }
-      />
+      <div className="gallery-page">
 
-      <GalleryLightbox
-        selectedImage={selectedImage}
-      />
+        <GalleryHero />
 
-      <GalleryCTA />
+        <GalleryCategories
+          gallery={gallery}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={
+            setSelectedCategory
+          }
+        />
 
-    </div>
+        <GalleryGrid
+          gallery={gallery}
+          selectedCategory={selectedCategory}
+          setSelectedImage={
+            setSelectedImage
+          }
+        />
+
+        <GalleryLightbox
+          selectedImage={selectedImage}
+        />
+
+        <GalleryCTA />
+
+      </div>
+    </>
   );
 }
 

@@ -1,3 +1,5 @@
+import SEO from "../../components/SEO/SEO";
+
 import Hero from "../../components/Hero/Hero";
 import AboutPreview from "../../components/Venue/AboutPreview";
 import Stats from "../../components/Home/Stats";
@@ -11,18 +13,35 @@ import CallToAction from "../../components/Home/CallToAction";
 
 function Home() {
   return (
-   <div className="home-page">
-  <Hero />
-  <AboutPreview />
-  <Stats />
-  <WhyChooseUs />
-  <EventCategories />
-  <DecorPreview />
-  <FoodPreview />
-  <BookingSteps />
-  <GalleryPreview />
-  <CallToAction />
-  </div>
+    <>
+      <SEO
+  title="Grand Pearl Marquee | Wedding & Event Venue"
+  description="Grand Pearl Marquee is a wedding and event venue on Main Adyala Road, Rawalpindi, offering elegant weddings, events, décor, food and professional event services."
+  keywords="Grand Pearl Marquee, wedding venue Rawalpindi, wedding marquee Rawalpindi, event venue Rawalpindi, wedding hall Rawalpindi"
+/>
+
+      <div className="home-page">
+        <Hero />
+
+        <AboutPreview />
+
+        <Stats />
+
+        <WhyChooseUs />
+
+        <EventCategories />
+
+        <DecorPreview />
+
+        <FoodPreview />
+
+        <BookingSteps />
+
+        <GalleryPreview />
+
+        <CallToAction />
+      </div>
+    </>
   );
 }
 

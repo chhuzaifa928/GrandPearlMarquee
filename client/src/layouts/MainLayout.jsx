@@ -4,10 +4,13 @@ import Footer from "../components/Common/Footer";
 import ScrollToTopButton from "../components/Common/ScrollToTopButton";
 import WhatsAppButton from "../components/Common/WhatsAppButton";
 import ScrollProgress from "../components/Common/ScrollProgress";
-
+import LocalBusinessSchema from "../components/SEO/LocalBusinessSchema";
 function MainLayout() {
   return (
     <>
+
+  <LocalBusinessSchema />
+  
   <ScrollProgress />
 
   <Navbar />

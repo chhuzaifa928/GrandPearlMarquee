@@ -1,4 +1,5 @@
 import React from "react";
+import { HelmetProvider } from "react-helmet-async";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./styles/packageCards.css";
@@ -22,8 +23,10 @@ AOS.init({
 });
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 );
