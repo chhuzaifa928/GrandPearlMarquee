@@ -1,5 +1,6 @@
 import "./Hero.css";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../config/api";
 import { useEffect, useState } from "react";
 
 import {
@@ -36,7 +37,7 @@ function Hero() {
   // ==========================
 
  const heroImageUrl = settings.hero_image
-  ? `http://localhost:5000${
+  ? `${SERVER_URL}${
       settings.hero_image.startsWith("/")
         ? settings.hero_image
         : `/${settings.hero_image}`

@@ -1,6 +1,7 @@
 import axios from "axios";
+import API_URL from "../config/api";
 
-const API = "http://localhost:5000/api/decor";
+const API = `${API_URL}/api/decor`;
 
 const getToken = () => localStorage.getItem("token");
 
@@ -34,7 +35,7 @@ export const addDecor = async (formData) => {
 
 export const uploadDecorMedia = async (decorId, formData) => {
   const response = await axios.post(
-    `http://localhost:5000/api/decor-media/${decorId}`,
+    `${API_URL}/api/decor-media/${decorId}`,
     formData,
     {
       headers: {

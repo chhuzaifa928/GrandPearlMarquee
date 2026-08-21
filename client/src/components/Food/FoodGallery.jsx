@@ -5,6 +5,8 @@ import FoodMenuModal from "./FoodMenuModal";
 
 import "./FoodGallery.css";
 
+import API_URL from "../../config/api";
+
 import { getItems } from "../../services/publicFoodService";
 import { getPublicFoodCategories } from "../../services/publicFoodService";
 
@@ -68,7 +70,7 @@ function FoodGallery({ selectedCategory }) {
                 <div className="col-lg-5">
 
                   <img
-  src={`http://localhost:5000${category.image}`}
+  src={`${API_URL}${category.image}`}
   alt={category.category_name}
   className="img-fluid rounded shadow category-image"
 />

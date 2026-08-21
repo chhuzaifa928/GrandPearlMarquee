@@ -1,5 +1,7 @@
 import "./DecorPreview.css";
 import { Link } from "react-router-dom";
+import API_URL from "../../config/api";
+
 import { useEffect, useState } from "react";
 
 import { getDecor } from "../../services/publicDecorService";
@@ -54,7 +56,7 @@ setDecor(data.slice(0, 6));
                 <div className="decor-card">
 
                   <img
-  src={`http://localhost:5000${item.image}`}
+  src={`${API_URL}${item.image}`}
   alt={item.title}
 />
 

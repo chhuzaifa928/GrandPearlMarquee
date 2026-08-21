@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import API_URL from "../../../config/api";
+
 function DecorModal({ show, onClose, onSave, decor }) {
   const [formData, setFormData] = useState({
     category: "",
@@ -115,7 +117,7 @@ function DecorModal({ show, onClose, onSave, decor }) {
               <div className="mb-3">
 
                 <img
-                  src={`http://localhost:5000${formData.oldImage}`}
+                  src={`${API_URL}${formData.oldImage}`}
                   alt=""
                   style={{
                     width: 150,

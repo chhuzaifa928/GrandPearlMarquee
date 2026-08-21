@@ -1,6 +1,7 @@
 import "./GalleryLightbox.css";
+import API_URL from "../../config/api";
 
-const SERVER_URL = "http://localhost:5000";
+const SERVER_URL = API_URL;
 
 function getMediaUrl(path) {
   if (!path) return "";

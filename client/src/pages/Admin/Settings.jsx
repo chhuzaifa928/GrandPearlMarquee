@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { SERVER_URL } from "../../config/api";
 import {
   getSettings,
   updateSettings,
@@ -337,7 +337,7 @@ function Settings() {
                   </label>
 
                   <img
-                    src={`http://localhost:5000${formData.hero_image}`}
+                   src={`${SERVER_URL}${formData.hero_image}`}
                     alt="Current Hero"
                     style={{
                       width: "100%",

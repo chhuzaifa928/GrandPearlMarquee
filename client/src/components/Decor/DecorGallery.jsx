@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./DecorGallery.css";
+import API_URL from "../../config/api";
 
 import {
   getDecor,
@@ -82,7 +83,7 @@ function DecorGallery({ selectedCategory }) {
       return url;
     }
 
-    return `http://localhost:5000${url}`;
+    return `${API_URL}${url}`;
   };
 
   // ===============================
@@ -270,7 +271,7 @@ function DecorGallery({ selectedCategory }) {
                     >
 
                       <img
-                        src={`http://localhost:5000${item.image}`}
+                        src={`${API_URL}${item.image}`}
                         alt={item.title}
                         className="decor-main-image"
                       />

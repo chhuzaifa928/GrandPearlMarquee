@@ -1,7 +1,8 @@
 import axios from "axios";
+import API_URL from "../config/api";
 
-const API = "http://localhost:5000/api/decor";
-const MEDIA_API = "http://localhost:5000/api/decor-media";
+const API = `${API_URL}/api/decor`;
+const MEDIA_API = `${API_URL}/api/decor-media`;
 
 // ===============================
 // Get All Public Decor

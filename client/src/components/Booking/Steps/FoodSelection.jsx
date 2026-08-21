@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import API_URL from "../../../config/api";
+
 import "./FoodSelection.css";
 
 import {
@@ -165,7 +167,7 @@ function FoodSelection({
 
                     {item.image && (
                       <img
-                        src={`http://localhost:5000${item.image}`}
+                        src={`${API_URL}${item.image}`}
                         alt={item.item_name}
                         className="img-fluid"
                       />

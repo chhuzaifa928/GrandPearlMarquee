@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../config/api";
 
 import { getPublicFoodCategories } from "../../services/publicFoodService";
 
@@ -49,7 +50,7 @@ function FoodPreview() {
               <div className="food-card">
 
                 <img
-                  src={`http://localhost:5000${food.image}`}
+                  src={`${SERVER_URL}${food.image}`}
                   alt={food.category_name}
                 />
 

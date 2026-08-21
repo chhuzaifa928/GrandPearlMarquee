@@ -1,6 +1,7 @@
 import axios from "axios";
+import API_URL from "../config/api";
 
-const API = "http://localhost:5000/api/food";
+const API = `${API_URL}/api/food`;
 
 const token = () => localStorage.getItem("token");
 
