@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const {
   findAdminByEmail,
   createAdmin,
@@ -7,6 +8,7 @@ const {
   getTodayBookings,
   getRecentBookings,
 } = require("../models/adminModel");
+
 // =========================
 // Register Admin
 // =========================
@@ -23,7 +25,12 @@ const registerAdmin = (req, res) => {
 
   findAdminByEmail(email, async (err, result) => {
     if (err) {
-      return res.status(500).json(err);
+      console.error("Admin lookup failed:", err.message);
+
+      return res.status(500).json({
+        success: false,
+        message: "Unable to process the request.",
+      });
     }
 
     if (result.length > 0) {
@@ -45,7 +52,12 @@ const registerAdmin = (req, res) => {
         },
         (err) => {
           if (err) {
-            return res.status(500).json(err);
+            console.error("Admin creation failed:", err.message);
+
+            return res.status(500).json({
+              success: false,
+              message: "Unable to create admin account.",
+            });
           }
 
           res.status(201).json({
@@ -55,7 +67,12 @@ const registerAdmin = (req, res) => {
         }
       );
     } catch (error) {
-      res.status(500).json(error);
+      console.error("Password hashing failed:", error.message);
+
+      return res.status(500).json({
+        success: false,
+        message: "Unable to process the request.",
+      });
     }
   });
 };
@@ -69,7 +86,12 @@ const loginAdmin = (req, res) => {
 
   findAdminByEmail(email, async (err, result) => {
     if (err) {
-      return res.status(500).json(err);
+      console.error("Admin login lookup failed:", err.message);
+
+      return res.status(500).json({
+        success: false,
+        message: "Unable to process the login request.",
+      });
     }
 
     if (result.length === 0) {
@@ -81,93 +103,105 @@ const loginAdmin = (req, res) => {
 
     const admin = result[0];
 
-    const isMatch = await bcrypt.compare(password, admin.password);
+    try {
+      const isMatch = await bcrypt.compare(
+        password,
+        admin.password
+      );
 
-    if (!isMatch) {
-      return res.status(401).json({
+      if (!isMatch) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid email or password.",
+        });
+      }
+
+      const token = jwt.sign(
+        {
+          id: admin.id,
+          email: admin.email,
+          role: admin.role,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "7d",
+        }
+      );
+
+      res.json({
+        success: true,
+        message: "Login successful.",
+        token,
+        admin: {
+          id: admin.id,
+          full_name: admin.full_name,
+          email: admin.email,
+          role: admin.role,
+        },
+      });
+    } catch (error) {
+      console.error("Admin authentication failed:", error.message);
+
+      return res.status(500).json({
         success: false,
-        message: "Invalid email or password.",
+        message: "Unable to process the login request.",
       });
     }
-
-    const token = jwt.sign(
-      {
-        id: admin.id,
-        email: admin.email,
-        role: admin.role,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
-
-    res.json({
-      success: true,
-      message: "Login successful.",
-      token,
-      admin: {
-        id: admin.id,
-        full_name: admin.full_name,
-        email: admin.email,
-        role: admin.role,
-      },
-    });
   });
 };
+
 // =========================
 // Dashboard Statistics
 // =========================
 
 const dashboardStats = (req, res) => {
-
   getDashboardStats((err, stats) => {
-
     if (err) {
+      console.error("Dashboard statistics failed:", err.message);
+
       return res.status(500).json({
         success: false,
+        message: "Unable to load dashboard statistics.",
       });
     }
 
     getTodayBookings((err, today) => {
-
       if (err) {
+        console.error("Today's bookings query failed:", err.message);
+
         return res.status(500).json({
           success: false,
+          message: "Unable to load today's bookings.",
         });
       }
 
       getRecentBookings((err, recent) => {
-
         if (err) {
+          console.error("Recent bookings query failed:", err.message);
+
           return res.status(500).json({
             success: false,
+            message: "Unable to load recent bookings.",
           });
         }
 
         res.json({
-
           success: true,
 
-         stats: {
-  totalBookings: Number(stats[0].totalBookings),
-  pending: Number(stats[0].pending),
-  approved: Number(stats[0].approved),
-  rejected: Number(stats[0].rejected),
-  todayEvents: Number(stats[0].todayEvents),
-},
+          stats: {
+            totalBookings: Number(stats[0].totalBookings),
+            pending: Number(stats[0].pending),
+            approved: Number(stats[0].approved),
+            rejected: Number(stats[0].rejected),
+            todayEvents: Number(stats[0].todayEvents),
+          },
+
           todayBookings: today,
-
           recentBookings: recent,
-
         });
-
       });
-
     });
-
   });
-
 };
 
 module.exports = {
