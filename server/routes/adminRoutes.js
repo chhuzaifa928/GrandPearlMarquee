@@ -10,7 +10,7 @@ const {
 
 const verifyToken = require("../middleware/authMiddleware");
 
-router.post("/register", registerAdmin);
+router.post("/register", verifyToken, registerAdmin);
 router.post("/login", loginAdmin);
 router.get("/dashboard", verifyToken, dashboardStats);
 // Protected Test Route

@@ -21,6 +21,7 @@ import ContactAdmin from "./pages/Admin/Contact";
 import Settings from "./pages/Admin/Settings";
 
 import NotFound from "./pages/NotFound/NotFound";
+import ProtectedRoute from "./components/Common/ProtectedRoute";
 
 function App() {
   return (
@@ -52,7 +53,11 @@ function App() {
       ========================== */}
       <Route
         path="/admin"
-        element={<AdminLayout />}
+        element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
       >
 
         {/* Redirect /admin -> /admin/dashboard */}
