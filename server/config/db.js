@@ -1,5 +1,4 @@
 const mysql = require("mysql2");
-const fs = require("fs");
 
 require("dotenv").config();
 
@@ -11,8 +10,7 @@ const connectionConfig = {
   database: process.env.DB_NAME,
 };
 
-// Aiven requires SSL in production.
-// Local development continues without SSL.
+// Aiven SSL in production
 if (process.env.DB_SSL === "true") {
   connectionConfig.ssl = {
     ca: process.env.DB_SSL_CA,
@@ -20,16 +18,32 @@ if (process.env.DB_SSL === "true") {
   };
 }
 
-const connection = mysql.createConnection(connectionConfig);
+// MySQL connection pool
+const pool = mysql.createPool({
+  ...connectionConfig,
 
-connection.connect((err) => {
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
+
+// Test database connection before continuing
+pool.getConnection((err, connection) => {
   if (err) {
     console.error("❌ Database Connection Failed");
     console.error(err.message);
-    return;
+
+    // Release any connection if one was created
+    if (connection) {
+      connection.release();
+    }
+
+    process.exit(1);
   }
 
   console.log("✅ MySQL Connected Successfully");
+
+  connection.release();
 });
 
-module.exports = connection;
+module.exports = pool;
