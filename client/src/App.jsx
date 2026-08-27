@@ -49,57 +49,55 @@ function App() {
       />
 
       {/* =========================
-          Admin Panel
+          Protected Admin Panel
       ========================== */}
-      <Route
-        path="/admin"
-        element={
-          <ProtectedRoute>
-            <AdminLayout />
-          </ProtectedRoute>
-        }
-      >
-
-        {/* Redirect /admin -> /admin/dashboard */}
-        <Route
-          index
-          element={<Navigate to="dashboard" replace />}
-        />
+      <Route element={<ProtectedRoute />}>
 
         <Route
-          path="dashboard"
-          element={<Dashboard />}
-        />
+          path="/admin"
+          element={<AdminLayout />}
+        >
+          {/* Redirect /admin -> /admin/dashboard */}
+          <Route
+            index
+            element={<Navigate to="dashboard" replace />}
+          />
 
-        <Route
-          path="bookings"
-          element={<Bookings />}
-        />
+          <Route
+            path="dashboard"
+            element={<Dashboard />}
+          />
 
-        <Route
-          path="decor"
-          element={<DecorAdmin />}
-        />
+          <Route
+            path="bookings"
+            element={<Bookings />}
+          />
 
-        <Route
-          path="food"
-          element={<FoodAdmin />}
-        />
+          <Route
+            path="decor"
+            element={<DecorAdmin />}
+          />
 
-        <Route
-          path="gallery"
-          element={<GalleryAdmin />}
-        />
+          <Route
+            path="food"
+            element={<FoodAdmin />}
+          />
 
-        <Route
-          path="contact"
-          element={<ContactAdmin />}
-        />
+          <Route
+            path="gallery"
+            element={<GalleryAdmin />}
+          />
 
-        <Route
-          path="settings"
-          element={<Settings />}
-        />
+          <Route
+            path="contact"
+            element={<ContactAdmin />}
+          />
+
+          <Route
+            path="settings"
+            element={<Settings />}
+          />
+        </Route>
 
       </Route>
 
