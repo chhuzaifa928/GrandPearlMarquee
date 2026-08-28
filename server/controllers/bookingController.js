@@ -53,7 +53,6 @@ const addBooking = (req, res) => {
       // Store it as JSON string
       req.body.extra_services =
         JSON.stringify(parsedExtras);
-
     } catch (error) {
       return res.status(400).json({
         success: false,
@@ -67,10 +66,11 @@ const addBooking = (req, res) => {
 
   createBooking(req.body, (err, result) => {
     if (err) {
+      console.error("Create booking error:", err);
+
       return res.status(500).json({
         success: false,
         message: "Failed to create booking.",
-        error: err.message,
       });
     }
 
@@ -89,10 +89,11 @@ const addBooking = (req, res) => {
 const fetchBookings = (req, res) => {
   getAllBookings((err, results) => {
     if (err) {
+      console.error("Fetch bookings error:", err);
+
       return res.status(500).json({
         success: false,
         message: "Failed to fetch bookings.",
-        error: err.message,
       });
     }
 
@@ -112,10 +113,11 @@ const fetchBookingById = (req, res) => {
 
   getBookingById(id, (err, results) => {
     if (err) {
+      console.error("Fetch booking error:", err);
+
       return res.status(500).json({
         success: false,
         message: "Failed to fetch booking.",
-        error: err.message,
       });
     }
 
@@ -142,16 +144,22 @@ const changeBookingStatus = (req, res) => {
 
   updateBookingStatus(id, booking_status, (err) => {
     if (err) {
+      console.error(
+        "Update booking status error:",
+        err
+      );
+
       return res.status(500).json({
         success: false,
-        message: "Failed to update booking status.",
-        error: err.message,
+        message:
+          "Failed to update booking status.",
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Booking status updated successfully.",
+      message:
+        "Booking status updated successfully.",
     });
   });
 };
@@ -164,10 +172,11 @@ const removeBooking = (req, res) => {
 
   deleteBooking(id, (err) => {
     if (err) {
+      console.error("Delete booking error:", err);
+
       return res.status(500).json({
         success: false,
         message: "Failed to delete booking.",
-        error: err.message,
       });
     }
 
