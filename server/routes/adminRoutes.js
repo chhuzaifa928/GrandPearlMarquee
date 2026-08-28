@@ -13,6 +13,13 @@ const verifyToken = require("../middleware/authMiddleware");
 router.post("/register", verifyToken, registerAdmin);
 router.post("/login", loginAdmin);
 router.get("/dashboard", verifyToken, dashboardStats);
+// Verify Admin Session
+router.get("/me", verifyToken, (req, res) => {
+  res.json({
+    success: true,
+    admin: req.admin,
+  });
+});
 // Protected Test Route
 router.get("/profile", verifyToken, (req, res) => {
   res.json({

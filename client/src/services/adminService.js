@@ -42,6 +42,33 @@ export const getDashboardStats = async () => {
 };
 
 // ==========================
+// Verify Admin Session
+// ==========================
+
+export const verifyAdminSession = async () => {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return false;
+  }
+
+  try {
+    const response = await axios.get(
+      `${API}/me`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data.success === true;
+  } catch (error) {
+    localStorage.removeItem("token");
+    return false;
+  }
+};
+// ==========================
 // Logout
 // ==========================
 
