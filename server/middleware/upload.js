@@ -2,22 +2,18 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// ==============================
-// Storage Configuration
-// ==============================
+// =====================================
+// Upload Storage
+// =====================================
 
 const storage = multer.diskStorage({
-
   destination: (req, file, cb) => {
+    const uploadFolder = path.join(
+      __dirname,
+      "../uploads/gallery"
+    );
 
-    let uploadFolder = "uploads/decor";
-
-    // Food category uploads
-    if (req.originalUrl.includes("/api/food")) {
-      uploadFolder = "uploads/food";
-    }
-
-    // Make sure folder exists
+    // Create folder if it does not exist
     if (!fs.existsSync(uploadFolder)) {
       fs.mkdirSync(uploadFolder, {
         recursive: true,
@@ -28,7 +24,6 @@ const storage = multer.diskStorage({
   },
 
   filename: (req, file, cb) => {
-
     const uniqueName =
       Date.now() +
       "-" +
@@ -37,49 +32,57 @@ const storage = multer.diskStorage({
     cb(
       null,
       uniqueName +
-        path.extname(file.originalname)
+        path.extname(file.originalname).toLowerCase()
     );
   },
-
 });
 
-// ==============================
+// =====================================
 // File Filter
-// ==============================
+// =====================================
 
 const fileFilter = (req, file, cb) => {
+  const allowedImageTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+  ];
 
-  const allowedTypes =
-    /jpeg|jpg|png|webp/;
+  const allowedVideoTypes = [
+    "video/mp4",
+    "video/webm",
+    "video/quicktime",
+  ];
 
-  const extname =
-    allowedTypes.test(
-      path
-        .extname(file.originalname)
-        .toLowerCase()
-    );
+  const allowedTypes = [
+    ...allowedImageTypes,
+    ...allowedVideoTypes,
+  ];
 
-  const mimetype =
-    allowedTypes.test(file.mimetype);
-
-  if (extname && mimetype) {
+  if (allowedTypes.includes(file.mimetype)) {
     return cb(null, true);
   }
 
   cb(
     new Error(
-      "Only image files are allowed."
+      "Only JPG, JPEG, PNG, WEBP, MP4, WEBM, and MOV videos are allowed."
     )
   );
 };
 
-// ==============================
-// Upload Instance
-// ==============================
+// =====================================
+// Upload Configuration
+// =====================================
 
 const upload = multer({
   storage,
   fileFilter,
+
+  // Maximum file size: 50 MB
+  limits: {
+    fileSize: 50 * 1024 * 1024,
+  },
 });
 
 module.exports = upload;

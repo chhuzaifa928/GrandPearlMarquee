@@ -5,6 +5,7 @@ function GalleryForm({
   onSubmit,
   categories = [],
   onAddCategory,
+  onDeleteCategory,
 }) {
   const [formData, setFormData] = useState({
     title: "",
@@ -15,6 +16,7 @@ function GalleryForm({
 
   const [newCategory, setNewCategory] = useState("");
   const [addingCategory, setAddingCategory] = useState(false);
+  const [deletingCategoryId, setDeletingCategoryId] = useState(null);
 
   // =====================================
   // Handle Form Changes
@@ -66,6 +68,24 @@ function GalleryForm({
       console.error(error);
     } finally {
       setAddingCategory(false);
+    }
+  };
+
+  // =====================================
+  // Delete Category
+  // =====================================
+
+  const handleDeleteCategory = async (category) => {
+    if (!onDeleteCategory) {
+      return;
+    }
+
+    setDeletingCategoryId(category.id);
+
+    try {
+      await onDeleteCategory(category);
+    } finally {
+      setDeletingCategoryId(null);
     }
   };
 
@@ -216,6 +236,48 @@ function GalleryForm({
               Add a new event category if it does not
               already exist.
             </small>
+
+          </div>
+
+          {/* =====================================
+              Manage Categories
+          ===================================== */}
+
+          <div className="mb-3">
+
+            <label className="form-label">
+              Manage Categories
+            </label>
+
+            <ul className="category-list">
+
+              {categories.map((category) => (
+                <li
+                  key={category.id}
+                  className="category-list-item"
+                >
+                  <span className="category-name">
+                    {category.name}
+                  </span>
+
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-sm"
+                    onClick={() =>
+                      handleDeleteCategory(category)
+                    }
+                    disabled={
+                      deletingCategoryId === category.id
+                    }
+                  >
+                    {deletingCategoryId === category.id
+                      ? "Deleting..."
+                      : "Delete"}
+                  </button>
+                </li>
+              ))}
+
+            </ul>
 
           </div>
 

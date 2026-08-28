@@ -9,6 +9,7 @@ import {
   deleteGallery,
   getGalleryCategories,
   addGalleryCategory,
+  deleteGalleryCategory,
 } from "../../services/galleryService";
 
 function Gallery() {
@@ -105,6 +106,35 @@ function Gallery() {
   };
 
   // =====================================
+  // Delete Category
+  // =====================================
+
+  const handleDeleteCategory = async (category) => {
+    if (
+      !window.confirm(
+        `Delete the category "${category.name}"? Its gallery items will be uncategorized.`
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await deleteGalleryCategory(category.id);
+
+      alert("Category deleted.");
+
+      loadData();
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to delete category."
+      );
+    }
+  };
+
+  // =====================================
   // Loading
   // =====================================
 
@@ -134,6 +164,7 @@ function Gallery() {
         onSubmit={handleUpload}
         categories={categories}
         onAddCategory={handleAddCategory}
+        onDeleteCategory={handleDeleteCategory}
       />
 
       <GalleryTable

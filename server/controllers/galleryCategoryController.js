@@ -82,6 +82,13 @@ const removeGalleryCategory = (req, res) => {
     if (err) {
       console.error(err);
 
+      if (err.code === "NOT_FOUND") {
+        return res.status(404).json({
+          success: false,
+          message: "Gallery category not found.",
+        });
+      }
+
       return res.status(500).json({
         success: false,
         message: "Failed to delete gallery category.",

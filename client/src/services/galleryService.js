@@ -67,6 +67,25 @@ export const getGalleryCategories = async () => {
 
 
 // ===============================
+// Delete Gallery Category
+// ===============================
+
+export const deleteGalleryCategory = async (id) => {
+
+  const response = await axios.delete(
+    `${API}/categories/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token()}`,
+      },
+    }
+  );
+
+  return response.data;
+
+};
+
+// ===============================
 // Add Gallery Category
 // ===============================
 
