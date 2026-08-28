@@ -142,6 +142,20 @@ const changeBookingStatus = (req, res) => {
   const { id } = req.params;
   const { booking_status } = req.body;
 
+  const allowedStatuses = [
+    "Pending",
+    "Approved",
+    "Rejected",
+  ];
+
+  if (!allowedStatuses.includes(booking_status)) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Invalid booking status. Allowed statuses are Pending, Approved, and Rejected.",
+    });
+  }
+
   updateBookingStatus(id, booking_status, (err) => {
     if (err) {
       console.error(
