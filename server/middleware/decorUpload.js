@@ -10,10 +10,9 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadFolder = path.join(
       __dirname,
-      "../uploads/gallery"
+      "../uploads/decor"
     );
 
-    // Create folder if it does not exist
     if (!fs.existsSync(uploadFolder)) {
       fs.mkdirSync(uploadFolder, {
         recursive: true,
@@ -42,22 +41,11 @@ const storage = multer.diskStorage({
 // =====================================
 
 const fileFilter = (req, file, cb) => {
-  const allowedImageTypes = [
+  const allowedTypes = [
     "image/jpeg",
     "image/jpg",
     "image/png",
     "image/webp",
-  ];
-
-  const allowedVideoTypes = [
-    "video/mp4",
-    "video/webm",
-    "video/quicktime",
-  ];
-
-  const allowedTypes = [
-    ...allowedImageTypes,
-    ...allowedVideoTypes,
   ];
 
   if (allowedTypes.includes(file.mimetype)) {
@@ -66,7 +54,7 @@ const fileFilter = (req, file, cb) => {
 
   cb(
     new Error(
-      "Only JPG, JPEG, PNG, WEBP, MP4, WEBM, and MOV videos are allowed."
+      "Only JPG, JPEG, PNG, and WEBP images are allowed."
     )
   );
 };
@@ -78,10 +66,8 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-
-  // Maximum file size: 50 MB
   limits: {
-    fileSize: 50 * 1024 * 1024,
+    fileSize: 20 * 1024 * 1024,
   },
 });
 

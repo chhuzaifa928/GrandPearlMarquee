@@ -6,7 +6,7 @@ const verifyToken = (req, res, next) => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
-      message: "Access denied. No valid token provided.",
+      message: "Access denied.",
     });
   }
 
@@ -15,12 +15,15 @@ const verifyToken = (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: "Access denied. No valid token provided.",
+      message: "Access denied.",
     });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
 
     req.admin = decoded;
 

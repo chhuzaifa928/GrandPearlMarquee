@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadFolder = path.join(
       __dirname,
-      "../uploads/settings"
+      "../uploads/food"
     );
 
     // Create folder if it does not exist
@@ -68,10 +68,14 @@ const upload = multer({
   storage,
   fileFilter,
 
-  // Maximum upload size: 25 MB
+  // Maximum file size: 20 MB
   limits: {
     fileSize: 20 * 1024 * 1024,
   },
 });
+
+// =====================================
+// Export
+// =====================================
 
 module.exports = upload;
