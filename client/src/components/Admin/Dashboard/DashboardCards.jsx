@@ -24,8 +24,6 @@ function DashboardCards() {
       try {
         const data = await getDashboardStats();
 
-        console.log("Dashboard Stats:", data);
-
         setStats(data.stats);
       } catch (error) {
         console.error("Dashboard Error:", error);

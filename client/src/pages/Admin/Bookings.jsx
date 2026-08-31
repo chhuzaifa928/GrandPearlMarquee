@@ -35,8 +35,6 @@ function Bookings() {
 
         if (cancelled) return;
 
-        console.log("Bookings:", data);
-
         setBookings(data);
       } catch (error) {
         console.error("Fetch Error:", error);
@@ -57,8 +55,6 @@ function Bookings() {
       setLoading(true);
 
       const data = await getAllBookings();
-
-      console.log("Bookings:", data);
 
       setBookings(data);
     } catch (error) {
@@ -90,12 +86,7 @@ function Bookings() {
 
  const handleView = async (id) => {
   try {
-    console.log("VIEW CLICKED - ID:", id);
-    console.log("ID TYPE:", typeof id);
-
     const booking = await getBookingById(id);
-
-    console.log("BOOKING DETAILS:", booking);
 
     setSelectedBooking(booking);
     setShowModal(true);

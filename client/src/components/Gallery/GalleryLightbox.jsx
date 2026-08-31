@@ -46,13 +46,6 @@ function GalleryLightbox({ selectedImage }) {
 
   const mediaUrl = getMediaUrl(selectedImage.image);
 
-  console.log("========== GALLERY LIGHTBOX ==========");
-  console.log("Selected item:", selectedImage);
-  console.log("Original path:", selectedImage.image);
-  console.log("Media URL:", mediaUrl);
-  console.log("Media type:", selectedImage.media_type);
-  console.log("======================================");
-
   return (
     <div
       className="modal fade"

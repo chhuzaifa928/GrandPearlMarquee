@@ -32,8 +32,6 @@ function Gallery() {
 
         if (cancelled) return;
 
-        console.log("PUBLIC GALLERY:", data);
-
         setGallery(data);
       } catch (error) {
         console.error(

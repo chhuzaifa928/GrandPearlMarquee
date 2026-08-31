@@ -35,8 +35,6 @@ function Dashboard() {
 
         if (cancelled) return;
 
-        console.log("Dashboard Data:", data);
-
         setDashboard(data);
 
       } catch (error) {

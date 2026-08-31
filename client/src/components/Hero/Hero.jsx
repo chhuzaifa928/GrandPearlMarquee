@@ -16,9 +16,6 @@ function Hero() {
       try {
         const data = await getWebsiteSettings();
 
-        console.log("Hero Settings:", data);
-        console.log("Hero Image From API:", data.hero_image);
-
         setSettings({
           ...DEFAULT_SETTINGS,
           ...data,
@@ -44,8 +41,6 @@ function Hero() {
     }`
   : "";
     
-
-  console.log("FINAL HERO IMAGE URL:", heroImageUrl);
 
   return (
     <section

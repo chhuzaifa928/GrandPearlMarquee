@@ -235,40 +235,11 @@ function ReviewBooking({
       };
 
       // ========================================
-      // DEBUG
-      // ========================================
-
-      console.log(
-        "========== BOOKING DATA SENT =========="
-      );
-
-      console.log(bookingData);
-
-      console.log(
-        "Selected Extras:",
-        selectedExtras
-      );
-
-      console.log(
-        "Extra Services Data:",
-        extraServicesData
-      );
-
-      console.log(
-        "========================================"
-      );
-
-      // ========================================
       // SEND TO BACKEND
       // ========================================
 
       const response =
         await createBooking(bookingData);
-
-      console.log(
-        "SERVER RESPONSE =",
-        response
-      );
 
       // ========================================
       // SUCCESS
