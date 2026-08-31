@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import "./DecorGallery.css";
 import API_URL from "../../config/api";
@@ -8,6 +7,9 @@ import {
   getDecor,
   getDecorMedia,
 } from "../../services/publicDecorService";
+
+import DecorCard from "./DecorCard";
+import DecorGalleryLightbox from "./DecorGalleryLightbox";
 
 function DecorGallery({ selectedCategory }) {
   const [decor, setDecor] = useState([]);
@@ -256,154 +258,18 @@ function DecorGallery({ selectedCategory }) {
 
           <div className="row">
 
-            {filteredDecor.map((item, index) => {
+            {filteredDecor.map((item, index) => (
 
-              const itemMedia =
-                media[item.id] || [];
+              <DecorCard
+                key={item.id}
+                item={item}
+                itemMedia={media[item.id] || []}
+                onOpenLightbox={openLightbox}
+                getMediaUrl={getMediaUrl}
+                index={index}
+              />
 
-              return (
-                <div
-                  key={item.id}
-                  className="col-lg-4 col-md-6 mb-4"
-                  data-aos="zoom-in"
-                  data-aos-delay={index * 100}
-                >
-
-                  <div className="decor-card">
-
-                    {/* Main Image */}
-
-                    <div
-                      className="decor-main-media"
-                      onClick={() =>
-                        openLightbox(item, 0)
-                      }
-                    >
-
-                      <img
-                        src={`${API_URL}${item.image}`}
-                        alt={item.title}
-                        className="decor-main-image"
-                      />
-
-                      <div className="decor-view-overlay">
-                        <span>
-                          View Gallery
-                        </span>
-                      </div>
-
-                    </div>
-
-                    {/* Additional Media */}
-
-                    {itemMedia.length > 0 && (
-                      <div className="decor-media-gallery">
-
-                        {itemMedia.map(
-                          (mediaItem, mediaIndex) => {
-
-                            const mediaUrl =
-                              getMediaUrl(
-                                mediaItem.media_url
-                              );
-
-                            const galleryIndex =
-                              mediaIndex + 1;
-
-                            if (
-                              mediaItem.media_type ===
-                              "video"
-                            ) {
-                              return (
-                                <div
-                                  key={mediaItem.id}
-                                  className="decor-media-item"
-                                  onClick={() =>
-                                    openLightbox(
-                                      item,
-                                      galleryIndex
-                                    )
-                                  }
-                                >
-
-                                  <video
-                                    className="decor-media-video"
-                                    preload="metadata"
-                                    muted
-                                  >
-                                    <source
-                                      src={mediaUrl}
-                                    />
-                                  </video>
-
-                                  <div className="decor-video-overlay">
-                                    ▶
-                                  </div>
-
-                                </div>
-                              );
-                            }
-
-                            return (
-                              <div
-                                key={mediaItem.id}
-                                className="decor-media-item"
-                                onClick={() =>
-                                  openLightbox(
-                                    item,
-                                    galleryIndex
-                                  )
-                                }
-                              >
-
-                                <img
-                                  src={mediaUrl}
-                                  alt={`${item.title} decor`}
-                                  className="decor-media-image"
-                                />
-
-                                <div className="decor-media-overlay">
-                                  +
-                                </div>
-
-                              </div>
-                            );
-                          }
-                        )}
-
-                      </div>
-                    )}
-
-                    {/* Decor Information */}
-
-                    <div className="decor-info">
-
-                      <span>
-                        {item.category}
-                      </span>
-
-                      <h4>
-                        {item.title}
-                      </h4>
-
-                      <p>
-                        {item.description}
-                      </p>
-
-                      <Link
-                        to="/booking"
-                        className="btn btn-gold"
-                      >
-                        Book This Decor
-                      </Link>
-
-                    </div>
-
-                  </div>
-
-                </div>
-              );
-            })}
+            ))}
 
           </div>
 
@@ -432,101 +298,13 @@ function DecorGallery({ selectedCategory }) {
       =============================== */}
 
       {lightbox && (
-        <div
-          className="decor-lightbox"
-          onClick={closeLightbox}
-        >
-
-          <button
-            className="decor-lightbox-close"
-            onClick={closeLightbox}
-            aria-label="Close gallery"
-          >
-            ×
-          </button>
-
-          <button
-            className="decor-lightbox-prev"
-            onClick={(event) => {
-              event.stopPropagation();
-              previousMedia();
-            }}
-            aria-label="Previous"
-          >
-            ‹
-          </button>
-
-          <div
-            className="decor-lightbox-content"
-            onClick={(event) =>
-              event.stopPropagation()
-            }
-          >
-
-            {lightbox.gallery[
-              lightbox.currentIndex
-            ].media_type === "video" ? (
-
-              <video
-                className="decor-lightbox-video"
-                controls
-                autoPlay
-              >
-                <source
-                  src={getMediaUrl(
-                    lightbox.gallery[
-                      lightbox.currentIndex
-                    ].media_url
-                  )}
-                />
-
-                Your browser does not support
-                the video tag.
-              </video>
-
-            ) : (
-
-              <img
-                className="decor-lightbox-image"
-                src={getMediaUrl(
-                  lightbox.gallery[
-                    lightbox.currentIndex
-                  ].media_url
-                )}
-                alt={
-                  lightbox.item.title
-                }
-              />
-
-            )}
-
-            <div className="decor-lightbox-caption">
-
-              <strong>
-                {lightbox.item.title}
-              </strong>
-
-              <span>
-                {lightbox.currentIndex + 1} /{" "}
-                {lightbox.gallery.length}
-              </span>
-
-            </div>
-
-          </div>
-
-          <button
-            className="decor-lightbox-next"
-            onClick={(event) => {
-              event.stopPropagation();
-              nextMedia();
-            }}
-            aria-label="Next"
-          >
-            ›
-          </button>
-
-        </div>
+        <DecorGalleryLightbox
+          lightbox={lightbox}
+          onClose={closeLightbox}
+          onPrevious={previousMedia}
+          onNext={nextMedia}
+          getMediaUrl={getMediaUrl}
+        />
       )}
     </>
   );
