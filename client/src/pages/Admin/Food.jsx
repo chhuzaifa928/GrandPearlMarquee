@@ -17,6 +17,8 @@ import {
 } from "../../services/foodService";
 
 import useFetch from "../../hooks/useFetch";
+import { useToast } from "../../hooks/useToast";
+import { useConfirm } from "../../hooks/useConfirm";
 
 const fetchFoodData = async () => {
   const categoryData = await getCategories();
@@ -26,6 +28,9 @@ const fetchFoodData = async () => {
 };
 
 function Food() {
+  const toast = useToast();
+  const confirm = useConfirm();
+
   const { data: foodData, loading, refetch } = useFetch(fetchFoodData);
 
   const categories = foodData?.categories ?? [];
@@ -42,7 +47,7 @@ function Food() {
     try {
       await addCategory(category);
 
-      alert("Category added successfully.");
+      toast.success("Category added successfully.");
 
       refetch();
     } catch (error) {
@@ -51,12 +56,17 @@ function Food() {
   };
 
   const handleDeleteCategory = async (id) => {
-    if (!window.confirm("Delete this category?")) return;
+    const ok = await confirm({
+      title: "Delete category?",
+      message: "Are you sure you want to delete this category?",
+    });
+
+    if (!ok) return;
 
     try {
       await deleteCategory(id);
 
-      alert("Category deleted successfully.");
+      toast.success("Category deleted successfully.");
 
       refetch();
     } catch (error) {
@@ -72,7 +82,7 @@ function Food() {
     try {
       await addItem(item);
 
-      alert("Food item added successfully.");
+      toast.success("Food item added successfully.");
 
       refetch();
     } catch (error) {
@@ -91,25 +101,30 @@ function Food() {
     try {
       await updateItem(id, item);
 
-      alert("Food item updated successfully.");
+      toast.success("Food item updated successfully.");
 
       setShowModal(false);
 
       refetch();
     } catch (error) {
       console.error(error);
-      alert("Failed to update food item.");
+      toast.error("Failed to update food item.");
     }
   };
 
   // DELETE
   const handleDeleteItem = async (id) => {
-    if (!window.confirm("Delete this item?")) return;
+    const ok = await confirm({
+      title: "Delete item?",
+      message: "Are you sure you want to delete this food item?",
+    });
+
+    if (!ok) return;
 
     try {
       await deleteItem(id);
 
-      alert("Food item deleted successfully.");
+      toast.success("Food item deleted successfully.");
 
       refetch();
     } catch (error) {

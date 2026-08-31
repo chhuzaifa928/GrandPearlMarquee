@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useToast } from "../../../hooks/useToast";
 import "./GalleryForm.css";
 
 function GalleryForm({
@@ -7,6 +8,8 @@ function GalleryForm({
   onAddCategory,
   onDeleteCategory,
 }) {
+  const toast = useToast();
+
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -44,7 +47,7 @@ function GalleryForm({
     const categoryName = newCategory.trim();
 
     if (!categoryName) {
-      alert("Please enter a category name.");
+      toast.warning("Please enter a category name.");
       return;
     }
 
@@ -97,12 +100,12 @@ function GalleryForm({
     e.preventDefault();
 
     if (!formData.category) {
-      alert("Please select a gallery category.");
+      toast.warning("Please select a gallery category.");
       return;
     }
 
     if (!formData.image) {
-      alert("Please select an image or video.");
+      toast.warning("Please select an image or video.");
       return;
     }
 

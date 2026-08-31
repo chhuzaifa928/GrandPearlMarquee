@@ -8,10 +8,14 @@ import BookingSuccessModal from "../BookingSuccessModal";
 
 import { createBooking } from "../../../services/bookingService";
 
+import { useToast } from "../../../hooks/useToast";
+
 function ReviewBooking({
   formData,
   prevStep,
 }) {
+  const toast = useToast();
+
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +82,7 @@ function ReviewBooking({
       // ------------------------------------------
 
       if (!finalFood) {
-        alert(
+        toast.warning(
           "Please select a food package before submitting."
         );
 
@@ -94,7 +98,7 @@ function ReviewBooking({
         isCustomFood &&
         !formData.customFood?.trim()
       ) {
-        alert(
+        toast.warning(
           "Please enter your custom food requirements."
         );
 
@@ -264,13 +268,13 @@ function ReviewBooking({
         error.response?.data?.errors;
 
       if (serverErrors?.length) {
-        alert(
+        toast.error(
           serverErrors
             .map((err) => err.msg)
             .join("\n")
         );
       } else {
-        alert(
+        toast.error(
           error.response?.data?.message ||
           error.message ||
           "Booking failed."

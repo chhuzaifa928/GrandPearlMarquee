@@ -10,6 +10,9 @@ import {
   deleteGalleryCategory,
 } from "../../services/galleryService";
 
+import { useToast } from "../../hooks/useToast";
+import { useConfirm } from "../../hooks/useConfirm";
+
 import useFetch from "../../hooks/useFetch";
 
 // =====================================
@@ -26,6 +29,9 @@ const fetchGalleryData = async () => {
 };
 
 function Gallery() {
+  const toast = useToast();
+  const confirm = useConfirm();
+
   const { data: galleryData, loading, refetch } = useFetch(fetchGalleryData);
 
   const gallery = galleryData?.gallery ?? [];
@@ -39,13 +45,13 @@ function Gallery() {
     try {
       await uploadGallery(formData);
 
-      alert("Gallery uploaded successfully.");
+      toast.success("Gallery uploaded successfully.");
 
       refetch();
     } catch (error) {
       console.error(error);
 
-      alert("Upload failed.");
+      toast.error("Upload failed.");
     }
   };
 
@@ -57,14 +63,14 @@ function Gallery() {
     try {
       await addGalleryCategory(categoryName);
 
-      alert("Category added successfully.");
+      toast.success("Category added successfully.");
 
       // Reload categories immediately
       refetch();
     } catch (error) {
       console.error(error);
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Failed to add category."
       );
@@ -76,20 +82,23 @@ function Gallery() {
   // =====================================
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this media?")) {
-      return;
-    }
+    const ok = await confirm({
+      title: "Delete media?",
+      message: "Are you sure you want to delete this gallery item?",
+    });
+
+    if (!ok) return;
 
     try {
       await deleteGallery(id);
 
-      alert("Gallery item deleted.");
+      toast.success("Gallery item deleted.");
 
       refetch();
     } catch (error) {
       console.error(error);
 
-      alert("Failed to delete gallery item.");
+      toast.error("Failed to delete gallery item.");
     }
   };
 
@@ -98,24 +107,23 @@ function Gallery() {
   // =====================================
 
   const handleDeleteCategory = async (category) => {
-    if (
-      !window.confirm(
-        `Delete the category "${category.name}"? Its gallery items will be uncategorized.`
-      )
-    ) {
-      return;
-    }
+    const ok = await confirm({
+      title: "Delete category?",
+      message: `Delete the category "${category.name}"? Its gallery items will be uncategorized.`,
+    });
+
+    if (!ok) return;
 
     try {
       await deleteGalleryCategory(category.id);
 
-      alert("Category deleted.");
+      toast.success("Category deleted.");
 
       refetch();
     } catch (error) {
       console.error(error);
 
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "Failed to delete category."
       );

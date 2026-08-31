@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { sendContactMessage } from "../../services/publicContactService";
+import { useToast } from "../../hooks/useToast";
 import "./ContactForm.css";
 
 function ContactForm() {
+  const toast = useToast();
+
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -28,7 +31,7 @@ function ContactForm() {
     try {
       await sendContactMessage(formData);
 
-      alert("Message sent successfully!");
+      toast.success("Message sent successfully!");
 
       setFormData({
         full_name: "",
@@ -40,7 +43,7 @@ function ContactForm() {
 
     } catch (error) {
       console.error(error);
-      alert("Failed to send message.");
+      toast.error("Failed to send message.");
     } finally {
       setLoading(false);
     }

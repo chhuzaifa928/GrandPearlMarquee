@@ -16,6 +16,10 @@ import "aos/dist/aos.css";
 import App from "./App";
 import "./styles/global.css";
 
+import ToastProvider from "./components/Common/ToastProvider";
+import ConfirmProvider from "./components/Common/ConfirmProvider";
+import "./components/Common/feedback.css";
+
 AOS.init({
   duration: 900,
   once: true,
@@ -25,7 +29,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>
-        <App />
+        <ToastProvider>
+          <ConfirmProvider>
+            <App />
+          </ConfirmProvider>
+        </ToastProvider>
       </BrowserRouter>
     </HelmetProvider>
   </React.StrictMode>

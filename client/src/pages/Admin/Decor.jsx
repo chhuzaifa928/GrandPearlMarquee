@@ -12,9 +12,15 @@ import {
   deleteDecor,
 } from "../../services/decorService";
 
+import { useToast } from "../../hooks/useToast";
+import { useConfirm } from "../../hooks/useConfirm";
+
 import useFetch from "../../hooks/useFetch";
 
 function Decor() {
+  const toast = useToast();
+  const confirm = useConfirm();
+
   const { data: decorData, loading, refetch } = useFetch(getAllDecor);
 
   const decor = decorData ?? [];
@@ -84,14 +90,14 @@ function Decor() {
     // Step 3: Success
     // ===============================
 
-    alert("Decor added successfully.");
+    toast.success("Decor added successfully.");
 
     refetch();
 
   } catch (error) {
     console.error("Add Decor Error:", error);
 
-    alert("Failed to add decor.");
+    toast.error("Failed to add decor.");
   }
 };
 
@@ -106,30 +112,35 @@ function Decor() {
     try {
       await updateDecor(id, formData);
 
-      alert("Decor updated successfully.");
+      toast.success("Decor updated successfully.");
 
       setShowModal(false);
 
       refetch();
     } catch (error) {
       console.error(error);
-      alert("Failed to update decor.");
+      toast.error("Failed to update decor.");
     }
   };
 
   // Delete Decor
   const handleDeleteDecor = async (id) => {
-    if (!window.confirm("Delete this decor?")) return;
+    const ok = await confirm({
+      title: "Delete decor?",
+      message: "Are you sure you want to delete this decor?",
+    });
+
+    if (!ok) return;
 
     try {
       await deleteDecor(id);
 
-      alert("Decor deleted successfully.");
+      toast.success("Decor deleted successfully.");
 
       refetch();
     } catch (error) {
       console.error(error);
-      alert("Failed to delete decor.");
+      toast.error("Failed to delete decor.");
     }
   };
 

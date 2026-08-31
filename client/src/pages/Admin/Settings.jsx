@@ -5,8 +5,11 @@ import {
   updateSettings,
   uploadHeroImage,
 } from "../../services/settingsService";
+import { useToast } from "../../hooks/useToast";
 
 function Settings() {
+  const toast = useToast();
+
   const [formData, setFormData] = useState({
     website_name: "",
     tagline: "",
@@ -83,7 +86,7 @@ function Settings() {
 
   const handleHeroImageUpload = async () => {
     if (!heroImage) {
-      alert("Please select a hero image first.");
+      toast.warning("Please select a hero image first.");
       return;
     }
 
@@ -99,10 +102,10 @@ function Settings() {
 
       setHeroImage(null);
 
-      alert("Hero image uploaded successfully.");
+      toast.success("Hero image uploaded successfully.");
     } catch (error) {
       console.error("Hero image upload failed:", error);
-      alert("Failed to upload hero image.");
+      toast.error("Failed to upload hero image.");
     } finally {
       setUploading(false);
     }
@@ -114,10 +117,10 @@ function Settings() {
     try {
       await updateSettings(formData);
 
-      alert("Settings updated successfully.");
+      toast.success("Settings updated successfully.");
     } catch (error) {
       console.error(error);
-      alert("Failed to update settings.");
+      toast.error("Failed to update settings.");
     }
   };
 

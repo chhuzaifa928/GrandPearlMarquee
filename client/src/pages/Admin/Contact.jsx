@@ -6,20 +6,31 @@ import {
   deleteMessage,
 } from "../../services/contactService";
 
+import { useToast } from "../../hooks/useToast";
+import { useConfirm } from "../../hooks/useConfirm";
+
 import useFetch from "../../hooks/useFetch";
 
 function Contact() {
+  const toast = useToast();
+  const confirm = useConfirm();
+
   const { data: messagesData, loading, refetch } = useFetch(getMessages);
 
   const messages = messagesData ?? [];
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this message?")) return;
+    const ok = await confirm({
+      title: "Delete message?",
+      message: "Are you sure you want to delete this contact message?",
+    });
+
+    if (!ok) return;
 
     try {
       await deleteMessage(id);
 
-      alert("Message deleted successfully.");
+      toast.success("Message deleted successfully.");
 
       refetch();
     } catch (error) {

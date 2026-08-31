@@ -14,8 +14,13 @@ import {
 } from "../../services/bookingService";
 
 import useFetch from "../../hooks/useFetch";
+import { useToast } from "../../hooks/useToast";
+import { useConfirm } from "../../hooks/useConfirm";
 
 function Bookings() {
+  const toast = useToast();
+  const confirm = useConfirm();
+
   const {
     data: bookingsData,
     loading,
@@ -64,29 +69,40 @@ function Bookings() {
   const handleApprove = async (id) => {
     try {
       await approveBooking(id);
+      toast.success("Booking approved.");
       refetch();
     } catch (error) {
       console.error(error);
+      toast.error("Failed to approve booking.");
     }
   };
 
   const handleReject = async (id) => {
     try {
       await rejectBooking(id);
+      toast.success("Booking rejected.");
       refetch();
     } catch (error) {
       console.error(error);
+      toast.error("Failed to reject booking.");
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this booking?")) return;
+    const ok = await confirm({
+      title: "Delete booking?",
+      message: "Are you sure you want to delete this booking?",
+    });
+
+    if (!ok) return;
 
     try {
       await deleteBooking(id);
+      toast.success("Booking deleted.");
       refetch();
     } catch (error) {
       console.error(error);
+      toast.error("Failed to delete booking.");
     }
   };
 

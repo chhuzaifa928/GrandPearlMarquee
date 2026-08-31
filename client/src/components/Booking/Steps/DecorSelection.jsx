@@ -1,4 +1,5 @@
 import decorPackages from "../../../data/decorPackages";
+import { useToast } from "../../../hooks/useToast";
 
 function DecorSelection({
   formData,
@@ -6,6 +7,7 @@ function DecorSelection({
   nextStep,
   prevStep,
 }) {
+  const toast = useToast();
   // ============================================
   // SELECT EXISTING DECOR
   // ============================================
@@ -52,12 +54,12 @@ function DecorSelection({
       formData.decorId === "custom" &&
       !formData.customDecorCategory?.trim()
     ) {
-      alert("Please enter the decor category you want.");
+      toast.warning("Please enter the decor category you want.");
       return;
     }
 
     if (!formData.decorId) {
-      alert("Please select a decor package.");
+      toast.warning("Please select a decor package.");
       return;
     }
 
