@@ -12,25 +12,25 @@ function Hero() {
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
 
   useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const data = await getWebsiteSettings();
+
+        console.log("Hero Settings:", data);
+        console.log("Hero Image From API:", data.hero_image);
+
+        setSettings({
+          ...DEFAULT_SETTINGS,
+          ...data,
+        });
+      } catch (error) {
+        console.error("Failed to load Hero settings:", error);
+        setSettings(DEFAULT_SETTINGS);
+      }
+    };
+
     loadSettings();
   }, []);
-
-  const loadSettings = async () => {
-    try {
-      const data = await getWebsiteSettings();
-
-      console.log("Hero Settings:", data);
-      console.log("Hero Image From API:", data.hero_image);
-
-      setSettings({
-        ...DEFAULT_SETTINGS,
-        ...data,
-      });
-    } catch (error) {
-      console.error("Failed to load Hero settings:", error);
-      setSettings(DEFAULT_SETTINGS);
-    }
-  };
 
   // ==========================
   // Hero Image URL

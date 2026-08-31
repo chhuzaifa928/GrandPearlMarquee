@@ -27,23 +27,29 @@ function Dashboard() {
   });
 
   useEffect(() => {
+    let cancelled = false;
+
+    const loadDashboard = async () => {
+      try {
+        const data = await getDashboardStats();
+
+        if (cancelled) return;
+
+        console.log("Dashboard Data:", data);
+
+        setDashboard(data);
+
+      } catch (error) {
+        console.error("Dashboard Error:", error);
+      }
+    };
 
     loadDashboard();
 
+    return () => {
+      cancelled = true;
+    };
   }, []);
-
- const loadDashboard = async () => {
-  try {
-    const data = await getDashboardStats();
-
-    console.log("Dashboard Data:", data);
-
-    setDashboard(data);
-
-  } catch (error) {
-    console.error("Dashboard Error:", error);
-  }
-};
 
   return (
 

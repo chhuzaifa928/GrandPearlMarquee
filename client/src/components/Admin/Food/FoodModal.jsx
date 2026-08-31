@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function FoodModal({
   show,
@@ -7,21 +7,11 @@ function FoodModal({
   categories,
   food,
 }) {
-  const [formData, setFormData] = useState({
-    category_id: "",
-    item_name: "",
-    description: "",
-  });
-
-  useEffect(() => {
-    if (food) {
-      setFormData({
-        category_id: food.category_id,
-        item_name: food.item_name,
-        description: food.description || "",
-      });
-    }
-  }, [food]);
+  const [formData, setFormData] = useState(() => ({
+    category_id: food?.category_id || "",
+    item_name: food?.item_name || "",
+    description: food?.description || "",
+  }));
 
   const handleChange = (e) => {
     setFormData({

@@ -12,17 +12,33 @@ function Contact() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
+    const loadMessages = async () => {
+      try {
+        const data = await getMessages();
+
+        if (!cancelled) setMessages(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
     loadMessages();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const loadMessages = async () => {
+  const refreshMessages = async () => {
     try {
       const data = await getMessages();
       setMessages(data);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -34,7 +50,7 @@ function Contact() {
 
       alert("Message deleted successfully.");
 
-      loadMessages();
+      refreshMessages();
     } catch (error) {
       console.error(error);
     }

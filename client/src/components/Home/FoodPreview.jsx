@@ -10,17 +10,17 @@ function FoodPreview() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await getPublicFoodCategories();
+        setCategories(data.slice(0, 4));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     loadCategories();
   }, []);
-
-  const loadCategories = async () => {
-    try {
-      const data = await getPublicFoodCategories();
-      setCategories(data.slice(0, 4));
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <section className="food-preview section-padding">

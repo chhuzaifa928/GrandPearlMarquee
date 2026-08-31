@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import {
   FaCalendarCheck,
@@ -19,20 +20,20 @@ function DashboardCards() {
   });
 
   useEffect(() => {
+    const loadDashboard = async () => {
+      try {
+        const data = await getDashboardStats();
+
+        console.log("Dashboard Stats:", data);
+
+        setStats(data.stats);
+      } catch (error) {
+        console.error("Dashboard Error:", error);
+      }
+    };
+
     loadDashboard();
   }, []);
-
-  const loadDashboard = async () => {
-    try {
-      const data = await getDashboardStats();
-
-      console.log("Dashboard Stats:", data);
-
-      setStats(data.stats);
-    } catch (error) {
-      console.error("Dashboard Error:", error);
-    }
-  };
 
   const cards = [
     {

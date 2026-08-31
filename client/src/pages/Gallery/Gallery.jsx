@@ -24,25 +24,33 @@ function Gallery() {
   // ===============================
 
   useEffect(() => {
+    let cancelled = false;
+
+    const loadGallery = async () => {
+      try {
+        const data = await getGallery();
+
+        if (cancelled) return;
+
+        console.log("PUBLIC GALLERY:", data);
+
+        setGallery(data);
+      } catch (error) {
+        console.error(
+          "Failed to load gallery:",
+          error
+        );
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
     loadGallery();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
-
-  const loadGallery = async () => {
-    try {
-      const data = await getGallery();
-
-      console.log("PUBLIC GALLERY:", data);
-
-      setGallery(data);
-    } catch (error) {
-      console.error(
-        "Failed to load gallery:",
-        error
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // ===============================
   // Loading

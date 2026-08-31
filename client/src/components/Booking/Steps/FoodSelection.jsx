@@ -18,23 +18,34 @@ function FoodSelection({
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadFoodData();
-  }, []);
+ useEffect(() => {
+  let cancelled = false;
 
   const loadFoodData = async () => {
     try {
       const categoryData = await getPublicFoodCategories();
       const itemData = await getItems();
 
-      setCategories(categoryData);
-      setItems(itemData);
+      if (!cancelled) {
+        setCategories(categoryData);
+        setItems(itemData);
+        setLoading(false);
+      }
     } catch (error) {
       console.error("Failed to load food data:", error);
-    } finally {
-      setLoading(false);
+
+      if (!cancelled) {
+        setLoading(false);
+      }
     }
   };
+
+  loadFoodData();
+
+  return () => {
+    cancelled = true;
+  };
+}, []);
 
   // =================================
   // SELECT EXISTING FOOD
@@ -95,7 +106,6 @@ function FoodSelection({
   if (loading) {
     return (
       <div className="booking-card text-center">
-
         <div
           className="spinner-border text-warning"
           role="status"
@@ -104,14 +114,12 @@ function FoodSelection({
         <p className="mt-3">
           Loading food menus...
         </p>
-
       </div>
     );
   }
 
   return (
     <div className="booking-card">
-
       <h2>Select Food Menu</h2>
 
       <p>
@@ -124,7 +132,6 @@ function FoodSelection({
       ================================= */}
 
       {categories.map((category) => {
-
         const categoryItems = items.filter(
           (item) =>
             item.category_name ===
@@ -140,20 +147,16 @@ function FoodSelection({
             key={category.id}
             className="mb-5"
           >
-
             <h3 className="mb-4">
               {category.category_name}
             </h3>
 
             <div className="row">
-
               {categoryItems.map((item) => (
-
                 <div
                   className="col-lg-4 col-md-6 mb-4"
                   key={item.id}
                 >
-
                   <div
                     className={`booking-package-card ${
                       formData.foodId === item.id
@@ -164,7 +167,6 @@ function FoodSelection({
                       selectFood(item)
                     }
                   >
-
                     {item.image && (
                       <img
                         src={`${API_URL}${item.image}`}
@@ -174,7 +176,6 @@ function FoodSelection({
                     )}
 
                     <div className="package-body">
-
                       <span className="package-category">
                         {item.category_name}
                       </span>
@@ -194,17 +195,11 @@ function FoodSelection({
                           ✓ Selected
                         </div>
                       )}
-
                     </div>
-
                   </div>
-
                 </div>
-
               ))}
-
             </div>
-
           </div>
         );
       })}
@@ -214,7 +209,6 @@ function FoodSelection({
       ================================= */}
 
       <div className="custom-food-section mt-5">
-
         <h3>Custom Food</h3>
 
         <p>
@@ -230,9 +224,7 @@ function FoodSelection({
           }`}
           onClick={selectCustomFood}
         >
-
           <div className="package-body">
-
             <span className="package-category">
               Custom
             </span>
@@ -251,14 +243,12 @@ function FoodSelection({
             ============================= */}
 
             {formData.foodId === "custom" && (
-
               <div
                 className="mt-3"
                 onClick={(event) =>
                   event.stopPropagation()
                 }
               >
-
                 <label className="form-label">
                   Your Food Requirements
                 </label>
@@ -281,9 +271,7 @@ function FoodSelection({
                   Pearl team will discuss the final
                   menu with you.
                 </small>
-
               </div>
-
             )}
 
             {/* =============================
@@ -291,17 +279,12 @@ function FoodSelection({
             ============================= */}
 
             {formData.foodId === "custom" && (
-
               <div className="selected-label mt-3">
                 ✓ Custom Food Selected
               </div>
-
             )}
-
           </div>
-
         </div>
-
       </div>
 
       {/* =================================
@@ -319,7 +302,6 @@ function FoodSelection({
       ================================= */}
 
       <div className="d-flex justify-content-between mt-4">
-
         <button
           type="button"
           className="btn btn-secondary"
@@ -342,11 +324,10 @@ function FoodSelection({
         >
           Next →
         </button>
-
       </div>
-
     </div>
   );
 }
 
 export default FoodSelection;
+

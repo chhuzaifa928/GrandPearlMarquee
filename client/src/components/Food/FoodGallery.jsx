@@ -17,25 +17,23 @@ function FoodGallery({ selectedCategory }) {
   const [selectedFood, setSelectedFood] = useState(null);
 
   useEffect(() => {
+    const loadData = async () => {
+      try {
+        const categoryData =
+          await getPublicFoodCategories();
+
+        const itemData =
+          await getItems();
+
+        setCategories(categoryData);
+        setItems(itemData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     loadData();
   }, []);
-
-  const loadData = async () => {
-    try {
-
-      const categoryData =
-        await getPublicFoodCategories();
-
-      const itemData =
-        await getItems();
-
-      setCategories(categoryData);
-      setItems(itemData);
-
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const filteredCategories =
     selectedCategory === "All"

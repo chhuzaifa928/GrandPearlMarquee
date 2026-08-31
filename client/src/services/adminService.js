@@ -63,7 +63,7 @@ export const verifyAdminSession = async () => {
     );
 
     return response.data.success === true;
-  } catch (error) {
+  } catch {
     localStorage.removeItem("token");
     return false;
   }
@@ -103,7 +103,7 @@ export const isLoggedIn = () => {
     }
 
     return true;
-  } catch (error) {
+  } catch {
     localStorage.removeItem("token");
     return false;
   }

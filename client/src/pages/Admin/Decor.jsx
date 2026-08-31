@@ -20,17 +20,33 @@ function Decor() {
   const [selectedDecor, setSelectedDecor] = useState(null);
 
   useEffect(() => {
+    let cancelled = false;
+
+    const loadDecor = async () => {
+      try {
+        const data = await getAllDecor();
+
+        if (!cancelled) setDecor(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
     loadDecor();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const loadDecor = async () => {
+  const refreshDecor = async () => {
     try {
       const data = await getAllDecor();
       setDecor(data);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -98,7 +114,7 @@ function Decor() {
 
     alert("Decor added successfully.");
 
-    loadDecor();
+    refreshDecor();
 
   } catch (error) {
     console.error("Add Decor Error:", error);
@@ -122,7 +138,7 @@ function Decor() {
 
       setShowModal(false);
 
-      loadDecor();
+      refreshDecor();
     } catch (error) {
       console.error(error);
       alert("Failed to update decor.");
@@ -138,7 +154,7 @@ function Decor() {
 
       alert("Decor deleted successfully.");
 
-      loadDecor();
+      refreshDecor();
     } catch (error) {
       console.error(error);
       alert("Failed to delete decor.");
@@ -174,6 +190,7 @@ function Decor() {
       )}
 
       <DecorModal
+        key={showModal ? selectedDecor?.id : "closed"}
         show={showModal}
         onClose={() => setShowModal(false)}
         decor={selectedDecor}

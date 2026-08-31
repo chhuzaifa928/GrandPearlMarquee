@@ -9,22 +9,22 @@ function DecorCategories({
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const decor = await getDecor();
+
+        const uniqueCategories = [
+          ...new Set(decor.map((item) => item.category)),
+        ];
+
+        setCategories(uniqueCategories);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     loadCategories();
   }, []);
-
-  const loadCategories = async () => {
-    try {
-      const decor = await getDecor();
-
-      const uniqueCategories = [
-        ...new Set(decor.map((item) => item.category)),
-      ];
-
-      setCategories(uniqueCategories);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <section className="decor-categories section-padding">

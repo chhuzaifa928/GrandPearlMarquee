@@ -26,10 +26,32 @@ function Food() {
   const [selectedFood, setSelectedFood] = useState(null);
 
   useEffect(() => {
+    let cancelled = false;
+
+    const loadData = async () => {
+      try {
+        const categoryData = await getCategories();
+        const itemData = await getItems();
+
+        if (cancelled) return;
+
+        setCategories(categoryData);
+        setItems(itemData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
     loadData();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const loadData = async () => {
+  const refreshData = async () => {
     try {
       const categoryData = await getCategories();
       const itemData = await getItems();
@@ -38,8 +60,6 @@ function Food() {
       setItems(itemData);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -53,7 +73,7 @@ function Food() {
 
       alert("Category added successfully.");
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +87,7 @@ function Food() {
 
       alert("Category deleted successfully.");
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
     }
@@ -83,7 +103,7 @@ function Food() {
 
       alert("Food item added successfully.");
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
     }
@@ -104,7 +124,7 @@ function Food() {
 
       setShowModal(false);
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
       alert("Failed to update food item.");
@@ -120,7 +140,7 @@ function Food() {
 
       alert("Food item deleted successfully.");
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
     }
@@ -165,6 +185,7 @@ function Food() {
       />
 
       <FoodModal
+        key={showModal ? selectedFood?.id : "closed"}
         show={showModal}
         onClose={() => setShowModal(false)}
         onSave={handleSaveItem}

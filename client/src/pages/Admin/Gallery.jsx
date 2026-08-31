@@ -22,7 +22,36 @@ function Gallery() {
   // Load Gallery + Categories
   // =====================================
 
-  const loadData = async () => {
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadData = async () => {
+      try {
+        const [galleryData, categoryData] =
+          await Promise.all([
+            getGallery(),
+            getGalleryCategories(),
+          ]);
+
+        if (cancelled) return;
+
+        setGallery(galleryData);
+        setCategories(categoryData);
+      } catch (error) {
+        console.error("Failed to load gallery data:", error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    loadData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const refreshData = async () => {
     try {
       const [galleryData, categoryData] =
         await Promise.all([
@@ -34,14 +63,8 @@ function Gallery() {
       setCategories(categoryData);
     } catch (error) {
       console.error("Failed to load gallery data:", error);
-    } finally {
-      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   // =====================================
   // Upload Gallery
@@ -53,7 +76,7 @@ function Gallery() {
 
       alert("Gallery uploaded successfully.");
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
 
@@ -72,7 +95,7 @@ function Gallery() {
       alert("Category added successfully.");
 
       // Reload categories immediately
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
 
@@ -97,7 +120,7 @@ function Gallery() {
 
       alert("Gallery item deleted.");
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
 
@@ -123,7 +146,7 @@ function Gallery() {
 
       alert("Category deleted.");
 
-      loadData();
+      refreshData();
     } catch (error) {
       console.error(error);
 

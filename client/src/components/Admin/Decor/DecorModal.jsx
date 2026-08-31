@@ -1,27 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import API_URL from "../../../config/api";
 
 function DecorModal({ show, onClose, onSave, decor }) {
-  const [formData, setFormData] = useState({
-    category: "",
-    title: "",
-    description: "",
+  const [formData, setFormData] = useState(() => ({
+    category: decor?.category || "",
+    title: decor?.title || "",
+    description: decor?.description || "",
     image: null,
-    oldImage: "",
-  });
-
-  useEffect(() => {
-    if (decor) {
-      setFormData({
-        category: decor.category,
-        title: decor.title,
-        description: decor.description,
-        image: null,
-        oldImage: decor.image,
-      });
-    }
-  }, [decor]);
+    oldImage: decor?.image || "",
+  }));
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

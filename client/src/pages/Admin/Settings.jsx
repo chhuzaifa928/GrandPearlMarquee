@@ -31,36 +31,44 @@ function Settings() {
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+
+    const loadSettings = async () => {
+      try {
+        const data = await getSettings();
+
+        if (cancelled) return;
+
+        setFormData({
+          website_name: data.website_name || "",
+          tagline: data.tagline || "",
+          phone: data.phone || "",
+          whatsapp: data.whatsapp || "",
+          email: data.email || "",
+          address: data.address || "",
+          facebook: data.facebook || "",
+          instagram: data.instagram || "",
+          youtube: data.youtube || "",
+          tiktok: data.tiktok || "",
+
+          hero_tagline: data.hero_tagline || "",
+          hero_title: data.hero_title || "",
+          hero_description: data.hero_description || "",
+          hero_image: data.hero_image || "",
+          hero_title_line1: data.hero_title_line1 || "",
+          hero_title_line2: data.hero_title_line2 || "",
+        });
+      } catch (error) {
+        console.error("Failed to load settings:", error);
+      }
+    };
+
     loadSettings();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
-
-  const loadSettings = async () => {
-    try {
-      const data = await getSettings();
-
-      setFormData({
-        website_name: data.website_name || "",
-        tagline: data.tagline || "",
-        phone: data.phone || "",
-        whatsapp: data.whatsapp || "",
-        email: data.email || "",
-        address: data.address || "",
-        facebook: data.facebook || "",
-        instagram: data.instagram || "",
-        youtube: data.youtube || "",
-        tiktok: data.tiktok || "",
-
-        hero_tagline: data.hero_tagline || "",
-        hero_title: data.hero_title || "",
-        hero_description: data.hero_description || "",
-        hero_image: data.hero_image || "",
-        hero_title_line1: data.hero_title_line1 || "",
-        hero_title_line2: data.hero_title_line2 || "",
-      });
-    } catch (error) {
-      console.error("Failed to load settings:", error);
-    }
-  };
 
   const handleChange = (e) => {
     setFormData({

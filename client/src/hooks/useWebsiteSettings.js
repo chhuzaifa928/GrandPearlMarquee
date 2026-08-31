@@ -5,17 +5,17 @@ function useWebsiteSettings() {
   const [settings, setSettings] = useState(null);
 
   useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const data = await getWebsiteSettings();
+        setSettings(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
     loadSettings();
   }, []);
-
-  const loadSettings = async () => {
-    try {
-      const data = await getWebsiteSettings();
-      setSettings(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return settings;
 }

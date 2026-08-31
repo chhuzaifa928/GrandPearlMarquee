@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./DecorGallery.css";
@@ -20,46 +20,56 @@ function DecorGallery({ selectedCategory }) {
 
   const [lightbox, setLightbox] = useState(null);
 
-  useEffect(() => {
-    loadDecor();
-  }, []);
-
   // ===============================
   // Load Decor
   // ===============================
 
-  const loadDecor = async () => {
-    try {
-      const data = await getDecor();
+  useEffect(() => {
+    let cancelled = false;
 
-      setDecor(data);
+    const loadDecor = async () => {
+      try {
+        const data = await getDecor();
 
-      const mediaData = {};
+        if (cancelled) return;
 
-      await Promise.all(
-        data.map(async (item) => {
-          try {
-            const itemMedia = await getDecorMedia(item.id);
+        setDecor(data);
 
-            mediaData[item.id] = itemMedia;
-          } catch (error) {
-            console.error(
-              `Failed to load media for decor ${item.id}`,
-              error
-            );
+        const mediaData = {};
 
-            mediaData[item.id] = [];
-          }
-        })
-      );
+        await Promise.all(
+          data.map(async (item) => {
+            try {
+              const itemMedia = await getDecorMedia(item.id);
 
-      setMedia(mediaData);
-    } catch (error) {
-      console.error("Failed to load decor:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+              mediaData[item.id] = itemMedia;
+            } catch (error) {
+              console.error(
+                `Failed to load media for decor ${item.id}`,
+                error
+              );
+
+              mediaData[item.id] = [];
+            }
+          })
+        );
+
+        if (cancelled) return;
+
+        setMedia(mediaData);
+      } catch (error) {
+        console.error("Failed to load decor:", error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    loadDecor();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // ===============================
   // Filter Categories
@@ -121,7 +131,7 @@ function DecorGallery({ selectedCategory }) {
   // Next Media
   // ===============================
 
-  const nextMedia = () => {
+  const nextMedia = useCallback(() => {
     if (!lightbox) return;
 
     const nextIndex =
@@ -132,13 +142,13 @@ function DecorGallery({ selectedCategory }) {
       ...lightbox,
       currentIndex: nextIndex,
     });
-  };
+  }, [lightbox]);
 
   // ===============================
   // Previous Media
   // ===============================
 
-  const previousMedia = () => {
+  const previousMedia = useCallback(() => {
     if (!lightbox) return;
 
     const previousIndex =
@@ -151,7 +161,7 @@ function DecorGallery({ selectedCategory }) {
       ...lightbox,
       currentIndex: previousIndex,
     });
-  };
+  }, [lightbox]);
 
   // ===============================
   // Keyboard Navigation
@@ -185,7 +195,7 @@ function DecorGallery({ selectedCategory }) {
         handleKeyboard
       );
     };
-  }, [lightbox]);
+  }, [lightbox, nextMedia, previousMedia]);
 
   // ===============================
   // Loading

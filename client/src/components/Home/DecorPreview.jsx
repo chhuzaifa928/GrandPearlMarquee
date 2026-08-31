@@ -10,18 +10,18 @@ function DecorPreview() {
   const [decor, setDecor] = useState([]);
 
   useEffect(() => {
+    const loadDecor = async () => {
+      try {
+        const data = await getDecor();
+
+        setDecor(data.slice(0, 6));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     loadDecor();
   }, []);
-
-  const loadDecor = async () => {
-  try {
-   const data = await getDecor();
-
-setDecor(data.slice(0, 6));
-  } catch (error) {
-    console.error(error);
-  }
-};
 
   return (
     <section className="decor-preview section-padding">

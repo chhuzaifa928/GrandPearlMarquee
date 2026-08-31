@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import useWebsiteSettings from "../../hooks/useWebsiteSettings";
 import logo from "../../assets/images/logo/grand-pearl-logo.png";
@@ -7,12 +7,7 @@ import logo from "../../assets/images/logo/grand-pearl-logo.png";
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
   const settings = useWebsiteSettings();
-
-useEffect(() => {
-  setMenuOpen(false);
-}, [location]);
 
   useEffect(() => {
     const handleScroll = () => {
