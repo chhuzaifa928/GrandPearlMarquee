@@ -47,8 +47,26 @@ const bookingValidator = [
     .withMessage("Male guests cannot be negative."),
 
   body("female_guests")
-    .isInt({ min: 0 })
-    .withMessage("Female guests cannot be negative."),
+  .isInt({ min: 0 })
+  .withMessage("Female guests cannot be negative.")
+  .custom((value, { req }) => {
+    const totalGuests = Number(req.body.guests);
+    const maleGuests = Number(req.body.male_guests);
+    const femaleGuests = Number(value);
+
+    if (
+      Number.isInteger(totalGuests) &&
+      Number.isInteger(maleGuests) &&
+      Number.isInteger(femaleGuests) &&
+      maleGuests + femaleGuests !== totalGuests
+    ) {
+      throw new Error(
+        "Male and female guests must equal total guests."
+      );
+    }
+
+    return true;
+  }),
 
   body("vip_guests")
     .isInt({ min: 0 })
