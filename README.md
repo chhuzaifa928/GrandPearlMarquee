@@ -9,6 +9,7 @@ A full-stack web application for **Grand Pearl Marquee**, an event & wedding ban
 - Dynamic content driven by the API (hero image, decor packages, food menu, gallery) with static fallback data.
 - Scroll-reveal animations (AOS) and page transitions (framer-motion).
 - Responsive, mobile-first layout built on Bootstrap 5.
+- Route-level code splitting via `React.lazy` + `Suspense` -- pages load on demand, keeping the initial bundle small.
 - SEO meta tags per page, JSON-LD structured data, and Open Graph tags.
 
 ### Booking Wizard
@@ -73,7 +74,7 @@ GrandPearlMarquee/
 │   │   │   ├── Booking/                 # Wizard + 8 step components
 │   │   │   ├── Common/                  # Navbar, Footer, ScrollProgress, WhatsAppButton, etc.
 │   │   │   ├── Contact/                 # Contact form
-│   │   │   ├── Decor/                   # Decor listing cards
+│   │   │   ├── Decor/                   # Decor listing (DecorGallery, DecorCard, DecorGalleryLightbox)
 │   │   │   ├── Food/                    # Food menu display
 │   │   │   ├── Gallery/                 # Gallery grid and lightbox
 │   │   │   ├── Hero/                    # Hero section with dynamic content
@@ -82,13 +83,13 @@ GrandPearlMarquee/
 │   │   │   └── Venue/                   # Venue-related components
 │   │   ├── config/                      # API base URL configuration
 │   │   ├── data/                        # Static fallback data (decor, food, gallery, extras)
-│   │   ├── hooks/                       # Custom hooks (useWebsiteSettings)
+│   │   ├── hooks/                       # Custom hooks (useFetch, useWebsiteSettings)
 │   │   ├── layouts/                     # MainLayout & AdminLayout
 │   │   ├── pages/                       # Route pages (public + admin)
 │   │   ├── services/                    # Axios API service modules (public + admin)
 │   │   ├── styles/                      # Global design-token CSS (10 files)
 │   │   ├── utils/                       # Booking calculations & validation
-│   │   ├── App.jsx                      # Route definitions
+│   │   ├── App.jsx                      # Route definitions (React.lazy + Suspense code splitting)
 │   │   └── main.jsx                     # Entry point
 │   ├── index.html
 │   ├── vite.config.js
