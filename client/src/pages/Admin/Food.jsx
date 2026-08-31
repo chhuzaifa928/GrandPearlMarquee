@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import FoodCategoryForm from "../../components/Admin/Food/FoodCategoryForm";
 import FoodCategoryTable from "../../components/Admin/Food/FoodCategoryTable";
@@ -16,52 +16,23 @@ import {
   deleteItem,
 } from "../../services/foodService";
 
-function Food() {
-  const [categories, setCategories] = useState([]);
-  const [items, setItems] = useState([]);
+import useFetch from "../../hooks/useFetch";
 
-  const [loading, setLoading] = useState(true);
+const fetchFoodData = async () => {
+  const categoryData = await getCategories();
+  const itemData = await getItems();
+
+  return { categories: categoryData, items: itemData };
+};
+
+function Food() {
+  const { data: foodData, loading, refetch } = useFetch(fetchFoodData);
+
+  const categories = foodData?.categories ?? [];
+  const items = foodData?.items ?? [];
 
   const [showModal, setShowModal] = useState(false);
   const [selectedFood, setSelectedFood] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadData = async () => {
-      try {
-        const categoryData = await getCategories();
-        const itemData = await getItems();
-
-        if (cancelled) return;
-
-        setCategories(categoryData);
-        setItems(itemData);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    loadData();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const refreshData = async () => {
-    try {
-      const categoryData = await getCategories();
-      const itemData = await getItems();
-
-      setCategories(categoryData);
-      setItems(itemData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   // ============================
   // Category
@@ -73,7 +44,7 @@ function Food() {
 
       alert("Category added successfully.");
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
     }
@@ -87,7 +58,7 @@ function Food() {
 
       alert("Category deleted successfully.");
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +74,7 @@ function Food() {
 
       alert("Food item added successfully.");
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
     }
@@ -124,7 +95,7 @@ function Food() {
 
       setShowModal(false);
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
       alert("Failed to update food item.");
@@ -140,7 +111,7 @@ function Food() {
 
       alert("Food item deleted successfully.");
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
     }

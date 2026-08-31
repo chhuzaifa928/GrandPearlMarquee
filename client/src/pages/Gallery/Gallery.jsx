@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import SEO from "../../components/SEO/SEO";
 
@@ -10,45 +10,17 @@ import GalleryCTA from "../../components/Gallery/GalleryCTA";
 
 import { getGallery } from "../../services/galleryService";
 
+import useFetch from "../../hooks/useFetch";
+
 function Gallery() {
-  const [gallery, setGallery] = useState([]);
+  const { data: galleryData, loading } = useFetch(getGallery);
+
+  const gallery = galleryData ?? [];
+
   const [selectedCategory, setSelectedCategory] =
     useState("All");
   const [selectedImage, setSelectedImage] =
     useState(null);
-
-  const [loading, setLoading] = useState(true);
-
-  // ===============================
-  // Load Gallery From Database
-  // ===============================
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadGallery = async () => {
-      try {
-        const data = await getGallery();
-
-        if (cancelled) return;
-
-        setGallery(data);
-      } catch (error) {
-        console.error(
-          "Failed to load gallery:",
-          error
-        );
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    loadGallery();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   // ===============================
   // Loading

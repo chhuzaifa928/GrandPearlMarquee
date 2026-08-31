@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import DecorForm from "../../components/Admin/Decor/DecorForm";
 import DecorTable from "../../components/Admin/Decor/DecorTable";
@@ -12,43 +12,15 @@ import {
   deleteDecor,
 } from "../../services/decorService";
 
+import useFetch from "../../hooks/useFetch";
+
 function Decor() {
-  const [decor, setDecor] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: decorData, loading, refetch } = useFetch(getAllDecor);
+
+  const decor = decorData ?? [];
 
   const [showModal, setShowModal] = useState(false);
   const [selectedDecor, setSelectedDecor] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadDecor = async () => {
-      try {
-        const data = await getAllDecor();
-
-        if (!cancelled) setDecor(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    loadDecor();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const refreshDecor = async () => {
-    try {
-      const data = await getAllDecor();
-      setDecor(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   // Add Decor
   const handleAddDecor = async (formData) => {
@@ -114,7 +86,7 @@ function Decor() {
 
     alert("Decor added successfully.");
 
-    refreshDecor();
+    refetch();
 
   } catch (error) {
     console.error("Add Decor Error:", error);
@@ -138,7 +110,7 @@ function Decor() {
 
       setShowModal(false);
 
-      refreshDecor();
+      refetch();
     } catch (error) {
       console.error(error);
       alert("Failed to update decor.");
@@ -154,7 +126,7 @@ function Decor() {
 
       alert("Decor deleted successfully.");
 
-      refreshDecor();
+      refetch();
     } catch (error) {
       console.error(error);
       alert("Failed to delete decor.");

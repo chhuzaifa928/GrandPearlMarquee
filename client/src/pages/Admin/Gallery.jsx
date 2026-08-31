@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import GalleryForm from "../../components/Admin/Gallery/GalleryForm";
 import GalleryTable from "../../components/Admin/Gallery/GalleryTable";
 
@@ -12,59 +10,26 @@ import {
   deleteGalleryCategory,
 } from "../../services/galleryService";
 
+import useFetch from "../../hooks/useFetch";
+
+// =====================================
+// Load Gallery + Categories
+// =====================================
+
+const fetchGalleryData = async () => {
+  const [galleryData, categoryData] = await Promise.all([
+    getGallery(),
+    getGalleryCategories(),
+  ]);
+
+  return { gallery: galleryData, categories: categoryData };
+};
+
 function Gallery() {
-  const [gallery, setGallery] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const { data: galleryData, loading, refetch } = useFetch(fetchGalleryData);
 
-  const [loading, setLoading] = useState(true);
-
-  // =====================================
-  // Load Gallery + Categories
-  // =====================================
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadData = async () => {
-      try {
-        const [galleryData, categoryData] =
-          await Promise.all([
-            getGallery(),
-            getGalleryCategories(),
-          ]);
-
-        if (cancelled) return;
-
-        setGallery(galleryData);
-        setCategories(categoryData);
-      } catch (error) {
-        console.error("Failed to load gallery data:", error);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    loadData();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const refreshData = async () => {
-    try {
-      const [galleryData, categoryData] =
-        await Promise.all([
-          getGallery(),
-          getGalleryCategories(),
-        ]);
-
-      setGallery(galleryData);
-      setCategories(categoryData);
-    } catch (error) {
-      console.error("Failed to load gallery data:", error);
-    }
-  };
+  const gallery = galleryData?.gallery ?? [];
+  const categories = galleryData?.categories ?? [];
 
   // =====================================
   // Upload Gallery
@@ -76,7 +41,7 @@ function Gallery() {
 
       alert("Gallery uploaded successfully.");
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
 
@@ -95,7 +60,7 @@ function Gallery() {
       alert("Category added successfully.");
 
       // Reload categories immediately
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
 
@@ -120,7 +85,7 @@ function Gallery() {
 
       alert("Gallery item deleted.");
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
 
@@ -146,7 +111,7 @@ function Gallery() {
 
       alert("Category deleted.");
 
-      refreshData();
+      refetch();
     } catch (error) {
       console.error(error);
 

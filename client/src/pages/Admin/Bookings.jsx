@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import BookingTable from "../../components/Admin/Bookings/BookingTable";
 import BookingCard from "../../components/Admin/Bookings/BookingCard";
@@ -13,10 +13,14 @@ import {
   deleteBooking,
 } from "../../services/bookingService";
 
-function Bookings() {
-  const [bookings, setBookings] = useState([]);
+import useFetch from "../../hooks/useFetch";
 
-  const [loading, setLoading] = useState(true);
+function Bookings() {
+  const {
+    data: bookingsData,
+    loading,
+    refetch,
+  } = useFetch(getAllBookings, { showLoadingOnRefetch: true });
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("All");
@@ -24,48 +28,8 @@ function Bookings() {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchBookings = async () => {
-      try {
-        setLoading(true);
-
-        const data = await getAllBookings();
-
-        if (cancelled) return;
-
-        setBookings(data);
-      } catch (error) {
-        console.error("Fetch Error:", error);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    fetchBookings();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const refreshBookings = async () => {
-    try {
-      setLoading(true);
-
-      const data = await getAllBookings();
-
-      setBookings(data);
-    } catch (error) {
-      console.error("Fetch Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const filteredBookings = useMemo(() => {
-    let result = [...bookings];
+    let result = [...(bookingsData ?? [])];
 
     if (status !== "All") {
       result = result.filter(
@@ -82,7 +46,7 @@ function Bookings() {
     }
 
     return result;
-  }, [search, status, bookings]);
+  }, [search, status, bookingsData]);
 
  const handleView = async (id) => {
   try {
@@ -100,7 +64,7 @@ function Bookings() {
   const handleApprove = async (id) => {
     try {
       await approveBooking(id);
-      refreshBookings();
+      refetch();
     } catch (error) {
       console.error(error);
     }
@@ -109,7 +73,7 @@ function Bookings() {
   const handleReject = async (id) => {
     try {
       await rejectBooking(id);
-      refreshBookings();
+      refetch();
     } catch (error) {
       console.error(error);
     }
@@ -120,7 +84,7 @@ function Bookings() {
 
     try {
       await deleteBooking(id);
-      refreshBookings();
+      refetch();
     } catch (error) {
       console.error(error);
     }

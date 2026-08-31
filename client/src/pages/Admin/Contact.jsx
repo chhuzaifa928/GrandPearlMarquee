@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import "./Contact.css";
 
@@ -7,40 +6,12 @@ import {
   deleteMessage,
 } from "../../services/contactService";
 
+import useFetch from "../../hooks/useFetch";
+
 function Contact() {
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: messagesData, loading, refetch } = useFetch(getMessages);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadMessages = async () => {
-      try {
-        const data = await getMessages();
-
-        if (!cancelled) setMessages(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    };
-
-    loadMessages();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const refreshMessages = async () => {
-    try {
-      const data = await getMessages();
-      setMessages(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const messages = messagesData ?? [];
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this message?")) return;
@@ -50,7 +21,7 @@ function Contact() {
 
       alert("Message deleted successfully.");
 
-      refreshMessages();
+      refetch();
     } catch (error) {
       console.error(error);
     }
