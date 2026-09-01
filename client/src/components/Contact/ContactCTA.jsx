@@ -1,7 +1,12 @@
 import "./ContactCTA.css";
 import { Link } from "react-router-dom";
+import useWebsiteSettings from "../../hooks/useWebsiteSettings";
+import { normalizePhone } from "../../utils/phoneUtils";
 
 function ContactCTA() {
+  const settings = useWebsiteSettings();
+  const phoneNumber = normalizePhone(settings?.phone);
+
   return (
     <section className="contact-cta">
 
@@ -36,12 +41,14 @@ function ContactCTA() {
               Book Your Event
             </Link>
 
-            <a
-              href="tel:+923001234567"
-              className="btn btn-outline-light"
-            >
-              Call Now
-            </a>
+            {phoneNumber && (
+              <a
+                href={`tel:${phoneNumber}`}
+                className="btn btn-outline-light"
+              >
+                Call Now
+              </a>
+            )}
 
           </div>
 

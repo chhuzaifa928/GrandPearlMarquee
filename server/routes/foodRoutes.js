@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 const upload = require("../middleware/foodUpload");
+const multerErrorHandler = require("../middleware/multerErrorHandler");
 const verifyToken = require("../middleware/authMiddleware");
 
 
@@ -28,7 +29,8 @@ router.post(
   "/categories",
   verifyToken,
   upload.single("image"),
-  createCategory
+  createCategory,
+  multerErrorHandler
 );
 
 router.delete(

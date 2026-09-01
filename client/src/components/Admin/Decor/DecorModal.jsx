@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import API_URL from "../../../config/api";
+import getMediaUrl from "../../../utils/getMediaUrl";
 
 function DecorModal({ show, onClose, onSave, decor }) {
   const [formData, setFormData] = useState(() => ({
@@ -105,7 +105,7 @@ function DecorModal({ show, onClose, onSave, decor }) {
               <div className="mb-3">
 
                 <img
-                  src={`${API_URL}${formData.oldImage}`}
+                  src={getMediaUrl(formData.oldImage)}
                   alt=""
                   style={{
                     width: 150,

@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const upload = require("../middleware/decorUpload");
+const multerErrorHandler = require("../middleware/multerErrorHandler");
 
 const verifyToken = require("../middleware/authMiddleware");
 
@@ -33,7 +34,8 @@ router.post(
   "/",
   verifyToken,
   upload.single("image"),
-  createDecor
+  createDecor,
+  multerErrorHandler
 );
 
 // Update decor
@@ -41,7 +43,8 @@ router.put(
   "/:id",
   verifyToken,
   upload.single("image"),
-  editDecor
+  editDecor,
+  multerErrorHandler
 );
 
 // Delete decor

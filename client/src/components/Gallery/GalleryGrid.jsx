@@ -1,39 +1,5 @@
 import "./GalleryGrid.css";
-import API_URL from "../../config/api";
-
-const SERVER_URL = API_URL;
-
-// ===============================
-// Media URL Helper
-// ===============================
-
-function getMediaUrl(path) {
-  if (!path) return "";
-
-  // Already complete URL
-  if (
-    path.startsWith("http://") ||
-    path.startsWith("https://")
-  ) {
-    return path;
-  }
-
-  // Admin uploaded files
-  if (path.startsWith("/uploads/")) {
-    return `${SERVER_URL}${path}`;
-  }
-
-  // Frontend/public assets
-  if (
-    path.startsWith("/src/") ||
-    path.startsWith("/assets/") ||
-    path.startsWith("/")
-  ) {
-    return path;
-  }
-
-  return `${SERVER_URL}/${path}`;
-}
+import getMediaUrl from "../../utils/getMediaUrl";
 
 // ===============================
 // Gallery Grid

@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import API_URL from "../config/api";
 
 const API = `${API_URL}/api/admin`;
@@ -7,7 +7,7 @@ const API = `${API_URL}/api/admin`;
 // ==========================
 
 export const loginAdmin = async (loginData) => {
-  const response = await axios.post(
+  const response = await apiClient.post(
     `${API}/login`,
     loginData
   );
@@ -27,15 +27,8 @@ export const loginAdmin = async (loginData) => {
 // ==========================
 
 export const getDashboardStats = async () => {
-  const token = localStorage.getItem("token");
-
-  const response = await axios.get(
-    `${API}/dashboard`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  const response = await apiClient.get(
+    `${API}/dashboard`
   );
 
   return response.data;
@@ -53,13 +46,8 @@ export const verifyAdminSession = async () => {
   }
 
   try {
-    const response = await axios.get(
-      `${API}/me`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+    const response = await apiClient.get(
+      `${API}/me`
     );
 
     return response.data.success === true;
@@ -74,37 +62,4 @@ export const verifyAdminSession = async () => {
 
 export const logoutAdmin = () => {
   localStorage.removeItem("token");
-};
-
-// ==========================
-// Check Login
-// ==========================
-
-export const isLoggedIn = () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return false;
-  }
-
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-
-    if (!payload.exp) {
-      localStorage.removeItem("token");
-      return false;
-    }
-
-    const currentTime = Math.floor(Date.now() / 1000);
-
-    if (payload.exp <= currentTime) {
-      localStorage.removeItem("token");
-      return false;
-    }
-
-    return true;
-  } catch {
-    localStorage.removeItem("token");
-    return false;
-  }
 };

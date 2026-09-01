@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SERVER_URL } from "../../config/api";
+import getMediaUrl from "../../utils/getMediaUrl";
 import {
   getSettings,
   updateSettings,
@@ -348,7 +348,7 @@ function Settings() {
                   </label>
 
                   <img
-                   src={`${SERVER_URL}${formData.hero_image}`}
+                   src={getMediaUrl(formData.hero_image)}
                     alt="Current Hero"
                     style={{
                       width: "100%",

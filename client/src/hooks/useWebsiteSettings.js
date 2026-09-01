@@ -1,23 +1,17 @@
-import { useEffect, useState } from "react";
-import { getWebsiteSettings } from "../services/publicSettingsService";
+import { createContext, useContext } from "react";
 
-function useWebsiteSettings() {
-  const [settings, setSettings] = useState(null);
+export const WebsiteSettingsContext = createContext(null);
 
-  useEffect(() => {
-    const loadSettings = async () => {
-      try {
-        const data = await getWebsiteSettings();
-        setSettings(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+export function useWebsiteSettings() {
+  const context = useContext(WebsiteSettingsContext);
 
-    loadSettings();
-  }, []);
+  if (context === null) {
+    throw new Error(
+      "useWebsiteSettings must be used within a WebsiteSettingsProvider"
+    );
+  }
 
-  return settings;
+  return context.settings;
 }
 
 export default useWebsiteSettings;

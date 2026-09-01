@@ -1,6 +1,6 @@
 import "./DecorPreview.css";
 import { Link } from "react-router-dom";
-import API_URL from "../../config/api";
+import getMediaUrl from "../../utils/getMediaUrl";
 
 import { useEffect, useState } from "react";
 
@@ -56,7 +56,7 @@ function DecorPreview() {
                 <div className="decor-card">
 
                   <img
-  src={`${API_URL}${item.image}`}
+  src={getMediaUrl(item.image)}
   alt={item.title}
 />
 

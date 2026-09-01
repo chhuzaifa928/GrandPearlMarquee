@@ -18,6 +18,7 @@ import "./styles/global.css";
 
 import ToastProvider from "./components/Common/ToastProvider";
 import ConfirmProvider from "./components/Common/ConfirmProvider";
+import WebsiteSettingsProvider from "./context/WebsiteSettingsProvider";
 import "./components/Common/feedback.css";
 
 AOS.init({
@@ -31,7 +32,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <ToastProvider>
           <ConfirmProvider>
-            <App />
+            <WebsiteSettingsProvider>
+              <App />
+            </WebsiteSettingsProvider>
           </ConfirmProvider>
         </ToastProvider>
       </BrowserRouter>

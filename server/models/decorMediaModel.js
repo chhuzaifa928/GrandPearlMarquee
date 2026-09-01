@@ -16,6 +16,20 @@ const getMediaByDecorId = (decorId, callback) => {
 };
 
 // ===============================
+// Get Media By ID
+// ===============================
+
+const getMediaById = (id, callback) => {
+  const sql = `
+    SELECT *
+    FROM decor_media
+    WHERE id = ?
+  `;
+
+  db.query(sql, [id], callback);
+};
+
+// ===============================
 // Add Media
 // ===============================
 
@@ -52,6 +66,7 @@ const deleteMedia = (id, callback) => {
 
 module.exports = {
   getMediaByDecorId,
+  getMediaById,
   addMedia,
   deleteMedia,
 };

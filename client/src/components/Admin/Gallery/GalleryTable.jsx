@@ -1,6 +1,6 @@
 import { FaTrash } from "react-icons/fa";
 import "./GalleryTable.css";
-import API_URL from "../../../config/api";
+import getMediaUrl from "../../../utils/getMediaUrl";
 
 function GalleryTable({
   gallery = [],
@@ -51,7 +51,7 @@ function GalleryTable({
                     {item.media_type === "image" ? (
 
                       <img
-                       src={`${API_URL}${item.image}`}
+                       src={getMediaUrl(item.image)}
                         alt={item.title}
                         style={{
                           width: "100px",
@@ -64,7 +64,7 @@ function GalleryTable({
                     ) : (
 
                       <video
-                       src={`${API_URL}${item.image}`}
+                       src={getMediaUrl(item.image)}
                         width="100"
                         height="70"
                         controls

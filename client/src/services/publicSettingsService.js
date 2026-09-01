@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import API_URL from "../config/api";
 
 const API = `${API_URL}/api/settings`;
@@ -26,7 +26,7 @@ export const DEFAULT_SETTINGS = {
 };
 
 export const getWebsiteSettings = async () => {
-  const response = await axios.get(`${API}/public`);
+  const response = await apiClient.get(`${API}/public`);
 
   return response.data.settings;
 };

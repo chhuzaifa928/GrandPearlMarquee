@@ -1,43 +1,5 @@
 import "./GalleryLightbox.css";
-import API_URL from "../../config/api";
-
-const SERVER_URL = API_URL;
-
-function getMediaUrl(path) {
-  if (!path) return "";
-
-  // Already a complete URL
-  if (
-    path.startsWith("http://") ||
-    path.startsWith("https://")
-  ) {
-    return path;
-  }
-
-  // Backend uploaded gallery files
-  if (path.startsWith("/uploads/")) {
-    return `${SERVER_URL}${path}`;
-  }
-
-  // Frontend/Vite assets
-  // Example:
-  // /src/assets/images/gallery/image.jpg
-  // /assets/images/gallery/image.jpg
-  if (
-    path.startsWith("/src/") ||
-    path.startsWith("/assets/")
-  ) {
-    return path;
-  }
-
-  // If the path is already a normal frontend-relative path
-  if (path.startsWith("/")) {
-    return path;
-  }
-
-  // Final fallback
-  return `/${path}`;
-}
+import getMediaUrl from "../../utils/getMediaUrl";
 
 function GalleryLightbox({ selectedImage }) {
   if (!selectedImage) {

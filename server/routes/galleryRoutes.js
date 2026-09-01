@@ -18,6 +18,7 @@ const {
 } = require("../controllers/galleryCategoryController");
 
 const upload = require("../middleware/galleryUpload");
+const multerErrorHandler = require("../middleware/multerErrorHandler");
 
 // =====================================
 // Public Routes
@@ -56,7 +57,8 @@ router.post(
   "/",
   verifyToken,
   upload.single("image"),
-  createGallery
+  createGallery,
+  multerErrorHandler
 );
 
 // Delete gallery item

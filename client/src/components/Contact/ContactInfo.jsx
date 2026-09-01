@@ -1,26 +1,29 @@
 import "./ContactInfo.css";
+import useWebsiteSettings from "../../hooks/useWebsiteSettings";
 
 function ContactInfo() {
+  const settings = useWebsiteSettings();
+
   const contactDetails = [
     {
       icon: "📍",
       title: "Our Location",
-      info: "Grand Pearl Marquee, Adayala Road, Rawalpindi"
+      info: settings?.address
     },
     {
       icon: "📞",
       title: "Phone Number",
-      info: "+92 3165867635"
+      info: settings?.phone
     },
     {
       icon: "📧",
       title: "Email Address",
-      info: "info@grandpearlmarquee.com"
+      info: settings?.email
     },
     {
       icon: "💬",
       title: "WhatsApp",
-      info: "+92 3165867635"
+      info: settings?.whatsapp
     }
   ];
 

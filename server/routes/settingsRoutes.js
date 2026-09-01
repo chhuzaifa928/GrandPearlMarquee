@@ -3,6 +3,9 @@ const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
 const settingsUpload = require("../middleware/settingsUpload");
+const multerErrorHandler = require("../middleware/multerErrorHandler");
+
+const settingsValidator = require("../validators/settingsValidator");
 
 const {
   fetchSettings,
@@ -27,6 +30,7 @@ router.get(
 router.put(
   "/",
   verifyToken,
+  settingsValidator,
   saveSettings
 );
 
@@ -36,7 +40,8 @@ router.post(
   "/hero-image",
   verifyToken,
   settingsUpload.single("hero_image"),
-  saveHeroImage
+  saveHeroImage,
+  multerErrorHandler
 );
 
 module.exports = router;

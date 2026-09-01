@@ -3,9 +3,12 @@ const path = require("path");
 
 const {
   getAllGallery,
+  getGalleryById,
   addGallery,
   deleteGallery,
 } = require("../models/galleryModel");
+
+const { safelyRemoveFile } = require("../utils/fileCleanup");
 
 // ===============================
 // Get All Gallery
@@ -117,19 +120,34 @@ const createGallery = (req, res) => {
 // ===============================
 
 const removeGallery = (req, res) => {
-  deleteGallery(req.params.id, (err) => {
-    if (err) {
-      console.error("Gallery delete error:", err);
+  const { id } = req.params;
 
-      return res.status(500).json({
-        success: false,
-        message: "Failed to delete gallery item.",
+  // Capture the stored image path BEFORE the DB delete so the file
+  // can be removed only after the database record is gone.
+  getGalleryById(id, (findErr, result) => {
+    const image =
+      findErr || !result || result.length === 0
+        ? null
+        : result[0].image || null;
+
+    deleteGallery(id, (err) => {
+      if (err) {
+        console.error("Gallery delete error:", err);
+
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete gallery item.",
+        });
+      }
+
+      if (image) {
+        safelyRemoveFile(image);
+      }
+
+      res.json({
+        success: true,
+        message: "Gallery item deleted successfully.",
       });
-    }
-
-    res.json({
-      success: true,
-      message: "Gallery item deleted successfully.",
     });
   });
 };

@@ -1,45 +1,18 @@
 import "./Hero.css";
 import { Link } from "react-router-dom";
-import { SERVER_URL } from "../../config/api";
-import { useEffect, useState } from "react";
-
-import {
-  getWebsiteSettings,
-  DEFAULT_SETTINGS,
-} from "../../services/publicSettingsService";
+import getMediaUrl from "../../utils/getMediaUrl";
+import useWebsiteSettings from "../../hooks/useWebsiteSettings";
+import { DEFAULT_SETTINGS } from "../../services/publicSettingsService";
 
 function Hero() {
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
-
-  useEffect(() => {
-    const loadSettings = async () => {
-      try {
-        const data = await getWebsiteSettings();
-
-        setSettings({
-          ...DEFAULT_SETTINGS,
-          ...data,
-        });
-      } catch (error) {
-        console.error("Failed to load Hero settings:", error);
-        setSettings(DEFAULT_SETTINGS);
-      }
-    };
-
-    loadSettings();
-  }, []);
+  const liveSettings = useWebsiteSettings();
+  const settings = { ...DEFAULT_SETTINGS, ...(liveSettings || {}) };
 
   // ==========================
   // Hero Image URL
   // ==========================
 
- const heroImageUrl = settings.hero_image
-  ? `${SERVER_URL}${
-      settings.hero_image.startsWith("/")
-        ? settings.hero_image
-        : `/${settings.hero_image}`
-    }`
-  : "";
+ const heroImageUrl = getMediaUrl(settings.hero_image);
     
 
   return (

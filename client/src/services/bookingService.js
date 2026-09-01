@@ -1,16 +1,14 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import API_URL from "../config/api";
 
 const API = `${API_URL}/api/bookings`;
-
-const getToken = () => localStorage.getItem("token");
 
 // =========================
 // Customer
 // =========================
 
 export const createBooking = async (bookingData) => {
-  const response = await axios.post(API, bookingData);
+  const response = await apiClient.post(API, bookingData);
 
   return response.data;
 };
@@ -21,42 +19,22 @@ export const createBooking = async (bookingData) => {
 
 // Get All Bookings
 export const getAllBookings = async () => {
-  const response = await axios.get(API, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
-  
+  const response = await apiClient.get(API);
 
   // If backend returns { success:true, bookings:[...] }
   return response.data.bookings || response.data;
 };
 export const getBookingById = async (id) => {
-
-  const response = await axios.get(`${API}/${id}`, {
-
-    headers: {
-
-      Authorization: `Bearer ${getToken()}`,
-
-    },
-
-  });
+  const response = await apiClient.get(`${API}/${id}`);
 
   return response.data.booking;
-
 };
 // Approve Booking
 export const approveBooking = async (id) => {
-  const response = await axios.put(
+  const response = await apiClient.put(
     `${API}/${id}`,
     {
       booking_status: "Approved",
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
     }
   );
 
@@ -65,15 +43,10 @@ export const approveBooking = async (id) => {
 
 // Reject Booking
 export const rejectBooking = async (id) => {
-  const response = await axios.put(
+  const response = await apiClient.put(
     `${API}/${id}`,
     {
       booking_status: "Rejected",
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
     }
   );
 
@@ -82,15 +55,10 @@ export const rejectBooking = async (id) => {
 
 // Generic Status Update (optional)
 export const updateBookingStatus = async (id, status) => {
-  const response = await axios.put(
+  const response = await apiClient.put(
     `${API}/${id}`,
     {
       booking_status: status,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-      },
     }
   );
 
@@ -99,11 +67,7 @@ export const updateBookingStatus = async (id, status) => {
 
 // Delete Booking
 export const deleteBooking = async (id) => {
-  const response = await axios.delete(`${API}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  const response = await apiClient.delete(`${API}/${id}`);
 
   return response.data;
 };

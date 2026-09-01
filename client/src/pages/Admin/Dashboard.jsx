@@ -34,7 +34,7 @@ function Dashboard() {
 
       </h2>
 
-      <DashboardCards />
+      <DashboardCards stats={dashboardData.stats} />
 
       <StatsChart />
 

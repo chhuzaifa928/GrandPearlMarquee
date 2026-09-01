@@ -4,6 +4,7 @@ const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
 const upload = require("../middleware/decorMediaUpload");
+const multerErrorHandler = require("../middleware/multerErrorHandler");
 
 const {
   fetchDecorMedia,
@@ -27,7 +28,8 @@ router.post(
   "/:decorId",
   verifyToken,
   upload.array("media", 20),
-  uploadDecorMedia
+  uploadDecorMedia,
+  multerErrorHandler
 );
 
 // Delete media

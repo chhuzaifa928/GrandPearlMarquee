@@ -4,7 +4,6 @@ const decorMediaRoutes = require("./routes/decorMediaRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const express = require("express");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
@@ -13,6 +12,7 @@ const foodRoutes = require("./routes/foodRoutes");
 const galleryRoutes = require("./routes/galleryRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
+const errorHandler = require("./middleware/errorHandler");
 const path = require("path");
 
 const app = express();
@@ -44,9 +44,8 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -75,4 +74,8 @@ app.use("/api/food", foodRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/settings", settingsRoutes);
+
+// Global error handler (registered LAST, after all routes)
+app.use(errorHandler);
+
 module.exports = app;

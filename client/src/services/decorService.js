@@ -1,27 +1,24 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import API_URL from "../config/api";
 
 const API = `${API_URL}/api/decor`;
 
-const getToken = () => localStorage.getItem("token");
-
 // Get All Decor
 export const getAllDecor = async () => {
-  const response = await axios.get(API);
+  const response = await apiClient.get(API);
   return response.data.decor;
 };
 
 // Get Decor By ID
 export const getDecorById = async (id) => {
-  const response = await axios.get(`${API}/${id}`);
+  const response = await apiClient.get(`${API}/${id}`);
   return response.data.decor;
 };
 
 // Add Decor
 export const addDecor = async (formData) => {
-  const response = await axios.post(API, formData, {
+  const response = await apiClient.post(API, formData, {
     headers: {
-      Authorization: `Bearer ${getToken()}`,
       "Content-Type": "multipart/form-data",
     },
   });
@@ -34,12 +31,11 @@ export const addDecor = async (formData) => {
 // ===============================
 
 export const uploadDecorMedia = async (decorId, formData) => {
-  const response = await axios.post(
+  const response = await apiClient.post(
     `${API_URL}/api/decor-media/${decorId}`,
     formData,
     {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "multipart/form-data",
       },
     }
@@ -50,12 +46,11 @@ export const uploadDecorMedia = async (decorId, formData) => {
 
 // Update Decor
 export const updateDecor = async (id, formData) => {
-  const response = await axios.put(
+  const response = await apiClient.put(
     `${API}/${id}`,
     formData,
     {
       headers: {
-        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "multipart/form-data",
       },
     }
@@ -66,11 +61,7 @@ export const updateDecor = async (id, formData) => {
 
 // Delete Decor
 export const deleteDecor = async (id) => {
-  const response = await axios.delete(`${API}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-  });
+  const response = await apiClient.delete(`${API}/${id}`);
 
   return response.data;
 };

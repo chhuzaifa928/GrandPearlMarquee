@@ -1,7 +1,12 @@
 import "./ContactHero.css";
 import { Link } from "react-router-dom";
+import useWebsiteSettings from "../../hooks/useWebsiteSettings";
+import { normalizePhone } from "../../utils/phoneUtils";
 
 function ContactHero() {
+  const settings = useWebsiteSettings();
+  const phoneNumber = normalizePhone(settings?.phone);
+
   return (
     <section className="contact-hero">
 
@@ -37,12 +42,14 @@ function ContactHero() {
               Book Now
             </Link>
 
-            <a
-              href="tel:+920000000000"
-              className="btn btn-outline-light"
-            >
-              Call Us
-            </a>
+            {phoneNumber && (
+              <a
+                href={`tel:${phoneNumber}`}
+                className="btn btn-outline-light"
+              >
+                Call Us
+              </a>
+            )}
 
           </div>
 

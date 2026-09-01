@@ -3,13 +3,15 @@ const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
 
+const contactValidator = require("../validators/contactValidator");
+
 const {
   createMessage,
   fetchMessages,
   removeMessage,
 } = require("../controllers/contactController");
 
-router.post("/", createMessage);
+router.post("/", contactValidator, createMessage);
 
 // ===============================
 // Admin Routes

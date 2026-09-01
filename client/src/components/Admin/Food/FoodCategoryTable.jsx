@@ -1,5 +1,5 @@
 import { FaTrash } from "react-icons/fa";
-import API_URL from "../../../config/api";
+import getMediaUrl from "../../../utils/getMediaUrl";
 
 function FoodCategoryTable({
   categories = [],
@@ -50,7 +50,7 @@ function FoodCategoryTable({
                     {category.image ? (
 
                       <img
-                        src={`${API_URL}${category.image}`}
+                        src={getMediaUrl(category.image)}
                         alt={category.category_name}
                         style={{
                           width: "80px",

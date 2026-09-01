@@ -1,8 +1,11 @@
 const {
   getMediaByDecorId,
+  getMediaById,
   addMedia,
   deleteMedia,
 } = require("../models/decorMediaModel");
+
+const { safelyRemoveFile } = require("../utils/fileCleanup");
 
 // ===============================
 // Get Media For A Decor
@@ -90,17 +93,30 @@ const uploadDecorMedia = (req, res) => {
 const removeDecorMedia = (req, res) => {
   const { id } = req.params;
 
-  deleteMedia(id, (err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: "Failed to delete decor media.",
-      });
-    }
+  // Capture the stored media URL BEFORE the DB delete so the file
+  // can be removed only after the database record is gone.
+  getMediaById(id, (findErr, result) => {
+    const mediaUrl =
+      findErr || !result || result.length === 0
+        ? null
+        : result[0].media_url || null;
 
-    res.json({
-      success: true,
-      message: "Decor media deleted successfully.",
+    deleteMedia(id, (err) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete decor media.",
+        });
+      }
+
+      if (mediaUrl) {
+        safelyRemoveFile(mediaUrl);
+      }
+
+      res.json({
+        success: true,
+        message: "Decor media deleted successfully.",
+      });
     });
   });
 };

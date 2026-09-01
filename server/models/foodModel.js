@@ -12,6 +12,15 @@ const getAllCategories = (callback) => {
   );
 };
 
+// Get Category By ID
+const getCategoryById = (id, callback) => {
+  db.query(
+    "SELECT * FROM food_categories WHERE id = ?",
+    [id],
+    callback
+  );
+};
+
 // Add Category
 const addCategory = (
   category_name,
@@ -107,6 +116,7 @@ const deleteItem = (id, callback) => {
 
 module.exports = {
   getAllCategories,
+  getCategoryById,
   addCategory,
   deleteCategory,
 

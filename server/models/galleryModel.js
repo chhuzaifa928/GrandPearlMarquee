@@ -12,6 +12,18 @@ const getAllGallery = (callback) => {
 };
 
 // =============================
+// Get Gallery By ID
+// =============================
+
+const getGalleryById = (id, callback) => {
+  db.query(
+    "SELECT * FROM gallery WHERE id = ?",
+    [id],
+    callback
+  );
+};
+
+// =============================
 // Add Gallery
 // =============================
 
@@ -44,6 +56,7 @@ const deleteGallery = (id, callback) => {
 
 module.exports = {
   getAllGallery,
+  getGalleryById,
   addGallery,
   deleteGallery,
 };

@@ -1,5 +1,4 @@
 
-import { useEffect, useState } from "react";
 import {
   FaCalendarCheck,
   FaClock,
@@ -7,54 +6,40 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 
-import { getDashboardStats } from "../../../services/adminService";
-
 import "./DashboardCards.css";
 
-function DashboardCards() {
-  const [stats, setStats] = useState({
-    totalBookings: 0,
-    pending: 0,
-    approved: 0,
-    rejected: 0,
-  });
+const DEFAULT_STATS = {
+  totalBookings: 0,
+  pending: 0,
+  approved: 0,
+  rejected: 0,
+};
 
-  useEffect(() => {
-    const loadDashboard = async () => {
-      try {
-        const data = await getDashboardStats();
-
-        setStats(data.stats);
-      } catch (error) {
-        console.error("Dashboard Error:", error);
-      }
-    };
-
-    loadDashboard();
-  }, []);
+function DashboardCards({ stats = {} }) {
+  const mergedStats = { ...DEFAULT_STATS, ...stats };
 
   const cards = [
     {
       title: "Total Bookings",
-      value: stats.totalBookings,
+      value: mergedStats.totalBookings,
       icon: <FaCalendarCheck />,
       className: "primary",
     },
     {
       title: "Pending",
-      value: stats.pending,
+      value: mergedStats.pending,
       icon: <FaClock />,
       className: "warning",
     },
     {
       title: "Approved",
-      value: stats.approved,
+      value: mergedStats.approved,
       icon: <FaCheckCircle />,
       className: "success",
     },
     {
       title: "Rejected",
-      value: stats.rejected,
+      value: mergedStats.rejected,
       icon: <FaTimesCircle />,
       className: "danger",
     },

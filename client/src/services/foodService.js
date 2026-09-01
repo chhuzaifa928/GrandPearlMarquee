@@ -1,29 +1,24 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import API_URL from "../config/api";
 
 const API = `${API_URL}/api/food`;
-
-const token = () => localStorage.getItem("token");
 
 // ===========================
 // Categories
 // ===========================
 
 export const getCategories = async () => {
-  const response = await axios.get(
-    `${API}/categories`
-  );
+  const response = await apiClient.get(`${API}/categories`);
 
   return response.data.categories;
 };
 
 export const addCategory = async (formData) => {
-  const response = await axios.post(
+  const response = await apiClient.post(
     `${API}/categories`,
     formData,
     {
       headers: {
-        Authorization: `Bearer ${token()}`,
         "Content-Type": "multipart/form-data",
       },
     }
@@ -33,13 +28,8 @@ export const addCategory = async (formData) => {
 };
 
 export const deleteCategory = async (id) => {
-  const response = await axios.delete(
-    `${API}/categories/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token()}`,
-      },
-    }
+  const response = await apiClient.delete(
+    `${API}/categories/${id}`
   );
 
   return response.data;
@@ -50,52 +40,29 @@ export const deleteCategory = async (id) => {
 // ===========================
 
 export const getItems = async () => {
-  const response = await axios.get(
-    `${API}/items`
-  );
+  const response = await apiClient.get(`${API}/items`);
 
   return response.data.items;
 };
 
 export const addItem = async (item) => {
-  const response = await axios.post(
-    `${API}/items`,
-    item,
-    {
-      headers: {
-        Authorization: `Bearer ${token()}`,
-      },
-    }
-  );
+  const response = await apiClient.post(`${API}/items`, item);
 
   return response.data;
 };
 
-export const updateItem = async (
-  id,
-  item
-) => {
-  const response = await axios.put(
+export const updateItem = async (id, item) => {
+  const response = await apiClient.put(
     `${API}/items/${id}`,
-    item,
-    {
-      headers: {
-        Authorization: `Bearer ${token()}`,
-      },
-    }
+    item
   );
 
   return response.data;
 };
 
 export const deleteItem = async (id) => {
-  const response = await axios.delete(
-    `${API}/items/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token()}`,
-      },
-    }
+  const response = await apiClient.delete(
+    `${API}/items/${id}`
   );
 
   return response.data;

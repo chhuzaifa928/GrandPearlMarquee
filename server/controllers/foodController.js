@@ -1,5 +1,6 @@
 const {
   getAllCategories,
+  getCategoryById,
   addCategory,
   deleteCategory,
 
@@ -8,6 +9,8 @@ const {
   updateItem,
   deleteItem,
 } = require("../models/foodModel");
+
+const { safelyRemoveFile } = require("../utils/fileCleanup");
 
 // ======================================
 // FOOD CATEGORIES
@@ -58,6 +61,13 @@ const createCategory = (req, res) => {
           err
         );
 
+        // The DB insert failed, so the just-uploaded image is now
+        // orphaned. Remove ONLY that new file. No existing food
+        // image is touched because nothing was saved.
+        if (req.file) {
+          safelyRemoveFile(`/uploads/food/${req.file.filename}`);
+        }
+
         return res.status(500).json({
           success: false,
           message: "Failed to add category.",
@@ -77,17 +87,32 @@ const createCategory = (req, res) => {
 
 // Delete Category
 const removeCategory = (req, res) => {
-  deleteCategory(req.params.id, (err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: "Failed to delete category.",
-      });
-    }
+  const { id } = req.params;
 
-    res.json({
-      success: true,
-      message: "Category deleted successfully.",
+  // Capture the stored image path BEFORE the DB delete so the file
+  // can be removed only after the database record is gone.
+  getCategoryById(id, (findErr, result) => {
+    const image =
+      findErr || !result || result.length === 0
+        ? null
+        : result[0].image || null;
+
+    deleteCategory(id, (err) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete category.",
+        });
+      }
+
+      if (image) {
+        safelyRemoveFile(image);
+      }
+
+      res.json({
+        success: true,
+        message: "Category deleted successfully.",
+      });
     });
   });
 };

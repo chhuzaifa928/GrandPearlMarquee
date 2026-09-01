@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API_URL from "../../../config/api";
+import getMediaUrl from "../../../utils/getMediaUrl";
 
 import "./FoodSelection.css";
 
@@ -169,7 +169,7 @@ function FoodSelection({
                   >
                     {item.image && (
                       <img
-                        src={`${API_URL}${item.image}`}
+                        src={getMediaUrl(item.image)}
                         alt={item.item_name}
                         className="img-fluid"
                       />

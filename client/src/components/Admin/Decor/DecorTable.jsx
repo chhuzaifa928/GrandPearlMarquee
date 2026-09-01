@@ -1,5 +1,5 @@
 import { FaTrash, FaEdit } from "react-icons/fa";
-import API_URL from "../../../config/api";
+import getMediaUrl from "../../../utils/getMediaUrl";
 
 function DecorTable({
   decor = [],
@@ -40,7 +40,7 @@ function DecorTable({
               <td>
 
                 <img
-                  src={`${API_URL}${item.image}`}
+                  src={getMediaUrl(item.image)}
                   alt={item.title}
                   style={{
                     width: "80px",

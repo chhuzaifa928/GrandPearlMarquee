@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import API_URL from "../../config/api";
 
 function DecorCard({ item, itemMedia, onOpenLightbox, getMediaUrl, index }) {
   return (
@@ -18,7 +17,7 @@ function DecorCard({ item, itemMedia, onOpenLightbox, getMediaUrl, index }) {
         >
 
           <img
-            src={`${API_URL}${item.image}`}
+            src={getMediaUrl(item.image)}
             alt={item.title}
             className="decor-main-image"
           />

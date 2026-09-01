@@ -1,20 +1,14 @@
-import axios from "axios";
+import apiClient from "./apiClient";
 import API_URL from "../config/api";
 
 const API = `${API_URL}/api/settings`;
-
-const token = () => localStorage.getItem("token");
 
 // ==========================
 // Get Settings
 // ==========================
 
 export const getSettings = async () => {
-  const response = await axios.get(API, {
-    headers: {
-      Authorization: `Bearer ${token()}`,
-    },
-  });
+  const response = await apiClient.get(API);
 
   return response.data.settings;
 };
@@ -24,11 +18,7 @@ export const getSettings = async () => {
 // ==========================
 
 export const updateSettings = async (data) => {
-  const response = await axios.put(API, data, {
-    headers: {
-      Authorization: `Bearer ${token()}`,
-    },
-  });
+  const response = await apiClient.put(API, data);
 
   return response.data;
 };
@@ -42,14 +32,9 @@ export const uploadHeroImage = async (file) => {
 
   formData.append("hero_image", file);
 
-  const response = await axios.post(
+  const response = await apiClient.post(
     `${API}/hero-image`,
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${token()}`,
-      },
-    }
+    formData
   );
 
   return response.data;

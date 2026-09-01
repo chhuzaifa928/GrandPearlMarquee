@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import "./DecorGallery.css";
-import API_URL from "../../config/api";
+import getMediaUrl from "../../utils/getMediaUrl";
 
 import {
   getDecor,
@@ -83,20 +83,6 @@ function DecorGallery({ selectedCategory }) {
       : decor.filter(
           (item) => item.category === selectedCategory
         );
-
-  // ===============================
-  // Media URL
-  // ===============================
-
-  const getMediaUrl = (url) => {
-    if (!url) return "";
-
-    if (url.startsWith("http")) {
-      return url;
-    }
-
-    return `${API_URL}${url}`;
-  };
 
   // ===============================
   // Open Lightbox

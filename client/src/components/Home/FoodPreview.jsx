@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { SERVER_URL } from "../../config/api";
+import getMediaUrl from "../../utils/getMediaUrl";
 
 import { getPublicFoodCategories } from "../../services/publicFoodService";
 
@@ -50,7 +50,7 @@ function FoodPreview() {
               <div className="food-card">
 
                 <img
-                  src={`${SERVER_URL}${food.image}`}
+                  src={getMediaUrl(food.image)}
                   alt={food.category_name}
                 />
 
