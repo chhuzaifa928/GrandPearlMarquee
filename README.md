@@ -56,8 +56,8 @@ A full-stack web application for **Grand Pearl Marquee**, an event & wedding ban
 | Password Hashing  | bcrypt                            |
 | Validation        | express-validator                 |
 | File Uploads      | multer                            |
-| Email             | nodemailer                        |
-| Middleware        | cors, cookie-parser, dotenv       |
+| HTTP Security     | helmet, cors, express-rate-limit  |
+| Configuration     | dotenv                            |
 | Dev Server        | nodemon                           |
 
 ## Project Structure
@@ -98,10 +98,11 @@ GrandPearlMarquee/
 │   ├── config/
 │   │   └── db.js                        # MySQL connection (supports SSL for Aiven)
 │   ├── controllers/                     # Request handlers (9 files)
-│   ├── models/                          # MySQL query functions (9 files)
+│   ├── models/                          # MySQL query functions (9 files, all parameterized)
 │   ├── routes/                          # Express router definitions (8 files)
-│   ├── middleware/                       # Auth + file upload middleware (5 files)
-│   ├── validators/                      # express-validator rules
+│   ├── middleware/                       # Auth + 5 file-upload configs + error handlers (8 files)
+│   ├── validators/                      # express-validator rules (booking, contact, settings)
+│   ├── utils/                           # Upload file cleanup (safe path resolution)
 │   ├── uploads/                         # Uploaded media (decor/, food/, gallery/, settings/)
 │   ├── app.js                           # Express app setup and route mounting
 │   └── server.js                        # Entry point
@@ -144,14 +145,27 @@ Create a `.env` file in the `server/` directory:
 ```env
 PORT=5000
 DB_HOST=localhost
+DB_PORT=3306
 DB_USER=root
 DB_PASSWORD=your_password
 DB_NAME=grand_pearl_marquee
 DB_SSL=false
-JWT_SECRET=your_secret_key
+DB_SSL_CA=
+JWT_SECRET=your_long_random_secret
+FRONTEND_URL=http://localhost:5173
 ```
 
-> For Aiven or other cloud MySQL providers, set `DB_SSL=true`.
+> **For Aiven (or other cloud MySQL providers):** set `DB_SSL=true` and put the
+> Aiven CA certificate contents in `DB_SSL_CA` (escaped as a single line, e.g.
+> with `\n` literals or base64). Aiven also exposes a custom `DB_PORT`.
+>
+> `FRONTEND_URL` is the only production origin allowed by CORS. In development
+> `http://localhost:5173` is added automatically.
+>
+> The first admin account cannot be created via the API (registration requires
+> an existing valid JWT). Insert the initial admin directly into MySQL with a
+> bcrypt hash, e.g. using `mysql2`:
+> `INSERT INTO admins (full_name, email, password, role) VALUES ('Admin', 'admin@example.com', '<bcrypt-hash>', 'admin');`
 
 Start the server:
 
@@ -174,7 +188,15 @@ npm run preview    # preview production build
 
 The app runs at `http://localhost:5173`.
 
-> **Note:** The frontend calls the backend at `http://localhost:5000` by default. To change this, set the `VITE_API_URL` environment variable or update `client/src/config/api.js`.
+> **Note:** The frontend calls the backend at `http://localhost:5000` by default. To change this, set the `VITE_API_URL` environment variable or update `client/src/config/api.js`. **Production builds must set `VITE_API_URL`** — the `localhost` value is a development-only fallback and the deployed site will be broken if it is left unset.
+
+### 4. Production Deployment (Hostinger + Aiven)
+
+- **Build the client with the real API URL:** `VITE_API_URL=https://your-api-domain` (set it at build time — Vite bakes it into the bundle).
+- **Server environment variables on the host:** `PORT`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSL=true`, `DB_SSL_CA`, `JWT_SECRET` (a long random value), and `FRONTEND_URL`.
+- **Reverse proxy / rate limiting:** the login limiter keys on client IP, so set your proxy correctly (see `server/app.js`) so all visitors don't share one rate-limit bucket.
+- **Persistent storage:** uploaded media lives on the server's local disk under `server/uploads/` (`uploads/` is gitignored). Back it up or migrate to object storage — it is lost if the deploy directory is replaced.
+- **Seed the first admin** as described above before logging into `/admin/login`.
 
 ## API Overview
 
@@ -182,10 +204,11 @@ The app runs at `http://localhost:5173`.
 
 | Method | Endpoint                | Auth | Description                  |
 |--------|-------------------------|------|------------------------------|
-| POST   | `/api/admin/register`   | No   | Register a new admin         |
+| POST   | `/api/admin/register`   | Yes  | Create a new admin (existing JWT required) |
 | POST   | `/api/admin/login`      | No   | Admin login (returns JWT)    |
 | GET    | `/api/admin/dashboard`  | Yes  | Dashboard statistics         |
-| GET    | `/api/admin/profile`    | Yes  | Get current admin profile    |
+| GET    | `/api/admin/me`         | Yes  | Verify admin session         |
+| GET    | `/api/admin/profile`    | Yes  | Protected test route         |
 
 ### Bookings
 
@@ -299,7 +322,7 @@ Components use co-located CSS files alongside their JSX files.
 
 ### Server
 
-**Runtime:** `express`, `mysql2`, `jsonwebtoken`, `bcrypt`, `express-validator`, `multer`, `nodemailer`, `cors`, `cookie-parser`, `dotenv`
+**Runtime:** `express`, `mysql2`, `jsonwebtoken`, `bcrypt`, `express-validator`, `multer`, `cors`, `helmet`, `express-rate-limit`, `dotenv`
 
 **Dev:** `nodemon`
 
