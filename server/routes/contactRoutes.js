@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
+const { contactLimiter } = require("../middleware/publicLimiters");
 
 const contactValidator = require("../validators/contactValidator");
 
@@ -11,7 +12,7 @@ const {
   removeMessage,
 } = require("../controllers/contactController");
 
-router.post("/", contactValidator, createMessage);
+router.post("/", contactLimiter, contactValidator, createMessage);
 
 // ===============================
 // Admin Routes

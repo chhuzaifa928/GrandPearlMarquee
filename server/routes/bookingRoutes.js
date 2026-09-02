@@ -12,6 +12,7 @@ const {
 
 // Middleware
 const verifyToken = require("../middleware/authMiddleware");
+const { bookingLimiter } = require("../middleware/publicLimiters");
 
 // Validators
 const bookingValidator = require("../validators/bookingValidator");
@@ -23,7 +24,7 @@ const bookingValidator = require("../validators/bookingValidator");
 // Customer submits a booking
 console.log("bookingValidator:", typeof bookingValidator);
 console.log("addBooking:", typeof addBooking);
-router.post("/", bookingValidator, addBooking);
+router.post("/", bookingLimiter, bookingValidator, addBooking);
 
 // ======================================
 // Protected Admin Routes
