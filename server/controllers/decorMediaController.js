@@ -55,17 +55,42 @@ const uploadDecorMedia = (req, res) => {
     };
   });
 
-  let completed = 0;
-  let hasError = false;
+  const insertedIds = [];
+  const insertedUrls = [];
+  let hasResponded = false;
 
-  mediaRecords.forEach((media) => {
-    addMedia(media, (err) => {
-      if (hasError) {
+  const rollback = () => {
+    insertedIds.forEach((id) => {
+      deleteMedia(id, () => {});
+    });
+
+    insertedUrls.forEach((url) => {
+      safelyRemoveFile(url);
+    });
+  };
+
+  const insertNext = (index) => {
+    if (index >= mediaRecords.length) {
+      return res.status(201).json({
+        success: true,
+        message: "Decor media uploaded successfully.",
+        media: mediaRecords,
+      });
+    }
+
+    const media = mediaRecords[index];
+
+    addMedia(media, (err, result) => {
+      if (hasResponded) {
         return;
       }
 
       if (err) {
-        hasError = true;
+        hasResponded = true;
+
+        rollback();
+
+        safelyRemoveFile(media.media_url);
 
         return res.status(500).json({
           success: false,
@@ -73,17 +98,14 @@ const uploadDecorMedia = (req, res) => {
         });
       }
 
-      completed++;
+      insertedIds.push(result.insertId);
+      insertedUrls.push(media.media_url);
 
-      if (completed === mediaRecords.length) {
-        res.status(201).json({
-          success: true,
-          message: "Decor media uploaded successfully.",
-          media: mediaRecords,
-        });
-      }
+      insertNext(index + 1);
     });
-  });
+  };
+
+  insertNext(0);
 };
 
 // ===============================

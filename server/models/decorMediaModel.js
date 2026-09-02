@@ -47,7 +47,7 @@ const addMedia = (media, callback) => {
       media.media_type,
       media.media_url,
     ],
-    callback
+    (err, result) => callback(err, result)
   );
 };
 
