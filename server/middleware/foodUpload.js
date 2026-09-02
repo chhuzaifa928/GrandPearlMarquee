@@ -2,6 +2,8 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
+const { extensionForMime } = require("../utils/fileExtensions");
+
 // =====================================
 // Upload Storage
 // =====================================
@@ -29,11 +31,7 @@ const storage = multer.diskStorage({
       "-" +
       Math.round(Math.random() * 1e9);
 
-    cb(
-      null,
-      uniqueName +
-        path.extname(file.originalname).toLowerCase()
-    );
+    cb(null, uniqueName + extensionForMime(file.mimetype));
   },
 });
 

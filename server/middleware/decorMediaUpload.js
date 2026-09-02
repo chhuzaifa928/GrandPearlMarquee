@@ -1,6 +1,8 @@
 const multer = require("multer");
 const path = require("path");
 
+const { extensionForMime } = require("../utils/fileExtensions");
+
 // ===============================
 // Storage Configuration
 // ===============================
@@ -14,10 +16,7 @@ const storage = multer.diskStorage({
     const uniqueName =
       Date.now() + "-" + Math.round(Math.random() * 1e9);
 
-    cb(
-      null,
-      uniqueName + path.extname(file.originalname).toLowerCase()
-    );
+    cb(null, uniqueName + extensionForMime(file.mimetype));
   },
 });
 
@@ -26,26 +25,25 @@ const storage = multer.diskStorage({
 // ===============================
 
 const fileFilter = (req, file, cb) => {
-  const allowedImageTypes =
-    /jpeg|jpg|png|webp/;
+  const allowedImageTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+  ];
 
-  const allowedVideoTypes =
-    /mp4|webm|mov/;
+  const allowedVideoTypes = [
+    "video/mp4",
+    "video/webm",
+    "video/quicktime",
+  ];
 
-  const extension =
-    path.extname(file.originalname).toLowerCase();
+  const allowedTypes = [
+    ...allowedImageTypes,
+    ...allowedVideoTypes,
+  ];
 
-  const mimetype = file.mimetype.toLowerCase();
-
-  const isImage =
-    allowedImageTypes.test(extension) &&
-    mimetype.startsWith("image/");
-
-  const isVideo =
-    allowedVideoTypes.test(extension) &&
-    mimetype.startsWith("video/");
-
-  if (isImage || isVideo) {
+  if (allowedTypes.includes(file.mimetype.toLowerCase())) {
     return cb(null, true);
   }
 
