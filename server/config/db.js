@@ -10,7 +10,7 @@ const connectionConfig = {
   database: process.env.DB_NAME,
 };
 
-// Aiven SSL in production
+// SSL support for cloud MySQL providers
 if (process.env.DB_SSL === "true") {
   connectionConfig.ssl = {
     ca: process.env.DB_SSL_CA,

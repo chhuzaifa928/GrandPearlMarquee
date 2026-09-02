@@ -96,7 +96,7 @@ GrandPearlMarquee/
 │   └── eslint.config.js
 ├── server/                              # Express backend
 │   ├── config/
-│   │   └── db.js                        # MySQL connection (supports SSL for Aiven)
+│   │   └── db.js                        # MySQL connection (supports SSL for cloud providers)
 │   ├── controllers/                     # Request handlers (9 files)
 │   ├── models/                          # MySQL query functions (9 files, all parameterized)
 │   ├── routes/                          # Express router definitions (8 files)
@@ -114,7 +114,7 @@ GrandPearlMarquee/
 ### Prerequisites
 
 - **Node.js** >= 18
-- **MySQL** server (local or remote, e.g. Aiven)
+- **MySQL** server (local or remote, e.g. Hostinger)
 
 ### 1. Database Setup
 
@@ -155,9 +155,9 @@ JWT_SECRET=your_long_random_secret
 FRONTEND_URL=http://localhost:5173
 ```
 
-> **For Aiven (or other cloud MySQL providers):** set `DB_SSL=true` and put the
-> Aiven CA certificate contents in `DB_SSL_CA` (escaped as a single line, e.g.
-> with `\n` literals or base64). Aiven also exposes a custom `DB_PORT`.
+> **For cloud MySQL providers (e.g. Hostinger, Aiven):** set `DB_SSL=true` and
+> put the CA certificate contents in `DB_SSL_CA` (escaped as a single line, e.g.
+> with `\n` literals or base64). Some providers also use a custom `DB_PORT`.
 >
 > `FRONTEND_URL` is the only production origin allowed by CORS. In development
 > `http://localhost:5173` is added automatically.
@@ -190,7 +190,7 @@ The app runs at `http://localhost:5173`.
 
 > **Note:** The frontend calls the backend at `http://localhost:5000` by default. To change this, set the `VITE_API_URL` environment variable or update `client/src/config/api.js`. **Production builds must set `VITE_API_URL`** — the `localhost` value is a development-only fallback and the deployed site will be broken if it is left unset.
 
-### 4. Production Deployment (Hostinger + Aiven)
+### 4. Production Deployment (Hostinger)
 
 - **Build the client with the real API URL:** `VITE_API_URL=https://your-api-domain` (set it at build time — Vite bakes it into the bundle).
 - **Server environment variables on the host:** `PORT`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSL=true`, `DB_SSL_CA`, `JWT_SECRET` (a long random value), and `FRONTEND_URL`.
