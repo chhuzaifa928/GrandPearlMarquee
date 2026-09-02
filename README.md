@@ -193,7 +193,7 @@ The app runs at `http://localhost:5173`.
 ### 4. Production Deployment (Hostinger)
 
 - **Build the client with the real API URL:** `VITE_API_URL=https://your-api-domain` (set it at build time — Vite bakes it into the bundle).
-- **Server environment variables on the host:** `PORT`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSL=true`, `DB_SSL_CA`, `JWT_SECRET` (a long random value), and `FRONTEND_URL`.
+- **Server environment variables on the host:** `PORT`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSL=true`, `DB_SSL_CA`, `JWT_SECRET` (a long random value), `FRONTEND_URL`, and `TRUST_PROXY=true` (so the rate limiter keys on the real client IP behind the reverse proxy).
 - **Reverse proxy / rate limiting:** the login limiter keys on client IP, so set your proxy correctly (see `server/app.js`) so all visitors don't share one rate-limit bucket.
 - **Persistent storage:** uploaded media lives on the server's local disk under `server/uploads/` (`uploads/` is gitignored). Back it up or migrate to object storage — it is lost if the deploy directory is replaced.
 - **Seed the first admin** as described above before logging into `/admin/login`.

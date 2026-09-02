@@ -17,6 +17,11 @@ const path = require("path");
 
 const app = express();
 
+// Trust first proxy in production (required for correct req.ip behind reverse proxy)
+if (process.env.TRUST_PROXY === "true") {
+  app.set("trust proxy", 1);
+}
+
 // Middleware
 app.use(
   helmet({
