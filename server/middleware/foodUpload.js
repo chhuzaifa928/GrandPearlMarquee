@@ -69,6 +69,9 @@ const upload = multer({
   // Maximum file size: 20 MB
   limits: {
     fileSize: 20 * 1024 * 1024,
+    files: 1,
+    fields: 10,
+    parts: 11,
   },
 });
 

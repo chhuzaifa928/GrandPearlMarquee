@@ -80,6 +80,9 @@ const upload = multer({
   // Maximum upload size: 50 MB
   limits: {
     fileSize: 50 * 1024 * 1024,
+    files: 1,
+    fields: 5,
+    parts: 6,
   },
 });
 
