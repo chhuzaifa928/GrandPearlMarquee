@@ -4,6 +4,7 @@ const router = express.Router();
 const upload = require("../middleware/foodUpload");
 const multerErrorHandler = require("../middleware/multerErrorHandler");
 const verifyToken = require("../middleware/authMiddleware");
+const validId = require("../validators/idValidator");
 
 
 const {
@@ -36,6 +37,7 @@ router.post(
 router.delete(
   "/categories/:id",
   verifyToken,
+  validId("id"),
   removeCategory
 );
 
@@ -56,12 +58,14 @@ router.post(
 router.put(
   "/items/:id",
   verifyToken,
+  validId("id"),
   editItem
 );
 
 router.delete(
   "/items/:id",
   verifyToken,
+  validId("id"),
   removeItem
 );
 

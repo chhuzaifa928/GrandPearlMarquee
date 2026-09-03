@@ -3,6 +3,7 @@ const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
 const { contactLimiter } = require("../middleware/publicLimiters");
+const validId = require("../validators/idValidator");
 
 const contactValidator = require("../validators/contactValidator");
 
@@ -29,6 +30,7 @@ router.get(
 router.delete(
   "/:id",
   verifyToken,
+  validId("id"),
   removeMessage
 );
 

@@ -6,6 +6,7 @@ const upload = require("../middleware/decorUpload");
 const multerErrorHandler = require("../middleware/multerErrorHandler");
 
 const verifyToken = require("../middleware/authMiddleware");
+const validId = require("../validators/idValidator");
 
 const {
   fetchDecor,
@@ -23,7 +24,7 @@ const {
 router.get("/", fetchDecor);
 
 // Get single decor
-router.get("/:id", fetchDecorById);
+router.get("/:id", validId("id"), fetchDecorById);
 
 // ==========================
 // Protected Admin Routes
@@ -42,6 +43,7 @@ router.post(
 router.put(
   "/:id",
   verifyToken,
+  validId("id"),
   upload.single("image"),
   editDecor,
   multerErrorHandler
@@ -51,6 +53,7 @@ router.put(
 router.delete(
   "/:id",
   verifyToken,
+  validId("id"),
   removeDecor
 );
 

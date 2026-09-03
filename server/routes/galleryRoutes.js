@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
+const validId = require("../validators/idValidator");
 
 // Gallery controller
 const {
@@ -45,6 +46,7 @@ router.post(
 router.delete(
   "/categories/:id",
   verifyToken,
+  validId("id"),
   removeGalleryCategory
 );
 
@@ -65,6 +67,7 @@ router.post(
 router.delete(
   "/:id",
   verifyToken,
+  validId("id"),
   removeGallery
 );
 

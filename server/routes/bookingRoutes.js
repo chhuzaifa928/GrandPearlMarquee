@@ -16,6 +16,7 @@ const { bookingLimiter } = require("../middleware/publicLimiters");
 
 // Validators
 const bookingValidator = require("../validators/bookingValidator");
+const validId = require("../validators/idValidator");
 
 // ======================================
 // Public Route
@@ -32,12 +33,12 @@ router.post("/", bookingLimiter, bookingValidator, addBooking);
 router.get("/", verifyToken, fetchBookings);
 
 // Get single booking by ID
-router.get("/:id", verifyToken, fetchBookingById);
+router.get("/:id", verifyToken, validId("id"), fetchBookingById);
 
 // Update booking status
-router.put("/:id", verifyToken, changeBookingStatus);
+router.put("/:id", verifyToken, validId("id"), changeBookingStatus);
 
 // Delete booking
-router.delete("/:id", verifyToken, removeBooking);
+router.delete("/:id", verifyToken, validId("id"), removeBooking);
 
 module.exports = router;
