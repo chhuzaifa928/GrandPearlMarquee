@@ -22,8 +22,6 @@ const bookingValidator = require("../validators/bookingValidator");
 // ======================================
 
 // Customer submits a booking
-console.log("bookingValidator:", typeof bookingValidator);
-console.log("addBooking:", typeof addBooking);
 router.post("/", bookingLimiter, bookingValidator, addBooking);
 
 // ======================================
