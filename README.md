@@ -199,6 +199,34 @@ The app runs at `http://localhost:5173`.
 - **Persistent storage:** uploaded media lives on the server's local disk under `server/uploads/` (`uploads/` is gitignored). Back it up or migrate to object storage — it is lost if the deploy directory is replaced.
 - **Seed the first admin** as described above before logging into `/admin/login`.
 
+> **Content Security Policy (production):** the final production frontend should receive a `Content-Security-Policy` HTTP response header from the Hostinger frontend host/proxy serving `client/dist`. Use this production policy template:
+>
+> ```
+> default-src 'self';
+> script-src 'self';
+> style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+> font-src 'self' https://fonts.gstatic.com;
+> img-src 'self' data: <API_ORIGIN>;
+> media-src 'self' <API_ORIGIN>;
+> connect-src 'self' <API_ORIGIN>;
+> frame-src https://www.google.com;
+> object-src 'none';
+> base-uri 'self';
+> frame-ancestors 'self';
+> form-action 'self';
+> ```
+>
+> Notes on this policy:
+> - Replace `<API_ORIGIN>` with the actual production API origin (the same value as `VITE_API_URL`).
+> - The API origin is also the origin serving uploaded images/videos.
+> - This policy is intended for **production only**; do **not** enforce it blindly during Vite development (Vite injects inline scripts, uses `ws://` HMR, and `http://localhost:5000`).
+> - `'unsafe-inline'` applies to `style-src` only, because the app currently uses React inline styles. Do **not** add `'unsafe-inline'` to `script-src`, and do **not** add `'unsafe-eval'` to the production `script-src`.
+> - Google Fonts and the Google Maps iframe require the listed origins (`fonts.googleapis.com`, `fonts.gstatic.com`, and `https://www.google.com` for `frame-src`).
+> - Deploy the CSP as an HTTP response header rather than a meta tag where Hostinger allows it.
+> - After deployment, verify fonts, Google Maps, API requests, uploaded images/videos, and admin functionality before treating the CSP as fully validated.
+> - If the final deployment topology changes, review the policy before applying it.
+> - Optionally add `upgrade-insecure-requests` after production HTTPS is confirmed.
+
 > **Planned authentication hardening (deferred):** Admin authentication currently uses a JWT Bearer token that the frontend stores in `localStorage`. Because JavaScript on the origin can read `localStorage`, this storage approach carries an XSS token-theft risk. The current implementation is intentionally kept stable for the initial deployment and is **not** being redesigned here. As a dedicated authentication task **after the Hostinger deployment is stable**, plan to: (1) migrate the JWT to an HttpOnly + Secure cookie; (2) choose an appropriate `SameSite` setting based on the final frontend/backend deployment topology; (3) use `credentials` correctly for any cross-origin requests; (4) add appropriate CSRF protection as part of cookie-based auth; and (5) provide server-side logout that clears the authentication cookie.
 
 ## API Overview
