@@ -5,6 +5,10 @@ const upload = require("../middleware/foodUpload");
 const multerErrorHandler = require("../middleware/multerErrorHandler");
 const verifyToken = require("../middleware/authMiddleware");
 const validId = require("../validators/idValidator");
+const {
+  foodItemValidator,
+  foodCategoryValidator,
+} = require("../validators/foodValidator");
 
 
 const {
@@ -30,6 +34,7 @@ router.post(
   "/categories",
   verifyToken,
   upload.single("image"),
+  foodCategoryValidator,
   createCategory,
   multerErrorHandler
 );
@@ -52,6 +57,7 @@ router.get("/items", fetchItems);
 router.post(
   "/items",
   verifyToken,
+  foodItemValidator,
   createItem
 );
 
@@ -59,6 +65,7 @@ router.put(
   "/items/:id",
   verifyToken,
   validId("id"),
+  foodItemValidator,
   editItem
 );
 
