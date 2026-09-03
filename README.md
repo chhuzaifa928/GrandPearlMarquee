@@ -160,7 +160,8 @@ FRONTEND_URL=http://localhost:5173
 > with `\n` literals or base64). Some providers also use a custom `DB_PORT`.
 >
 > `FRONTEND_URL` is the only production origin allowed by CORS. In development
-> `http://localhost:5173` is added automatically.
+> `http://localhost:5173` is added automatically. In production, `NODE_ENV=production`
+> must be set and `FRONTEND_URL` is required — the server exits on startup if it is missing.
 >
 > The first admin account cannot be created via the API (registration requires
 > an existing valid JWT). Insert the initial admin directly into MySQL with a
@@ -193,7 +194,7 @@ The app runs at `http://localhost:5173`.
 ### 4. Production Deployment (Hostinger)
 
 - **Build the client with the real API URL:** `VITE_API_URL=https://your-api-domain` (set it at build time — Vite bakes it into the bundle).
-- **Server environment variables on the host:** `PORT`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSL=true`, `DB_SSL_CA`, `JWT_SECRET` (a long random value), `FRONTEND_URL`, and `TRUST_PROXY=true` (so the rate limiter keys on the real client IP behind the reverse proxy).
+- **Server environment variables on the host:** `PORT`, `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_SSL=true`, `DB_SSL_CA`, `JWT_SECRET` (a long random value), `NODE_ENV=production`, `FRONTEND_URL` (your production frontend origin, e.g. `https://grandpearlmarquee.com`), and `TRUST_PROXY=true` (so the rate limiter keys on the real client IP behind the reverse proxy).
 - **Reverse proxy / rate limiting:** the login limiter keys on client IP, so set your proxy correctly (see `server/app.js`) so all visitors don't share one rate-limit bucket.
 - **Persistent storage:** uploaded media lives on the server's local disk under `server/uploads/` (`uploads/` is gitignored). Back it up or migrate to object storage — it is lost if the deploy directory is replaced.
 - **Seed the first admin** as described above before logging into `/admin/login`.

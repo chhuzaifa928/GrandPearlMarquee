@@ -30,10 +30,25 @@ app.use(
     },
   })
 );
-const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.FRONTEND_URL,
-].filter(Boolean);
+const isProduction = process.env.NODE_ENV === "production";
+
+if (isProduction && !process.env.FRONTEND_URL) {
+  console.error(
+    "CORS FATAL: FRONTEND_URL is required in production. " +
+      "Set it to your production frontend origin (e.g. https://grandpearlmarquee.com)."
+  );
+  process.exit(1);
+}
+
+const allowedOrigins = [];
+
+if (!isProduction) {
+  allowedOrigins.push("http://localhost:5173");
+}
+
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
 
 app.use(
   cors({
