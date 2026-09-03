@@ -7,6 +7,7 @@ const multerErrorHandler = require("../middleware/multerErrorHandler");
 
 const verifyToken = require("../middleware/authMiddleware");
 const validId = require("../validators/idValidator");
+const decorValidator = require("../validators/decorValidator");
 
 const {
   fetchDecor,
@@ -35,6 +36,7 @@ router.post(
   "/",
   verifyToken,
   upload.single("image"),
+  decorValidator,
   createDecor,
   multerErrorHandler
 );
@@ -45,6 +47,7 @@ router.put(
   verifyToken,
   validId("id"),
   upload.single("image"),
+  decorValidator,
   editDecor,
   multerErrorHandler
 );
