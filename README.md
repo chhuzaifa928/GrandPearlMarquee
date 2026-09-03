@@ -199,6 +199,8 @@ The app runs at `http://localhost:5173`.
 - **Persistent storage:** uploaded media lives on the server's local disk under `server/uploads/` (`uploads/` is gitignored). Back it up or migrate to object storage — it is lost if the deploy directory is replaced.
 - **Seed the first admin** as described above before logging into `/admin/login`.
 
+> **Planned authentication hardening (deferred):** Admin authentication currently uses a JWT Bearer token that the frontend stores in `localStorage`. Because JavaScript on the origin can read `localStorage`, this storage approach carries an XSS token-theft risk. The current implementation is intentionally kept stable for the initial deployment and is **not** being redesigned here. As a dedicated authentication task **after the Hostinger deployment is stable**, plan to: (1) migrate the JWT to an HttpOnly + Secure cookie; (2) choose an appropriate `SameSite` setting based on the final frontend/backend deployment topology; (3) use `credentials` correctly for any cross-origin requests; (4) add appropriate CSRF protection as part of cookie-based auth; and (5) provide server-side logout that clears the authentication cookie.
+
 ## API Overview
 
 ### Authentication
