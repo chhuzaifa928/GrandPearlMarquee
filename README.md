@@ -164,11 +164,27 @@ FRONTEND_URL=http://localhost:5173
 > must be set and `FRONTEND_URL` is required — the server exits on startup if it is missing.
 >
 > The first admin account cannot be created via the API (registration requires
-> an existing valid JWT). Insert the initial admin directly into MySQL with a
-> bcrypt hash, e.g. using `mysql2`:
-> `INSERT INTO admins (full_name, email, password, role) VALUES ('Admin', 'admin@example.com', '<bcrypt-hash>', 'admin');`
-
-Start the server:
+> an existing valid JWT), so it must be created manually in the production MySQL
+> database. The password stored in the `admins` table **MUST be a bcrypt hash**,
+> never the plaintext password. To bootstrap the first admin:
+>
+> 1. Generate a bcrypt hash **locally** using the project's existing `bcrypt`
+>    dependency:
+>    ```bash
+>    cd server
+>    node -e "require('bcrypt').hash('<your-password>',10).then(h=>console.log(h))"
+>    ```
+>    - `<your-password>` is a placeholder — do **not** commit a real password to
+>      the repository, source code, Git history, or chat.
+>    - The command prints a bcrypt hash.
+> 2. Paste the generated hash in place of the `<bcrypt-hash>` placeholder below,
+>    then insert the first admin directly into MySQL (e.g. via `mysql2`):
+>    `INSERT INTO admins (full_name, email, password, role) VALUES ('Admin', 'admin@example.com', '<bcrypt-hash>', 'admin');`
+> 3. The generated hash is sensitive — treat it as a secret and do **not** commit
+>    it to the repository.
+>
+> Sequence for a fresh deployment: **generate hash → insert first admin →
+> start/use the production API → log in at `/admin/login`**.
 
 ```bash
 npm run dev        # development (nodemon)
