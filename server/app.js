@@ -95,6 +95,14 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/settings", settingsRoutes);
 
+// JSON 404 for unknown /api/* endpoints
+app.use("/api", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Endpoint not found.",
+  });
+});
+
 // Global error handler (registered LAST, after all routes)
 app.use(errorHandler);
 
