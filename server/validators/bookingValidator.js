@@ -4,7 +4,11 @@ const bookingValidator = [
   body("customer_name")
     .trim()
     .notEmpty()
-    .withMessage("Customer name is required."),
+    .withMessage("Customer name is required.")
+    .isString()
+    .withMessage("Customer name must be a string.")
+    .isLength({ max: 100 })
+    .withMessage("Customer name must be at most 100 characters."),
 
   body("email")
     .optional({ checkFalsy: true })
@@ -24,11 +28,19 @@ const bookingValidator = [
   body("city")
     .trim()
     .notEmpty()
-    .withMessage("City is required."),
+    .withMessage("City is required.")
+    .isString()
+    .withMessage("City must be a string.")
+    .isLength({ max: 100 })
+    .withMessage("City must be at most 100 characters."),
 
   body("event_type")
     .notEmpty()
-    .withMessage("Event type is required."),
+    .withMessage("Event type is required.")
+    .isString()
+    .withMessage("Event type must be a string.")
+    .isLength({ max: 100 })
+    .withMessage("Event type must be at most 100 characters."),
 
   body("event_date")
     .notEmpty()
@@ -36,7 +48,11 @@ const bookingValidator = [
 
   body("event_time")
     .notEmpty()
-    .withMessage("Event time is required."),
+    .withMessage("Event time is required.")
+    .isString()
+    .withMessage("Event time must be a string.")
+    .isLength({ max: 50 })
+    .withMessage("Event time must be at most 50 characters."),
 
   body("guests")
     .isInt({ min: 1 })
@@ -82,7 +98,11 @@ const bookingValidator = [
 
  body("food_category")
   .notEmpty()
-  .withMessage("Food category is required."),
+  .withMessage("Food category is required.")
+  .isString()
+  .withMessage("Food category must be a string.")
+  .isLength({ max: 100 })
+  .withMessage("Food category must be at most 100 characters."),
 
 body("custom_food")
   .optional({ checkFalsy: true })
@@ -105,7 +125,39 @@ body("custom_food")
   
   body("decor_theme")
     .notEmpty()
-    .withMessage("Decor theme is required."),
+    .withMessage("Decor theme is required.")
+    .isString()
+    .withMessage("Decor theme must be a string.")
+    .isLength({ max: 200 })
+    .withMessage("Decor theme must be at most 200 characters."),
+
+  body("additional_requirements")
+    .optional({ checkFalsy: true })
+    .isString()
+    .withMessage("Additional requirements must be a string.")
+    .trim()
+    .isLength({ max: 2000 })
+    .withMessage("Additional requirements must be at most 2000 characters."),
+
+  body("partition_required")
+    .optional()
+    .isBoolean({ strict: true })
+    .withMessage("Partition required must be a boolean."),
+
+  body("sound_system")
+    .optional()
+    .isBoolean({ strict: true })
+    .withMessage("Sound system must be a boolean."),
+
+  body("ac_required")
+    .optional()
+    .isBoolean({ strict: true })
+    .withMessage("AC required must be a boolean."),
+
+  body("heater_required")
+    .optional()
+    .isBoolean({ strict: true })
+    .withMessage("Heater required must be a boolean."),
 ];
 
 module.exports = bookingValidator;
