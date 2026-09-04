@@ -44,7 +44,19 @@ const bookingValidator = [
 
   body("event_date")
     .notEmpty()
-    .withMessage("Event date is required."),
+    .withMessage("Event date is required.")
+    .isString()
+    .withMessage("Event date must be a string.")
+    .trim()
+    .matches(/^\d{4}-\d{2}-\d{2}$/)
+    .withMessage("Event date must be in YYYY-MM-DD format.")
+    .custom((value) => {
+      const date = new Date(value + "T00:00:00Z");
+      if (isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+        throw new Error("Event date must be a valid date (YYYY-MM-DD).");
+      }
+      return true;
+    }),
 
   body("event_time")
     .notEmpty()
@@ -55,16 +67,16 @@ const bookingValidator = [
     .withMessage("Event time must be at most 50 characters."),
 
   body("guests")
-    .isInt({ min: 1 })
-    .withMessage("Guests must be at least 1."),
+    .isInt({ min: 1, max: 1000 })
+    .withMessage("Guests must be between 1 and 1000."),
 
   body("male_guests")
-    .isInt({ min: 0 })
-    .withMessage("Male guests cannot be negative."),
+    .isInt({ min: 0, max: 1000 })
+    .withMessage("Male guests must be between 0 and 1000."),
 
   body("female_guests")
-  .isInt({ min: 0 })
-  .withMessage("Female guests cannot be negative.")
+  .isInt({ min: 0, max: 1000 })
+  .withMessage("Female guests must be between 0 and 1000.")
   .custom((value, { req }) => {
     const totalGuests = Number(req.body.guests);
     const maleGuests = Number(req.body.male_guests);
@@ -85,16 +97,33 @@ const bookingValidator = [
   }),
 
   body("vip_guests")
-    .isInt({ min: 0 })
-    .withMessage("VIP guests cannot be negative."),
+    .isInt({ min: 0, max: 1000 })
+    .withMessage("VIP guests must be between 0 and 1000.")
+    .custom((value, { req }) => {
+      const totalGuests = Number(req.body.guests);
+      const vipGuests = Number(value);
+      if (Number.isInteger(totalGuests) && Number.isInteger(vipGuests) && vipGuests > totalGuests) {
+        throw new Error("VIP guests cannot exceed total guests.");
+      }
+      return true;
+    }),
 
   body("male_vip")
-    .isInt({ min: 0 })
-    .withMessage("Male VIP guests cannot be negative."),
+    .isInt({ min: 0, max: 1000 })
+    .withMessage("Male VIP guests must be between 0 and 1000."),
 
   body("female_vip")
-    .isInt({ min: 0 })
-    .withMessage("Female VIP guests cannot be negative."),
+    .isInt({ min: 0, max: 1000 })
+    .withMessage("Female VIP guests must be between 0 and 1000.")
+    .custom((value, { req }) => {
+      const vipGuests = Number(req.body.vip_guests);
+      const maleVip = Number(req.body.male_vip);
+      const femaleVip = Number(value);
+      if (Number.isInteger(vipGuests) && Number.isInteger(maleVip) && Number.isInteger(femaleVip) && maleVip + femaleVip !== vipGuests) {
+        throw new Error("Male and female VIP guests must equal total VIP guests.");
+      }
+      return true;
+    }),
 
  body("food_category")
   .notEmpty()
