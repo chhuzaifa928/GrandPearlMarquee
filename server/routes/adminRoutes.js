@@ -9,8 +9,9 @@ const {
 } = require("../controllers/adminController");
 
 const verifyToken = require("../middleware/authMiddleware");
+const adminValidator = require("../validators/adminValidator");
 
-router.post("/register", verifyToken, registerAdmin);
+router.post("/register", verifyToken, adminValidator, registerAdmin);
 router.post("/login", loginAdmin);
 router.get("/dashboard", verifyToken, dashboardStats);
 // Verify Admin Session
