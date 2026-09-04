@@ -15,7 +15,6 @@ const EVENT_TYPES = [
 
 const TIME_SLOTS = [
   "Afternoon",
-  "Evening",
   "Night",
 ];
 

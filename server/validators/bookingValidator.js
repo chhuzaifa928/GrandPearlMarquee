@@ -77,7 +77,9 @@ const bookingValidator = [
     .isString()
     .withMessage("Event time must be a string.")
     .isLength({ max: 50 })
-    .withMessage("Event time must be at most 50 characters."),
+    .withMessage("Event time must be at most 50 characters.")
+    .isIn(["Afternoon", "Night"])
+    .withMessage("Event time must be Afternoon or Night."),
 
   body("guests")
     .isInt({ min: 1, max: 1000 })
@@ -244,7 +246,9 @@ const availabilityValidator = [
     .isString()
     .withMessage("Event time must be a string.")
     .isLength({ max: 50 })
-    .withMessage("Event time must be at most 50 characters."),
+    .withMessage("Event time must be at most 50 characters.")
+    .isIn(["Afternoon", "Night"])
+    .withMessage("Event time must be Afternoon or Night."),
 ];
 
 bookingValidator.availabilityValidator = availabilityValidator;
