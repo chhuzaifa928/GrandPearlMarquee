@@ -66,6 +66,13 @@ const addBooking = (req, res) => {
 
   createBooking(req.body, (err, result) => {
     if (err) {
+      if (err.code === "BOOKING_CONFLICT") {
+        return res.status(409).json({
+          success: false,
+          message: err.message,
+        });
+      }
+
       console.error("Create booking error:", err);
 
       return res.status(500).json({

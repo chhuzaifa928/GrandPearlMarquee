@@ -4,6 +4,8 @@ const db = require("../config/db");
 // Create Booking
 // ===========================
 
+const SLOT_LOCK_TIMEOUT_SECONDS = 15;
+
 const createBooking = (bookingData, callback) => {
 
   const sql = `
@@ -55,80 +57,156 @@ const createBooking = (bookingData, callback) => {
     )
   `;
 
-  db.query(
-    sql,
-    [
+  const bookingValues = [
 
-      // =========================
-      // CUSTOMER
-      // =========================
+    // =========================
+    // CUSTOMER
+    // =========================
 
-      bookingData.customer_name,
-      bookingData.email,
-      bookingData.phone,
-      bookingData.whatsapp,
-      bookingData.city,
+    bookingData.customer_name,
+    bookingData.email,
+    bookingData.phone,
+    bookingData.whatsapp,
+    bookingData.city,
 
-      // =========================
-      // EVENT
-      // =========================
+    // =========================
+    // EVENT
+    // =========================
 
-      bookingData.event_type,
-      bookingData.event_date,
-      bookingData.event_time,
+    bookingData.event_type,
+    bookingData.event_date,
+    bookingData.event_time,
 
-      // =========================
-      // GUESTS
-      // =========================
+    // =========================
+    // GUESTS
+    // =========================
 
-      bookingData.guests,
-      bookingData.male_guests,
-      bookingData.female_guests,
+    bookingData.guests,
+    bookingData.male_guests,
+    bookingData.female_guests,
 
-      // =========================
-      // VIP
-      // =========================
+    // =========================
+    // VIP
+    // =========================
 
-      bookingData.vip_guests,
-      bookingData.male_vip,
-      bookingData.female_vip,
+    bookingData.vip_guests,
+    bookingData.male_vip,
+    bookingData.female_vip,
 
-      // =========================
-      // ARRANGEMENT
-      // =========================
+    // =========================
+    // ARRANGEMENT
+    // =========================
 
-      bookingData.partition_required,
+    bookingData.partition_required,
 
-      // =========================
-      // FOOD
-      // =========================
+    // =========================
+    // FOOD
+    // =========================
 
-      bookingData.food_category,
-      bookingData.custom_food,
+    bookingData.food_category,
+    bookingData.custom_food,
 
-      // =========================
-      // DECOR
-      // =========================
+    // =========================
+    // DECOR
+    // =========================
 
-      bookingData.decor_theme,
-      bookingData.additional_requirements,
+    bookingData.decor_theme,
+    bookingData.additional_requirements,
 
-      // =========================
-      // EXISTING EXTRA FIELDS
-      // =========================
+    // =========================
+    // EXISTING EXTRA FIELDS
+    // =========================
 
-      bookingData.sound_system,
-      bookingData.ac_required,
-      bookingData.heater_required,
+    bookingData.sound_system,
+    bookingData.ac_required,
+    bookingData.heater_required,
 
-      // =========================
-      // ALL EXTRA SERVICES
-      // =========================
+    // =========================
+    // ALL EXTRA SERVICES
+    // =========================
 
-      bookingData.extra_services || "[]",
-    ],
-    callback
-  );
+    bookingData.extra_services || "[]",
+  ];
+
+  // Serializes race-prone check-then-insert on the database so two
+  // concurrent requests cannot both book the same event_date + event_time.
+  // Rejected bookings do NOT block the slot; deleted bookings are gone.
+  const lockName =
+    "booking_slot:" +
+    bookingData.event_date +
+    ":" +
+    bookingData.event_time;
+
+  db.getConnection((connectionError, connection) => {
+    if (connectionError) {
+      return callback(connectionError);
+    }
+
+    const finish = (err, result) => {
+      // Return the connection to the pool after the lock is released.
+      connection.release();
+      callback(err, result);
+    };
+
+    connection.query(
+      "SELECT GET_LOCK(?, ?) AS got_lock",
+      [lockName, SLOT_LOCK_TIMEOUT_SECONDS],
+      (lockError, lockResults) => {
+        if (lockError) {
+          return finish(lockError);
+        }
+
+        // 1 = lock acquired, 0 = timed out (another request is booking this slot).
+        if (!lockResults || lockResults[0].got_lock !== 1) {
+          const conflict = new Error(
+            "This time slot is already booked. Please choose a different date or time."
+          );
+          conflict.code = "BOOKING_CONFLICT";
+          return finish(conflict);
+        }
+
+        const releaseLockAndFinish = (err, result) => {
+          connection.query(
+            "SELECT RELEASE_LOCK(?)",
+            [lockName],
+            () => finish(err, result)
+          );
+        };
+
+        // Availability check while the slot lock is held.
+        connection.query(
+          "SELECT id FROM bookings WHERE event_date = ? AND event_time = ? AND booking_status <> 'Rejected' LIMIT 1",
+          [bookingData.event_date, bookingData.event_time],
+          (checkError, existingBookings) => {
+            if (checkError) {
+              return releaseLockAndFinish(checkError);
+            }
+
+            if (existingBookings.length > 0) {
+              const conflict = new Error(
+                "This time slot is already booked. Please choose a different date or time."
+              );
+              conflict.code = "BOOKING_CONFLICT";
+              return releaseLockAndFinish(conflict);
+            }
+
+            connection.query(sql, bookingValues, (insertError, result) => {
+              if (insertError && insertError.code === "ER_DUP_ENTRY") {
+                // Safety net in case a unique index is added later.
+                const conflict = new Error(
+                  "This time slot is already booked. Please choose a different date or time."
+                );
+                conflict.code = "BOOKING_CONFLICT";
+                return releaseLockAndFinish(conflict);
+              }
+
+              releaseLockAndFinish(insertError, result);
+            });
+          }
+        );
+      }
+    );
+  });
 };
 
 
