@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, query } = require("express-validator");
 
 const bookingValidator = [
   body("customer_name")
@@ -201,5 +201,52 @@ body("custom_food")
     .isBoolean({ strict: true })
     .withMessage("Heater required must be a boolean."),
 ];
+
+// =====================================
+// Slot availability (GET /availability)
+// =====================================
+// Reuses the same event_date/event_time validation conventions as the
+// booking POST, applied to query parameters.
+
+const availabilityValidator = [
+  query("event_date")
+    .notEmpty()
+    .withMessage("Event date is required.")
+    .isString()
+    .withMessage("Event date must be a string.")
+    .trim()
+    .matches(/^\d{4}-\d{2}-\d{2}$/)
+    .withMessage("Event date must be in YYYY-MM-DD format.")
+    .custom((value) => {
+      const date = new Date(value + "T00:00:00Z");
+      if (isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+        throw new Error("Event date must be a valid date (YYYY-MM-DD).");
+      }
+
+      const now = new Date();
+      const today =
+        now.getFullYear() +
+        "-" +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(now.getDate()).padStart(2, "0");
+
+      if (value < today) {
+        throw new Error("Event date cannot be in the past.");
+      }
+
+      return true;
+    }),
+
+  query("event_time")
+    .notEmpty()
+    .withMessage("Event time is required.")
+    .isString()
+    .withMessage("Event time must be a string.")
+    .isLength({ max: 50 })
+    .withMessage("Event time must be at most 50 characters."),
+];
+
+bookingValidator.availabilityValidator = availabilityValidator;
 
 module.exports = bookingValidator;

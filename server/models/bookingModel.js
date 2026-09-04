@@ -225,6 +225,24 @@ const getAllBookings = (callback) => {
 
 
 // ===========================
+// Check Slot Availability
+// ===========================
+// Read-only. Reuses the C1 slot-blocking rule: only bookings whose status
+// is not 'Rejected' occupy the slot. Rejected bookings are ignored and
+// deleted bookings no longer exist in the table.
+
+const getSlotAvailability = (event_date, event_time, callback) => {
+
+  db.query(
+    "SELECT id FROM bookings WHERE event_date = ? AND event_time = ? AND booking_status <> 'Rejected' LIMIT 1",
+    [event_date, event_time],
+    callback
+  );
+
+};
+
+
+// ===========================
 // Get Booking By ID
 // ===========================
 
@@ -276,6 +294,7 @@ const deleteBooking = (id, callback) => {
 module.exports = {
   createBooking,
   getAllBookings,
+  getSlotAvailability,
   getBookingById,
   updateBookingStatus,
   deleteBooking,

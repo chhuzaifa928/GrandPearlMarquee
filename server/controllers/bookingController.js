@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const {
   createBooking,
   getAllBookings,
+  getSlotAvailability,
   getBookingById,
   updateBookingStatus,
   deleteBooking,
@@ -88,6 +89,44 @@ const addBooking = (req, res) => {
       bookingId: result.insertId,
     });
   });
+};
+
+// ===========================
+// Check Slot Availability
+// ===========================
+const checkAvailability = (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      errors: errors.array(),
+    });
+  }
+
+  getSlotAvailability(
+    req.query.event_date,
+    req.query.event_time,
+    (err, results) => {
+      if (err) {
+        console.error("Check availability error:", err);
+
+        return res.status(500).json({
+          success: false,
+          message: "Failed to check availability.",
+        });
+      }
+
+      const available = results.length === 0;
+
+      res.status(200).json({
+        success: true,
+        event_date: req.query.event_date,
+        event_time: req.query.event_time,
+        available,
+      });
+    }
+  );
 };
 
 // ===========================
@@ -210,6 +249,7 @@ const removeBooking = (req, res) => {
 
 module.exports = {
   addBooking,
+  checkAvailability,
   fetchBookings,
   fetchBookingById,
   changeBookingStatus,

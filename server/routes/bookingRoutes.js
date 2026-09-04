@@ -4,6 +4,7 @@ const router = express.Router();
 // Controllers
 const {
   addBooking,
+  checkAvailability,
   fetchBookings,
   fetchBookingById,
   changeBookingStatus,
@@ -24,6 +25,13 @@ const validId = require("../validators/idValidator");
 
 // Customer submits a booking
 router.post("/", bookingLimiter, bookingValidator, addBooking);
+
+// Check if a date/time slot is still available (read-only, public)
+router.get(
+  "/availability",
+  bookingValidator.availabilityValidator,
+  checkAvailability
+);
 
 // ======================================
 // Protected Admin Routes
