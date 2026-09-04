@@ -55,6 +55,19 @@ const bookingValidator = [
       if (isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
         throw new Error("Event date must be a valid date (YYYY-MM-DD).");
       }
+
+      const now = new Date();
+      const today =
+        now.getFullYear() +
+        "-" +
+        String(now.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(now.getDate()).padStart(2, "0");
+
+      if (value < today) {
+        throw new Error("Event date cannot be in the past.");
+      }
+
       return true;
     }),
 
