@@ -74,7 +74,7 @@ const addBooking = (req, res) => {
         });
       }
 
-      console.error("Create booking error:", err);
+      console.error("Create booking error:", err.code, err.message);
 
       return res.status(500).json({
         success: false,
@@ -109,7 +109,7 @@ const checkAvailability = (req, res) => {
     req.query.event_time,
     (err, results) => {
       if (err) {
-        console.error("Check availability error:", err);
+        console.error("Check availability error:", err.code, err.message);
 
         return res.status(500).json({
           success: false,
@@ -135,7 +135,7 @@ const checkAvailability = (req, res) => {
 const fetchBookings = (req, res) => {
   getAllBookings((err, results) => {
     if (err) {
-      console.error("Fetch bookings error:", err);
+      console.error("Fetch bookings error:", err.code, err.message);
 
       return res.status(500).json({
         success: false,
@@ -159,7 +159,7 @@ const fetchBookingById = (req, res) => {
 
   getBookingById(id, (err, results) => {
     if (err) {
-      console.error("Fetch booking error:", err);
+      console.error("Fetch booking error:", err.code, err.message);
 
       return res.status(500).json({
         success: false,
@@ -206,7 +206,8 @@ const changeBookingStatus = (req, res) => {
     if (err) {
       console.error(
         "Update booking status error:",
-        err
+        err.code,
+        err.message
       );
 
       return res.status(500).json({
@@ -232,7 +233,7 @@ const removeBooking = (req, res) => {
 
   deleteBooking(id, (err) => {
     if (err) {
-      console.error("Delete booking error:", err);
+      console.error("Delete booking error:", err.code, err.message);
 
       return res.status(500).json({
         success: false,

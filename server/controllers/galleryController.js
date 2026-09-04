@@ -17,7 +17,7 @@ const { safelyRemoveFile } = require("../utils/fileCleanup");
 const fetchGallery = (req, res) => {
   getAllGallery((err, result) => {
     if (err) {
-      console.error("Gallery fetch error:", err);
+      console.error("Gallery fetch error:", err.code, err.message);
 
       return res.status(500).json({
         success: false,
@@ -89,14 +89,15 @@ const createGallery = (req, res) => {
     },
     (err) => {
       if (err) {
-        console.error("Gallery database insert error:", err);
+        console.error("Gallery database insert error:", err.code, err.message);
 
         // Remove uploaded file if database insert fails
         fs.unlink(filePath, (unlinkError) => {
           if (unlinkError) {
             console.error(
               "Failed to remove orphaned gallery file:",
-              unlinkError
+              unlinkError.code,
+              unlinkError.message
             );
           }
         });
@@ -132,7 +133,7 @@ const removeGallery = (req, res) => {
 
     deleteGallery(id, (err) => {
       if (err) {
-        console.error("Gallery delete error:", err);
+        console.error("Gallery delete error:", err.code, err.message);
 
         return res.status(500).json({
           success: false,

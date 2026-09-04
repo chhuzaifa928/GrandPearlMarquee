@@ -10,7 +10,14 @@ const PORT = process.env.PORT || 5000;
 // a failure is unsafe to continue serving from.
 
 process.on("unhandledRejection", (reason) => {
-  console.error("❌ Unhandled Promise Rejection:", reason);
+  // Log only a safe summary: a rejection reason could be an arbitrary
+  // object (possibly carrying sensitive data), so never log it in full.
+  console.error(
+    "❌ Unhandled Promise Rejection:",
+    reason instanceof Error
+      ? reason.code + " " + reason.message
+      : "[non-Error rejection]"
+  );
   process.exit(1);
 });
 

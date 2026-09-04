@@ -58,7 +58,8 @@ const createCategory = (req, res) => {
 
         console.error(
           "Add category error:",
-          err
+          err.code,
+          err.message
         );
 
         // The DB insert failed, so the just-uploaded image is now

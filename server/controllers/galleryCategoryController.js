@@ -11,7 +11,7 @@ const {
 const fetchGalleryCategories = (req, res) => {
   getAllGalleryCategories((err, result) => {
     if (err) {
-      console.error(err);
+      console.error("Failed to fetch gallery categories:", err.code, err.message);
 
       return res.status(500).json({
         success: false,
@@ -44,7 +44,7 @@ const createGalleryCategory = (req, res) => {
 
   addGalleryCategory(categoryName, (err, result) => {
     if (err) {
-      console.error(err);
+      console.error("Failed to add gallery category:", err.code, err.message);
 
       // Duplicate category
       if (err.code === "ER_DUP_ENTRY") {
@@ -80,7 +80,7 @@ const removeGalleryCategory = (req, res) => {
 
   deleteGalleryCategory(id, (err) => {
     if (err) {
-      console.error(err);
+      console.error("Failed to delete gallery category:", err.code, err.message);
 
       if (err.code === "NOT_FOUND") {
         return res.status(404).json({

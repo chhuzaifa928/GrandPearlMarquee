@@ -91,8 +91,9 @@ function errorHandler(err, req, res, next) {
 
   // ---- Generic unexpected errors ----
   // Log useful diagnostics server-side but never reveal internal
-  // implementation details such as err.message to the client.
-  console.error("Unhandled server error:", err);
+  // implementation details such as err.message to the client, and never
+  // log the full error object (it can carry request/sql context).
+  console.error("Unhandled server error:", err.code, err.message);
 
   return res.status(500).json({
     success: false,
