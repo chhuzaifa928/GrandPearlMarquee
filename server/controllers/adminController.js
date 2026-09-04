@@ -124,7 +124,8 @@ const loginAdmin = (req, res) => {
         },
         process.env.JWT_SECRET,
         {
-          expiresIn: "7d",
+          algorithm: "HS256",
+          expiresIn: "12h",
         }
       );
 
