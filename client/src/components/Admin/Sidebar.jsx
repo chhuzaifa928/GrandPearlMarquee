@@ -16,8 +16,8 @@ import { logoutAdmin } from "../../services/adminService";
 function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logoutAdmin();
+  const handleLogout = async () => {
+    await logoutAdmin();
     navigate("/admin/login", { replace: true });
   };
 

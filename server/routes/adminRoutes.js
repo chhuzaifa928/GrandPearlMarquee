@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   registerAdmin,
   loginAdmin,
+  logoutAdmin,
   dashboardStats,
 } = require("../controllers/adminController");
 
@@ -20,6 +21,7 @@ router.post(
   registerAdmin
 );
 router.post("/login", loginAdmin);
+router.post("/logout", logoutAdmin);
 router.get("/dashboard", verifyToken, dashboardStats);
 // Verify Admin Session
 router.get("/me", verifyToken, (req, res) => {

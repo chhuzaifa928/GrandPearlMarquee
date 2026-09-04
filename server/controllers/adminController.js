@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const verifyToken = require("../middleware/authMiddleware");
+
 const {
   findAdminByEmail,
   createAdmin,
@@ -129,10 +131,16 @@ const loginAdmin = (req, res) => {
         }
       );
 
+      // Deliver the JWT as an HttpOnly cookie (not exposed to JS).
+      res.cookie(
+        verifyToken.AUTH_COOKIE_NAME,
+        token,
+        verifyToken.getAuthCookieOptions()
+      );
+
       res.json({
         success: true,
         message: "Login successful.",
-        token,
         admin: {
           id: admin.id,
           full_name: admin.full_name,
@@ -148,6 +156,22 @@ const loginAdmin = (req, res) => {
         message: "Unable to process the login request.",
       });
     }
+  });
+};
+
+// =========================
+// Logout Admin
+// =========================
+
+const logoutAdmin = (req, res) => {
+  res.clearCookie(
+    verifyToken.AUTH_COOKIE_NAME,
+    verifyToken.getAuthCookieOptions()
+  );
+
+  res.json({
+    success: true,
+    message: "Logged out successfully.",
   });
 };
 
@@ -208,5 +232,6 @@ const dashboardStats = (req, res) => {
 module.exports = {
   registerAdmin,
   loginAdmin,
+  logoutAdmin,
   dashboardStats,
 };

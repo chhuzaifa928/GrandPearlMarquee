@@ -5,19 +5,14 @@ const API = `${API_URL}/api/admin`;
 // ==========================
 // Login
 // ==========================
+// The backend sets the JWT as an HttpOnly cookie.
+// No token is stored in localStorage / exposed to JS.
 
 export const loginAdmin = async (loginData) => {
   const response = await apiClient.post(
     `${API}/login`,
     loginData
   );
-
-  if (response.data.token) {
-    localStorage.setItem(
-      "token",
-      response.data.token
-    );
-  }
 
   return response.data;
 };
@@ -39,12 +34,6 @@ export const getDashboardStats = async () => {
 // ==========================
 
 export const verifyAdminSession = async () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return false;
-  }
-
   try {
     const response = await apiClient.get(
       `${API}/me`
@@ -52,14 +41,19 @@ export const verifyAdminSession = async () => {
 
     return response.data.success === true;
   } catch {
-    localStorage.removeItem("token");
     return false;
   }
 };
 // ==========================
 // Logout
 // ==========================
+// Asks the backend to clear the HttpOnly auth cookie,
+// since JavaScript cannot delete the cookie itself.
 
-export const logoutAdmin = () => {
-  localStorage.removeItem("token");
+export const logoutAdmin = async () => {
+  try {
+    await apiClient.post(`${API}/logout`);
+  } catch {
+    // Best-effort: the session cookie is cleared server-side.
+  }
 };
