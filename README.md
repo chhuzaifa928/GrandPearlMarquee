@@ -179,12 +179,26 @@ FRONTEND_URL=http://localhost:5173
 >    - The command prints a bcrypt hash.
 > 2. Paste the generated hash in place of the `<bcrypt-hash>` placeholder below,
 >    then insert the first admin directly into MySQL (e.g. via `mysql2`):
->    `INSERT INTO admins (full_name, email, password, role) VALUES ('Admin', 'admin@example.com', '<bcrypt-hash>', 'admin');`
+>    `INSERT INTO admins (full_name, email, password, role) VALUES ('Admin', 'admin@example.com', '<bcrypt-hash>', 'superadmin');`
+>    - The first admin should be bootstrapped with `role = 'superadmin'`, because
+>      only a superadmin can create further admin accounts (see the authorization
+>      note below).
 > 3. The generated hash is sensitive — treat it as a secret and do **not** commit
 >    it to the repository.
 >
 > Sequence for a fresh deployment: **generate hash → insert first admin →
 > start/use the production API → log in at `/admin/login`**.
+>
+> **Admin authorization model:** `role` is carried in the signed JWT on login.
+> Two roles exist: `superadmin` (can create further admin accounts via
+> `POST /api/admin/register`) and `admin` (full normal admin functionality, but
+> **cannot** create new admins). The role is never taken from the request body —
+> new admins are always created with `role = 'admin'`. The user who seeds the
+> first admin should therefore give that account `role = 'superadmin'` (as shown
+> above). If an existing deployment bootstrapped its first account as `'admin'`,
+> a MySQL operator can promote it once by running
+> `UPDATE admins SET role = 'superadmin' WHERE email = '<that-admin-email>';`
+> — do this manually in the production database as needed.
 
 ```bash
 npm run dev        # development (nodemon)
