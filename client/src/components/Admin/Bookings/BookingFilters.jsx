@@ -1,3 +1,5 @@
+import "./BookingFilters.css";
+
 function BookingFilters({
   search,
   setSearch,

@@ -10,6 +10,8 @@ import {
 
 import BookingStatusBadge from "./BookingStatusBadge";
 
+import "./BookingCard.css";
+
 function BookingCard({
   booking,
   onView,

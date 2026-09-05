@@ -34,6 +34,46 @@
 
 }
 
+.booking-item > div{
+
+    min-width:0;
+
+    margin-right:12px;
+
+}
+
+.booking-item h6{
+
+    margin:0;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
+
+.booking-item small{
+
+    color:#777;
+
+    display:block;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
+
+.booking-item .status{
+
+    flex-shrink:0;
+
+}
+
 .booking-item:last-child{
 
     border:none;

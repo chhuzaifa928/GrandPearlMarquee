@@ -14,7 +14,9 @@ function FoodCategoryTable({
 
       <div className="card-body">
 
-        <table className="table table-hover align-middle">
+        <div className="table-responsive">
+
+          <table className="table table-hover align-middle">
 
           <thead>
 
@@ -94,6 +96,8 @@ function FoodCategoryTable({
           </tbody>
 
         </table>
+
+        </div>
 
       </div>
 
