@@ -40,30 +40,35 @@ if (isProduction && !process.env.FRONTEND_URL) {
   process.exit(1);
 }
 
-const allowedOrigins = [];
+const defaultOrigins = [
+  "https://grandpearlmarquee.com",
+  "https://www.grandpearlmarquee.com",
+];
 
 if (!isProduction) {
-  allowedOrigins.push("http://localhost:5173");
+  defaultOrigins.push("http://localhost:5173");
 }
 
 if (process.env.FRONTEND_URL) {
-  allowedOrigins.push(process.env.FRONTEND_URL);
+  defaultOrigins.push(process.env.FRONTEND_URL.trim().replace(/\/$/, ""));
 }
+
+const allowedOrigins = Array.from(new Set(defaultOrigins));
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests without an Origin header
-      // (for example, some server-to-server requests)
       if (!origin || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
 
