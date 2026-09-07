@@ -25,6 +25,7 @@ export const uploadGallery = async (formData) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      timeout: 300000, // 5 minutes to prevent premature aborts on video uploads
     }
   );
 
