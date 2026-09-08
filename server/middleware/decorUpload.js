@@ -1,8 +1,8 @@
 const multer = require("multer");
-const path = require("path");
 const fs = require("fs");
 
 const { extensionForMime } = require("../utils/fileExtensions");
+const { DECOR_UPLOAD_DIR } = require("../utils/uploadPaths");
 
 // =====================================
 // Upload Storage
@@ -10,10 +10,7 @@ const { extensionForMime } = require("../utils/fileExtensions");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadFolder = path.join(
-      __dirname,
-      "../uploads/decor"
-    );
+    const uploadFolder = DECOR_UPLOAD_DIR;
 
     if (!fs.existsSync(uploadFolder)) {
       fs.mkdirSync(uploadFolder, {

@@ -1,11 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 
-// Server-side uploads root (server/uploads).
-const UPLOADS_DIR = path.resolve(__dirname, "..", "uploads");
+// Uploads root resolved from the shared uploadPaths module:
+//   process.env.UPLOADS_DIR in production, server/uploads in dev.
+const { UPLOADS_DIR, UPLOAD_SUBDIRS } = require("./uploadPaths");
 
 // Uploads subdirectories the app actually writes to.
-const ALLOWED_SUBDIRS = ["decor", "food", "gallery", "settings"];
+const ALLOWED_SUBDIRS = UPLOAD_SUBDIRS;
 
 // =====================================
 // Resolve a stored DB path to an

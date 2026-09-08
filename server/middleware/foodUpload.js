@@ -1,8 +1,8 @@
 const multer = require("multer");
-const path = require("path");
 const fs = require("fs");
 
 const { extensionForMime } = require("../utils/fileExtensions");
+const { FOOD_UPLOAD_DIR } = require("../utils/uploadPaths");
 
 // =====================================
 // Upload Storage
@@ -10,10 +10,7 @@ const { extensionForMime } = require("../utils/fileExtensions");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadFolder = path.join(
-      __dirname,
-      "../uploads/food"
-    );
+    const uploadFolder = FOOD_UPLOAD_DIR;
 
     // Create folder if it does not exist
     if (!fs.existsSync(uploadFolder)) {

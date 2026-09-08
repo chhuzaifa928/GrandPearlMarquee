@@ -1,8 +1,8 @@
 const multer = require("multer");
-const path = require("path");
 const fs = require("fs");
 
 const { extensionForMime } = require("../utils/fileExtensions");
+const { GALLERY_UPLOAD_DIR } = require("../utils/uploadPaths");
 
 // =====================================
 // Upload Storage
@@ -10,10 +10,7 @@ const { extensionForMime } = require("../utils/fileExtensions");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadFolder = path.join(
-      __dirname,
-      "../uploads/gallery"
-    );
+    const uploadFolder = GALLERY_UPLOAD_DIR;
 
     // Create folder if it does not exist
     if (!fs.existsSync(uploadFolder)) {
@@ -77,9 +74,9 @@ const upload = multer({
   storage,
   fileFilter,
 
-  // Maximum upload size: 30 MB
+  // Maximum upload size: 100 MB (supports phone/4K videos)
   limits: {
-    fileSize: 30 * 1024 * 1024,
+    fileSize: 100 * 1024 * 1024,
     files: 1,
     fields: 5,
     parts: 6,

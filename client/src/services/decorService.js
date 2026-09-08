@@ -21,6 +21,7 @@ export const addDecor = async (formData) => {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+    timeout: 300000, // 5 minutes to prevent premature aborts on video uploads
   });
 
   return response.data;
@@ -38,6 +39,7 @@ export const uploadDecorMedia = async (decorId, formData) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      timeout: 300000, // 5 minutes to prevent premature aborts on video uploads
     }
   );
 
@@ -53,6 +55,7 @@ export const updateDecor = async (id, formData) => {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      timeout: 300000, // 5 minutes to prevent premature aborts on video uploads
     }
   );
 

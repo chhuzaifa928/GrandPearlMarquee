@@ -13,7 +13,7 @@ const galleryRoutes = require("./routes/galleryRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const errorHandler = require("./middleware/errorHandler");
-const path = require("path");
+const { UPLOADS_DIR, ensureUploadDirs } = require("./utils/uploadPaths");
 
 const app = express();
 
@@ -82,10 +82,13 @@ const authLimiter = rateLimit({
 app.get("/", (req, res) => {
   res.send("Grand Pearl Marquee Backend Running...");
 });
-//gallery uploads
+// Persistent uploads directory (survives redeployments).
+// Base comes from process.env.UPLOADS_DIR (or server/uploads in dev).
+ensureUploadDirs();
+
 app.use(
   "/uploads",
-  express.static(path.join(__dirname, "uploads"))
+  express.static(UPLOADS_DIR)
 );
 
 // Admin Routes
