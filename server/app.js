@@ -6,6 +6,8 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const fs = require("fs");
+const path = require("path");
 
 const adminRoutes = require("./routes/adminRoutes");
 const foodRoutes = require("./routes/foodRoutes");
@@ -13,6 +15,7 @@ const galleryRoutes = require("./routes/galleryRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const errorHandler = require("./middleware/errorHandler");
+const verifyToken = require("./middleware/authMiddleware");
 const { UPLOADS_DIR, ensureUploadDirs } = require("./utils/uploadPaths");
 
 const app = express();
@@ -102,6 +105,39 @@ app.use("/api/food", foodRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/settings", settingsRoutes);
+
+// TEMPORARY DIAGNOSTIC — REMOVE AFTER DIAGNOSIS. Do not return paths or filenames.
+app.get("/api/debug-uploads", verifyToken, (req, res) => {
+  const TARGET_REL = path.join("settings", "1787895876651-546447156.jpg");
+
+  const fileCount = (dir) => {
+    try {
+      return fs.existsSync(dir) ? fs.readdirSync(dir).length : 0;
+    } catch (err) {
+      return 0;
+    }
+  };
+
+  const base = UPLOADS_DIR;
+  const settingsDir = path.join(base, "settings");
+  const galleryDir = path.join(base, "gallery");
+  const decorDir = path.join(base, "decor");
+  const foodDir = path.join(base, "food");
+
+  return res.json({
+    success: true,
+    base_exists: fs.existsSync(base),
+    settings_exists: fs.existsSync(settingsDir),
+    gallery_exists: fs.existsSync(galleryDir),
+    decor_exists: fs.existsSync(decorDir),
+    food_exists: fs.existsSync(foodDir),
+    settings_file_count: fileCount(settingsDir),
+    gallery_file_count: fileCount(galleryDir),
+    decor_file_count: fileCount(decorDir),
+    food_file_count: fileCount(foodDir),
+    target_exists: fs.existsSync(path.join(base, TARGET_REL)),
+  });
+});
 
 // JSON 404 for unknown /api/* endpoints
 app.use("/api", (req, res) => {
