@@ -6,8 +6,6 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const fs = require("fs");
-const path = require("path");
 
 const adminRoutes = require("./routes/adminRoutes");
 const foodRoutes = require("./routes/foodRoutes");
@@ -15,7 +13,6 @@ const galleryRoutes = require("./routes/galleryRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const settingsRoutes = require("./routes/settingsRoutes");
 const errorHandler = require("./middleware/errorHandler");
-const verifyToken = require("./middleware/authMiddleware");
 const { UPLOADS_DIR, ensureUploadDirs } = require("./utils/uploadPaths");
 
 const app = express();
@@ -105,30 +102,6 @@ app.use("/api/food", foodRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/settings", settingsRoutes);
-
-// TEMPORARY DIAGNOSTIC — REMOVE AFTER DIAGNOSIS. Do not return paths or filenames.
-app.get("/api/debug-uploads", verifyToken, (req, res) => {
-  const TARGET = "food/1789057134902-566687008.jpg";
-
-  const statSafe = (filePath) => {
-    try {
-      const s = fs.statSync(filePath);
-      return { exists: true, size: s.size, is_file: s.isFile() };
-    } catch {
-      return { exists: false, size: 0, is_file: false };
-    }
-  };
-
-  return res.json({
-    success: true,
-    uploads_dir: statSafe(path.join(UPLOADS_DIR, TARGET)),
-    underscore_dirname: statSafe(path.join(__dirname, "..", "uploads", TARGET)),
-    cwd_server_uploads: statSafe(path.join(process.cwd(), "server", "uploads", TARGET)),
-    cwd_uploads: statSafe(path.join(process.cwd(), "uploads", TARGET)),
-    hostinger_uploads: statSafe(path.join("/home/u864236641/grandpearl-uploads", TARGET)),
-    hostinger_files: statSafe(path.join("/home/u864236641/files/grandpearl-uploads", TARGET)),
-  });
-});
 
 // JSON 404 for unknown /api/* endpoints
 app.use("/api", (req, res) => {
